@@ -1,30 +1,12 @@
 import { auth, firestore } from './firebase';
-import { useEffect, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {useSession} from "next-auth/client";
 
 export function useUserData() {
-  const [user] = useAuthState(auth);
-  const [username, setUsername] = useState(null);
+  const [session] = useSession();
+  const username = useMemo(() => session?.user?.email, [session]);
 
-  useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      const ref = firestore.collection('users').doc(user.uid);
-      unsubscribe = ref.onSnapshot((doc) => {
-        const username = doc.data()?.username;
-        if (username) {
-          setUsername(doc.data()?.username);
-        } else {
-          setUsername(null)
-        }
-      });
-    } else {
-      setUsername(null);
-    }
-
-    return unsubscribe;
-  }, [user]);
-
-  return { user, username, isLoggedIn: !!user };
+  // TODO: Gotta create user if it doesnt exist
+  return { user: session?.user, username, isLoggedIn: !!session?.user };
 }

@@ -1,23 +1,30 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { Toaster } from 'react-hot-toast';
-import client from "../lib/gqlclient";
-import { ApolloProvider } from "@apollo/client";
-import { UserContext } from "../lib/context";
-import {useUserData} from "../lib/hooks";
+import { Toaster } from "react-hot-toast";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import Navbar from "../components/Navbar";
+import {
+  Provider as NextAuthProvider,
+} from "next-auth/client";
+import type { AppProps } from "next/app";
+import {config} from "../lib/config";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const userData = useUserData();
+
+const App = (props: AppProps) => {
+  const client = new ApolloClient({
+    uri: config.graphqlAPIUrl,
+    cache: new InMemoryCache(),
+    connectToDevTools: process.env.NODE_ENV === 'development',
+  })
 
   return (
-    <UserContext.Provider value={userData}>
+    <NextAuthProvider session={props.pageProps.session}>
       <ApolloProvider client={client}>
         <Navbar />
-        <Component {...pageProps} />
+        <props.Component {...props.pageProps} />
         <Toaster />
       </ApolloProvider>
-    </UserContext.Provider>
+    </NextAuthProvider>
   );
-}
-export default MyApp;
+};
+
+export default App;

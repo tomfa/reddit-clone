@@ -25,7 +25,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href={`/${username}`}>
-                {user?.photoURL && <Image src={user?.photoURL} width={96} height={96}/> }
+                {user?.image && <Image src={user?.image} width={96} height={96}/> }
               </Link>
             </li>
           </>
@@ -34,7 +34,7 @@ export default function Navbar() {
         {/* user is not signed OR has not created username */}
         {!username && (
           <li>
-            <Link href="/enter">
+            <Link href="/login">
               <button className="btn-blue">Log in</button>
             </Link>
           </li>
