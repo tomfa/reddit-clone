@@ -3,7 +3,10 @@ import { ApolloServer } from "apollo-server-cloud-functions";
 import { resolvers } from "../../backend/resolvers";
 import typeDefs from "../../graphql/schema";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { initializeApp } from "firebase/app";
+import { config as appConfig } from "../../lib/config";
 
+const app = initializeApp(appConfig.firebase)
 
 const server = new ApolloServer({
   typeDefs,
