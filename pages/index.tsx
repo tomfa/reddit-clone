@@ -5,12 +5,12 @@ import styles from "../styles/Home.module.css";
 import { useFindPostsQuery } from "../graphql/generated/types";
 import * as dateScalar from "../graphql/date.scalar";
 import { Loader } from "../components/Loader";
+import PostList from "../components/PostList/Component";
 
 const Home: NextPage = () => {
-  const { data } = useFindPostsQuery();
   return (
     <div className={styles.container}>
-      <Loader show={true} />
+      <PostList />
     </div>
   );
 };

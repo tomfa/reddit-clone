@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PostVoteContainer from "./Vote/Container";
+import PostVoteContainer from "./Vote/Component";
 import PostContent from "./Content";
 
 const Wrapper = styled.div`

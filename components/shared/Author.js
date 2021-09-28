@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { link } from "./helpers";
 
 const StyledLink = styled(Link)`
@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Author = ({ username }) => (
-  <StyledLink to={`/u/${username}`}>{username}</StyledLink>
+  <StyledLink href={`/u/${username}`}>{username || 'undefined'}</StyledLink>
 );
 
 export default Author;

@@ -1,9 +1,10 @@
-import { EmptyResolverArgs, UserAuth } from "../../request.types";
+import {EmptyResolverArgs, UserAuth} from "../../request.types";
+import {Post, PostType} from "../../graphql/generated/types";
 
-export const getPosts = async (args: EmptyResolverArgs, session: UserAuth) => [
+export const getPosts = async (args: EmptyResolverArgs, session: UserAuth): Post[] => [
   {
     title: "Test title",
-    url: "https://vg.no",
+    content: "https://vg.no",
     author: { id: "aosdkaosdkpasd" },
     category: "TestCategory",
     score: 0,
@@ -11,7 +12,7 @@ export const getPosts = async (args: EmptyResolverArgs, session: UserAuth) => [
     comments: [],
     created: Date.now(),
     views: 1,
-    type: "LINK",
-    text: null,
+    type: PostType.Link,
+    slug: 'test-title'
   },
 ];

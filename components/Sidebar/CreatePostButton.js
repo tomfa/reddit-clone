@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import Button from "../shared/Button";
 
 const CreatePostButton = styled(Button)`

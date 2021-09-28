@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import Button from "../shared/Button";
 
 const CreatePostButton = styled(Button)`
@@ -12,7 +12,7 @@ const CreatePostButton = styled(Button)`
 `;
 
 const CategoryMenuCreatePostButton = () => (
-  <CreatePostButton as={Link} to="/createpost">
+  <CreatePostButton as={Link} href="/createpost">
     create post
   </CreatePostButton>
 );

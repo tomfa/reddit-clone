@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { overflow, link } from "../../shared/helpers";
 
 const Wrapper = styled.div`
@@ -30,7 +30,7 @@ const renderTitle = (props) => {
 
     case "text":
       if (props.full) return <span>{props.title}</span>;
-      return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
+      return <Link href={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
 
     default:
       break;

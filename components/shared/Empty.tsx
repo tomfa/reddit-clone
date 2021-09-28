@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { smallFont } from "../shared/helpers";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ comments: boolean }>`
   ${smallFont};
 
   ${(props) => props.comments && "margin-top: 16px"};
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Empty = ({ comments }) => {
+const Empty = ({ comments }: { comments: boolean }) => {
   const message = comments ? "no comments" : "there's nothing here...";
   return <Wrapper comments={comments}>{message}</Wrapper>;
 };
