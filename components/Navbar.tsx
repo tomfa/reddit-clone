@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link';
+import {useUserData} from "../lib/hooks";
 
 // Top navbar
 export default function Navbar() {
-  const user = null;
-  const username = null;
+  const {user, username} = useUserData();
 
   return (
     <nav className="navbar">
@@ -25,7 +25,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href={`/${username}`}>
-                <Image src={user?.photoURL} />
+                <Image src={user?.photoURL} width={96} height={96}/>
               </Link>
             </li>
           </>
