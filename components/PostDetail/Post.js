@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import Post from '../Post';
+import React from "react";
+import styled from "styled-components";
+import Post from "../Post";
 
 const Wrapper = styled.div`
   overflow: hidden;
-  border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 2px 2px 0 0;
 
   @media (max-width: 768px) {
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const PostDetailPost = props => (
+const PostDetailPost = (props) => (
   <Wrapper>
     <Post {...props} full />
   </Wrapper>

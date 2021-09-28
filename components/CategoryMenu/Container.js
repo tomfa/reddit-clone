@@ -1,5 +1,5 @@
-import withAuth from '../../util/withAuth';
-import CategoryMenu from './Component';
+import withAuth from "../../util/withAuth";
+import CategoryMenu from "./Component";
 
 const CategoryMenuContainer = withAuth(CategoryMenu);
 

@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { toggleDarkTheme } from '../../../actions/theme';
-import HeaderDarkButton from './Component';
+import { connect } from "react-redux";
+import { toggleDarkTheme } from "../../../actions/theme";
+import HeaderDarkButton from "./Component";
 
 const mapDispatchToProps = { toggleDarkTheme };
 

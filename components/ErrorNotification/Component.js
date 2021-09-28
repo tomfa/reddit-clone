@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { transition } from '../shared/helpers';
-import ErrorNotificationMessage from './Message';
+import React from "react";
+import styled from "styled-components";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { transition } from "../shared/helpers";
+import ErrorNotificationMessage from "./Message";
 
-const className = 'message';
+const className = "message";
 
 const Wrapper = styled.div`
-  ${transition('opacity', 'transform')};
+  ${transition("opacity", "transform")};
 
   position: fixed;
   top: 16px;

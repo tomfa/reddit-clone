@@ -1,5 +1,5 @@
-import withAuth from '../../util/withAuth';
-import Sidebar from './Component';
+import withAuth from "../../util/withAuth";
+import Sidebar from "./Component";
 
 const SidebarContainer = withAuth(Sidebar);
 

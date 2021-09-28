@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import Author from '../../shared/Author';
-import CommentDetailTimestamp from './Timestamp';
-import DeleteButton from '../../shared/DeleteButton';
+import React from "react";
+import styled from "styled-components";
+import Author from "../../shared/Author";
+import CommentDetailTimestamp from "./Timestamp";
+import DeleteButton from "../../shared/DeleteButton";
 
 const Wrapper = styled.div`
   display: flex;
-  border-bottom: 1px solid ${props => props.theme.border};
+  border-bottom: 1px solid ${(props) => props.theme.border};
   padding: 8px;
   font-size: 13px;
 `;

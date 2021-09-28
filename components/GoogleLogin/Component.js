@@ -1,7 +1,7 @@
-import React from 'react';
-import Form from '../shared/form/Form';
-import Login from './Login';
-import Logout from './Logout';
+import React from "react";
+import Form from "../shared/form/Form";
+import Login from "./Login";
+import Logout from "./Logout";
 
 export default function GoogleLoginComponent({
   loading,
@@ -9,11 +9,11 @@ export default function GoogleLoginComponent({
   token,
   googleLoginSuccess,
   googleLoginError,
-  history
+  history,
 }) {
   const onSuccess = ({ profileObj, tokenId }) => {
     googleLoginSuccess({ user: profileObj, token: tokenId });
-    history.push('/');
+    history.push("/");
   };
   return (
     <Form loading={loading} wide>

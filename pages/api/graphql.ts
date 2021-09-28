@@ -5,9 +5,9 @@ import typeDefs from "../../graphql/schema";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { RequestContext } from "../../request.types";
 import { NextApiRequest, NextApiResponse } from "next";
-import {toUserAuth} from "../../request.utils";
-import {getSession} from "next-auth/client";
-import {getToken} from "next-auth/jwt";
+import { toUserAuth } from "../../request.utils";
+import { getSession } from "next-auth/client";
+import { getToken } from "next-auth/jwt";
 
 const server = new ApolloServer({
   typeDefs,
@@ -31,9 +31,9 @@ const server = new ApolloServer({
     req: NextApiRequest;
     res: NextApiResponse;
   }): Promise<RequestContext> => {
-    const token = await getToken({ req, secret: process.env.JWT_SECRET })
-    console.log('token', token)
-    const auth = toUserAuth(token)
+    const token = await getToken({ req, secret: process.env.JWT_SECRET });
+    console.log("token", token);
+    const auth = toUserAuth(token);
     return {
       headers: req.headers,
       config: process.env,

@@ -1,4 +1,4 @@
-import {EmptyResolverArgs, UserAuth} from "../../request.types";
+import { EmptyResolverArgs, UserAuth } from "../../request.types";
 
 export const getPosts = async (args: EmptyResolverArgs, session: UserAuth) => [
   {

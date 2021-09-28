@@ -1,8 +1,6 @@
 import firebase from "firebase/compat/app";
-import {  firestore, serverTimestamp } from "./firebase";
-import {
-  Post,
-} from "../graphql/generated/types";
+import { firestore, serverTimestamp } from "./firebase";
+import { Post } from "../graphql/generated/types";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { slugify } from "../utils/string.utils";
 

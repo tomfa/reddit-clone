@@ -38,20 +38,19 @@ const typeDefs = gql`
     type: PostCategory!
   }
 
-
   input AddPostInput {
-      title: String!
-      content: String!
-      category: String!
-      type: PostCategory!
+    title: String!
+    content: String!
+    category: String!
+    type: PostCategory!
   }
 
   type Query {
     posts: [Post!]!
   }
-  
+
   type Mutation {
-      addPost(input: AddPostInput!): Post!
+    addPost(input: AddPostInput!): Post!
   }
 `;
 

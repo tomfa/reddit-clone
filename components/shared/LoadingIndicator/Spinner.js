@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { keyframes } from 'styled-components';
+import styled from "styled-components";
+import { keyframes } from "styled-components";
 
 const spin = keyframes`
   0% {
@@ -16,8 +16,8 @@ const LoadingIndicatorSpinner = styled.div`
   top: 50%;
   left: 50%;
   animation: ${spin} 1s infinite linear;
-  border: .3rem solid ${props => props.theme.accent + '4d'};
-  border-top-color: ${props => props.theme.accent};
+  border: 0.3rem solid ${(props) => props.theme.accent + "4d"};
+  border-top-color: ${(props) => props.theme.accent};
   border-radius: 50%;
   width: 48px;
   height: 48px;

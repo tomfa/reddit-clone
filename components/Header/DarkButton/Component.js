@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { headerItem } from '../../shared/helpers';
-import HeaderDarkButtonIcon from './Icon';
+import React from "react";
+import styled from "styled-components";
+import { headerItem } from "../../shared/helpers";
+import HeaderDarkButtonIcon from "./Icon";
 
 const DarkButton = styled.span`
   ${headerItem};
@@ -11,12 +11,12 @@ const DarkButton = styled.span`
 
   @media (hover: hover) {
     :hover path {
-      fill: ${props => props.theme.accent};
+      fill: ${(props) => props.theme.accent};
     }
   }
 `;
 
-const HeaderDarkButton = props => (
+const HeaderDarkButton = (props) => (
   <DarkButton onClick={props.toggleDarkTheme}>
     <HeaderDarkButtonIcon />
   </DarkButton>

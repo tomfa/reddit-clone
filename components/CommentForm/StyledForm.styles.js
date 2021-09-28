@@ -1,28 +1,28 @@
-import React from 'react';
-import styled from 'styled-components';
-import Form from '../shared/form/Form';
-import { transition } from '../shared/helpers';
-import CommentFormTextArea from './TextArea';
-import CommentFormSubmitButton from './SubmitButton';
+import React from "react";
+import styled from "styled-components";
+import Form from "../shared/form/Form";
+import { transition } from "../shared/helpers";
+import CommentFormTextArea from "./TextArea";
+import CommentFormSubmitButton from "./SubmitButton";
 
 export const StyledForm = styled(Form)`
-  ${transition('border', 'box-shadow')};
+  ${transition("border", "box-shadow")};
 
   margin-top: -1px;
-  border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 0 0 2px 2px;
   max-width: none;
   padding: 0;
 
   @media (hover: hover) {
     :hover {
-      border: 1px solid ${props => props.theme.accent};
+      border: 1px solid ${(props) => props.theme.accent};
     }
   }
 
   :focus-within {
-    border: 1px solid ${props => props.theme.accent};
-    box-shadow: 0 0 0 2px ${props => props.theme.accent + '4d'};
+    border: 1px solid ${(props) => props.theme.accent};
+    box-shadow: 0 0 0 2px ${(props) => props.theme.accent + "4d"};
   }
 
   @media (max-width: 768px) {
@@ -38,4 +38,3 @@ export const StyledForm = styled(Form)`
     }
   }
 `;
-

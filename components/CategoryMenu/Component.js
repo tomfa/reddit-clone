@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Route } from 'react-router-dom';
-import CategoryMenuDropdown from './Dropdown';
-import CategoryMenuCreatePostButton from './CreatePostButton';
+import React from "react";
+import styled from "styled-components";
+import { Route } from "react-router-dom";
+import CategoryMenuDropdown from "./Dropdown";
+import CategoryMenuCreatePostButton from "./CreatePostButton";
 
 const Menu = styled.nav`
   display: none;
-  border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border};
   border-left: none;
   border-right: none;
 
@@ -15,13 +15,13 @@ const Menu = styled.nav`
   }
 `;
 
-const CategoryMenu = props => (
+const CategoryMenu = (props) => (
   <Menu>
     <Route
-      path='/a/:category'
+      path="/a/:category"
       children={({ match, history }) => (
         <CategoryMenuDropdown
-          category={match ? match.params.category : 'all'}
+          category={match ? match.params.category : "all"}
           history={history}
         />
       )}

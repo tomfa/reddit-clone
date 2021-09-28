@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const List = styled.ul`
   margin-block-start: 0.5em;
@@ -11,8 +11,8 @@ const List = styled.ul`
   line-height: 1.75;
 `;
 
-const listRenderer = props => {
-  if (props.ordered) return <List as='ol'>{props.children}</List>;
+const listRenderer = (props) => {
+  if (props.ordered) return <List as="ol">{props.children}</List>;
   return <List>{props.children}</List>;
 };
 

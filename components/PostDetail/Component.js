@@ -1,9 +1,9 @@
-import React from 'react';
-import LoadingIndicatorBox from '../shared/LoadingIndicator/Box';
-import Empty from '../shared/Empty';
-import PostDetailPost from './Post';
-import PostDetailInfoBarContainer from './InfoBar/Container';
-import PostDetailCommentSection from './CommentSection';
+import React from "react";
+import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
+import Empty from "../shared/Empty";
+import PostDetailPost from "./Post";
+import PostDetailInfoBarContainer from "./InfoBar/Container";
+import PostDetailCommentSection from "./CommentSection";
 import CommentForm from "../CommentForm/Component";
 
 class PostDetail extends React.Component {

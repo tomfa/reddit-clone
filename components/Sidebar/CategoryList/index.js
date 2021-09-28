@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import SidebarCategoryListItem from './Item';
-import SidebarCategoryListHeader from './Header';
-import categories from '../../../categories';
+import React from "react";
+import styled from "styled-components";
+import SidebarCategoryListItem from "./Item";
+import SidebarCategoryListHeader from "./Header";
+import categories from "../../../categories";
 
 const CategoryList = styled.nav`
   display: flex;
   flex-direction: column;
 `;
 
-const mapCategories = categories =>
+const mapCategories = (categories) =>
   categories.map((category, index) => (
     <SidebarCategoryListItem key={index} category={category} />
   ));
@@ -17,7 +17,7 @@ const mapCategories = categories =>
 const SidebarCategoryList = () => (
   <CategoryList>
     <SidebarCategoryListHeader />
-    {mapCategories(['all', ...categories])}
+    {mapCategories(["all", ...categories])}
   </CategoryList>
 );
 

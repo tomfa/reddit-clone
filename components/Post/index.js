@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import PostVoteContainer from './Vote/Container';
-import PostContent from './Content';
+import React from "react";
+import styled from "styled-components";
+import PostVoteContainer from "./Vote/Container";
+import PostContent from "./Content";
 
 const Wrapper = styled.div`
   display: flex;
   height: auto;
-  background-color: ${props => props.theme.foreground};
+  background-color: ${(props) => props.theme.foreground};
 `;
 
 const Post = ({ id, votes, score, comments, full, ...content }) => (

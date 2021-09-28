@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { link } from '../../shared/helpers';
-import Author from '../../shared/Author';
+import React from "react";
+import styled from "styled-components";
+import moment from "moment";
+import { Link } from "react-router-dom";
+import { link } from "../../shared/helpers";
+import Author from "../../shared/Author";
 
 const Wrapper = styled.div`
   font-size: 13px;
@@ -21,14 +21,14 @@ const Wrapper = styled.div`
   }
 
   & > span {
-    color: ${props => props.theme.mutedText};
+    color: ${(props) => props.theme.mutedText};
   }
 `;
 
-const PostContentDetail = props => (
+const PostContentDetail = (props) => (
   <Wrapper>
     <Link to={`/a/${props.category}/${props.id}`}>
-      {props.commentCount} comment{props.commentCount !== 1 ? 's' : null}
+      {props.commentCount} comment{props.commentCount !== 1 ? "s" : null}
     </Link>
     <Link to={`/a/${props.category}`}>/a/{props.category}</Link>
     <span>by</span>

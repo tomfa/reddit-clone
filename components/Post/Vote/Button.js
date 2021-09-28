@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { transition } from '../../shared/helpers';
+import styled from "styled-components";
+import { transition } from "../../shared/helpers";
 
 const PostVoteButton = styled.button`
-  ${transition('background-color')};
-  
+  ${transition("background-color")};
+
   border: 0;
   border-radius: 3px;
   height: 22px;
@@ -14,15 +14,15 @@ const PostVoteButton = styled.button`
   :focus {
     outline: 0;
   }
-  
+
   :hover {
-    background-color: ${props => props.theme.voteButtonHover};
+    background-color: ${(props) => props.theme.voteButtonHover};
   }
 
   ::after {
-    ${transition('border')};
-    
-    content: '';
+    ${transition("border")};
+
+    content: "";
     position: relative;
     left: 6px;
     display: block;
@@ -30,8 +30,10 @@ const PostVoteButton = styled.button`
     width: 8px;
     height: 8px;
   }
-  
-  ${({ canVote }) => !canVote && `
+
+  ${({ canVote }) =>
+    !canVote &&
+    `
     cursor: default;
     pointer-events: none;
   `}

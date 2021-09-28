@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { overflow, link } from '../../shared/helpers';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { overflow, link } from "../../shared/helpers";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,8 +14,8 @@ const Wrapper = styled.div`
     line-height: 21px;
     font-weight: 500;
     text-decoration: none;
-    color: ${props => props.theme.normalText};
-    ${props => props.full && 'white-space: unset'};
+    color: ${(props) => props.theme.normalText};
+    ${(props) => props.full && "white-space: unset"};
   }
 
   a {
@@ -23,12 +23,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const renderTitle = props => {
+const renderTitle = (props) => {
   switch (props.type) {
-    case 'link':
+    case "link":
       return <a href={props.url}>{props.title}</a>;
 
-    case 'text':
+    case "text":
       if (props.full) return <span>{props.title}</span>;
       return <Link to={`/a/${props.category}/${props.id}`}>{props.title}</Link>;
 
@@ -37,7 +37,7 @@ const renderTitle = props => {
   }
 };
 
-const PostContentTitle = props => (
+const PostContentTitle = (props) => (
   <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>
 );
 

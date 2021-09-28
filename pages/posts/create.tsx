@@ -35,7 +35,7 @@ export default function CreatePostForm() {
     title: string;
   }) => {
     console.log(`Posting`, post);
-    postMutation({ variables: { addPostInput: { ...post, type: postType }}})
+    postMutation({ variables: { addPostInput: { ...post, type: postType } } });
   };
   const post = useMemo(() => postResult.data?.addPost, [postResult]);
 
@@ -52,7 +52,10 @@ export default function CreatePostForm() {
   }, [post, router]);
 
   return (
-    <FinalForm onSubmit={onSubmit} initialValues={{ type: PostType.Text, category: config.categories[0]}}>
+    <FinalForm
+      onSubmit={onSubmit}
+      initialValues={{ type: PostType.Text, category: config.categories[0] }}
+    >
       {({ handleSubmit }) => (
         <Form
           loading={postResult.loading}

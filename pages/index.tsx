@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useFindPostsQuery } from "../graphql/generated/types";
 import * as dateScalar from "../graphql/date.scalar";
-import {Loader} from "../components/Loader";
+import { Loader } from "../components/Loader";
 
 const Home: NextPage = () => {
   const { data } = useFindPostsQuery();

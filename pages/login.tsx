@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import auth from 'next-auth/client';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import auth from "next-auth/client";
 
 export default function LoginPage() {
   const [session, loading] = auth.useSession();
@@ -11,7 +11,7 @@ export default function LoginPage() {
       return;
     }
     if (!session) {
-      auth.signIn('google');
+      auth.signIn("google");
     }
   }, [router, session, loading]);
 

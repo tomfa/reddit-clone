@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { css } from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { css } from "styled-components";
 
 const headingSizes = {
   h1: 1.75,
@@ -8,10 +8,10 @@ const headingSizes = {
   h3: 1.25,
   h4: 1.1,
   h5: 0.9,
-  h6: 0.75
+  h6: 0.75,
 };
 
-const headingStyle = level => css`
+const headingStyle = (level) => css`
   margin-top: 1em;
   margin-bottom: 0.75em;
   line-height: 1;
@@ -20,7 +20,7 @@ const headingStyle = level => css`
 `;
 
 const Heading = styled.span`
-  ${props => headingStyle(props.as)};
+  ${(props) => headingStyle(props.as)};
 
   & + h1,
   & + h2,
@@ -32,7 +32,7 @@ const Heading = styled.span`
   }
 `;
 
-const headingRenderer = props => {
+const headingRenderer = (props) => {
   const levelString = `h${props.level}`;
   return <Heading as={levelString}>{props.children}</Heading>;
 };

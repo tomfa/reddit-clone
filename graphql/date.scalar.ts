@@ -1,11 +1,11 @@
-import { GraphQLScalarType, Kind } from 'graphql';
+import { GraphQLScalarType, Kind } from "graphql";
 
-export const parseValue = (value: number): Date => new Date(value)
-export const serialize = (value: Date): number => value.getTime()
+export const parseValue = (value: number): Date => new Date(value);
+export const serialize = (value: Date): number => value.getTime();
 
 export const dateScalar = new GraphQLScalarType({
-  name: 'Date',
-  description: 'Date custom scalar type',
+  name: "Date",
+  description: "Date custom scalar type",
   serialize,
   parseValue,
   parseLiteral(ast) {

@@ -1,27 +1,27 @@
 import styles from "../components/Admin.module.scss";
 
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 import toast from "react-hot-toast";
 import { addPost, getPostsForUser } from "../lib/db";
-import {Post, PostType} from "../graphql/generated/types";
-import {Loader} from "../components/Loader";
+import { Post, PostType } from "../graphql/generated/types";
+import { Loader } from "../components/Loader";
 
 export default function AdminPostsPage() {
   return (
     <main>
-        <PostList />
-        <CreateNewPost />
+      <PostList />
+      <CreateNewPost />
     </main>
   );
 }
 
 function PostList() {
-  const [posts, setPosts] = useState<Post[]>()
+  const [posts, setPosts] = useState<Post[]>();
 
   if (!posts) {
-    return <Loader show={true} />
+    return <Loader show={true} />;
   }
 
   return (

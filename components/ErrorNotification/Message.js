@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { smallFont } from '../shared/helpers';
+import styled from "styled-components";
+import { smallFont } from "../shared/helpers";
 
 const ErrorNotificationMessage = styled.div`
   ${smallFont};
@@ -8,18 +8,18 @@ const ErrorNotificationMessage = styled.div`
   display: inline-block;
   padding: 12px 32px;
   background-color: #ffffff;
-  color: ${props => props.theme.error};
+  color: ${(props) => props.theme.error};
   border-radius: 2px;
-  border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  
+
   ::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    border-top: 2px solid ${props => props.theme.error};
+    border-top: 2px solid ${(props) => props.theme.error};
     border-radius: 2px 2px 0 0;
   }
 `;

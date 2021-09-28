@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import PostVoteButton from './Button';
+import styled from "styled-components";
+import PostVoteButton from "./Button";
 
 const PostVoteDownvote = styled(PostVoteButton)`
-  --iconColor: ${props =>
+  --iconColor: ${(props) =>
     props.didVote ? props.theme.downvote : props.theme.vote};
 
   ::after {

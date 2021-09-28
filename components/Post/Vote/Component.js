@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import PostVoteUpvote from './Upvote';
-import PostVoteDownvote from './Downvote';
+import React from "react";
+import styled from "styled-components";
+import PostVoteUpvote from "./Upvote";
+import PostVoteDownvote from "./Downvote";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   line-height: 25px;
   font-weight: 500;
   text-align: center;
-  color: ${props => props.theme.normalText};
+  color: ${(props) => props.theme.normalText};
 `;
 
 class PostVote extends React.Component {
@@ -24,13 +24,13 @@ class PostVote extends React.Component {
       score: props.score,
       didVote,
       didUpvote: didVote === 1,
-      didDownvote: didVote === -1
+      didDownvote: didVote === -1,
     };
   }
 
   static existingVote({ user, votes }) {
     const existingVote =
-      user && votes && votes.find(vote => vote.user === user.id);
+      user && votes && votes.find((vote) => vote.user === user.id);
     return existingVote ? existingVote.vote : 0;
   }
 
@@ -41,13 +41,13 @@ class PostVote extends React.Component {
         score: nextProps.score,
         didVote,
         didUpvote: didVote === 1,
-        didDownvote: didVote === -1
+        didDownvote: didVote === -1,
       });
     } else if (this.props.token !== nextProps.token && !nextProps.token) {
       this.setState({
         didVote: false,
         didUpvote: false,
-        didDownvote: false
+        didDownvote: false,
       });
     }
   }
@@ -60,7 +60,7 @@ class PostVote extends React.Component {
         score: this.state.score + vote - this.state.didVote,
         didVote: vote,
         didUpvote: vote === 1,
-        didDownvote: vote === -1
+        didDownvote: vote === -1,
       });
     }
   }

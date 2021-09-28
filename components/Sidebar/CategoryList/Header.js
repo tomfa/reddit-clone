@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import { wideFont } from '../../shared/helpers';
+import React from "react";
+import styled from "styled-components";
+import { wideFont } from "../../shared/helpers";
 
 const Header = styled.span`
   ${wideFont};
-  
+
   display: block;
   padding: 12px;
   text-align: center;
-  color: ${props => props.theme.mutedText};
+  color: ${(props) => props.theme.mutedText};
 `;
 
 const SidebarCategoryListHeader = () => <Header>categories</Header>;

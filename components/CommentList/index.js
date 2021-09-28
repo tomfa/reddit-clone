@@ -1,18 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import CommentListItem from './Item';
+import React from "react";
+import styled from "styled-components";
+import CommentListItem from "./Item";
 
 const List = styled.ul`
   margin-top: 16px;
   list-style: none;
 `;
 
-const mapComments = comments =>
+const mapComments = (comments) =>
   comments.map((comment, index) => (
     <CommentListItem key={index} {...comment} />
   ));
 
-const sortComments = comments =>
+const sortComments = (comments) =>
   comments.sort((a, b) => new Date(b.created) - new Date(a.created));
 
 const CommentList = ({ comments }) =>

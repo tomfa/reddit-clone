@@ -1,10 +1,16 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,89 +22,104 @@ export type Scalars = {
 };
 
 export type AddPostInput = {
-  category: Scalars['String'];
-  content: Scalars['String'];
-  title: Scalars['String'];
+  category: Scalars["String"];
+  content: Scalars["String"];
+  title: Scalars["String"];
   type: PostType;
 };
 
 export type Comment = {
-  __typename?: 'Comment';
+  __typename?: "Comment";
   author: User;
-  body: Scalars['String'];
-  created: Scalars['Date'];
+  body: Scalars["String"];
+  created: Scalars["Date"];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   addPost: Post;
 };
-
 
 export type MutationAddPostArgs = {
   input: AddPostInput;
 };
 
 export type Post = {
-  __typename?: 'Post';
+  __typename?: "Post";
   author: User;
-  category: Scalars['String'];
+  category: Scalars["String"];
   comments: Array<Comment>;
-  content: Scalars['String'];
-  created: Scalars['Date'];
-  score: Scalars['Int'];
-  slug: Scalars['String'];
-  title: Scalars['String'];
+  content: Scalars["String"];
+  created: Scalars["Date"];
+  score: Scalars["Int"];
+  slug: Scalars["String"];
+  title: Scalars["String"];
   type: PostType;
-  views: Scalars['Int'];
+  views: Scalars["Int"];
   votes: Array<UserVote>;
 };
 
 export enum PostType {
-  Link = 'LINK',
-  Text = 'TEXT'
+  Link = "LINK",
+  Text = "TEXT",
 }
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   posts: Array<Post>;
 };
 
 export type User = {
-  __typename?: 'User';
-  id: Scalars['String'];
+  __typename?: "User";
+  id: Scalars["String"];
 };
 
 export type UserVote = {
-  __typename?: 'UserVote';
-  id: Scalars['String'];
-  userId: Scalars['String'];
-  vote: Scalars['Int'];
+  __typename?: "UserVote";
+  id: Scalars["String"];
+  userId: Scalars["String"];
+  vote: Scalars["Int"];
 };
 
 export type AddPostMutationVariables = Exact<{
   addPostInput: AddPostInput;
 }>;
 
+export type AddPostMutation = {
+  __typename?: "Mutation";
+  addPost: {
+    __typename?: "Post";
+    title: string;
+    slug: string;
+    category: string;
+  };
+};
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, category: string } };
+export type FindPostsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindPostsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, created: any }> };
-
+export type FindPostsQuery = {
+  __typename?: "Query";
+  posts: Array<{
+    __typename?: "Post";
+    title: string;
+    slug: string;
+    created: any;
+  }>;
+};
 
 export const AddPostDocument = gql`
-    mutation addPost($addPostInput: AddPostInput!) {
-  addPost(input: $addPostInput) {
-    title
-    slug
-    category
+  mutation addPost($addPostInput: AddPostInput!) {
+    addPost(input: $addPostInput) {
+      title
+      slug
+      category
+    }
   }
-}
-    `;
-export type AddPostMutationFn = Apollo.MutationFunction<AddPostMutation, AddPostMutationVariables>;
+`;
+export type AddPostMutationFn = Apollo.MutationFunction<
+  AddPostMutation,
+  AddPostMutationVariables
+>;
 
 /**
  * __useAddPostMutation__
@@ -117,22 +138,33 @@ export type AddPostMutationFn = Apollo.MutationFunction<AddPostMutation, AddPost
  *   },
  * });
  */
-export function useAddPostMutation(baseOptions?: Apollo.MutationHookOptions<AddPostMutation, AddPostMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddPostMutation, AddPostMutationVariables>(AddPostDocument, options);
-      }
+export function useAddPostMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddPostMutation,
+    AddPostMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddPostMutation, AddPostMutationVariables>(
+    AddPostDocument,
+    options
+  );
+}
 export type AddPostMutationHookResult = ReturnType<typeof useAddPostMutation>;
 export type AddPostMutationResult = Apollo.MutationResult<AddPostMutation>;
-export type AddPostMutationOptions = Apollo.BaseMutationOptions<AddPostMutation, AddPostMutationVariables>;
+export type AddPostMutationOptions = Apollo.BaseMutationOptions<
+  AddPostMutation,
+  AddPostMutationVariables
+>;
 export const FindPostsDocument = gql`
-    query findPosts {
-  posts {
-    title
-    slug
-    created
+  query findPosts {
+    posts {
+      title
+      slug
+      created
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useFindPostsQuery__
@@ -149,14 +181,32 @@ export const FindPostsDocument = gql`
  *   },
  * });
  */
-export function useFindPostsQuery(baseOptions?: Apollo.QueryHookOptions<FindPostsQuery, FindPostsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindPostsQuery, FindPostsQueryVariables>(FindPostsDocument, options);
-      }
-export function useFindPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPostsQuery, FindPostsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindPostsQuery, FindPostsQueryVariables>(FindPostsDocument, options);
-        }
+export function useFindPostsQuery(
+  baseOptions?: Apollo.QueryHookOptions<FindPostsQuery, FindPostsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindPostsQuery, FindPostsQueryVariables>(
+    FindPostsDocument,
+    options
+  );
+}
+export function useFindPostsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindPostsQuery,
+    FindPostsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindPostsQuery, FindPostsQueryVariables>(
+    FindPostsDocument,
+    options
+  );
+}
 export type FindPostsQueryHookResult = ReturnType<typeof useFindPostsQuery>;
-export type FindPostsLazyQueryHookResult = ReturnType<typeof useFindPostsLazyQuery>;
-export type FindPostsQueryResult = Apollo.QueryResult<FindPostsQuery, FindPostsQueryVariables>;
+export type FindPostsLazyQueryHookResult = ReturnType<
+  typeof useFindPostsLazyQuery
+>;
+export type FindPostsQueryResult = Apollo.QueryResult<
+  FindPostsQuery,
+  FindPostsQueryVariables
+>;

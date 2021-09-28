@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Pre = styled.pre`
   border-radius: 2px;
   padding: 12px 16px;
-  background-color: ${props => props.theme.pageBackground};
+  background-color: ${(props) => props.theme.pageBackground};
   overflow-x: scroll;
 `;
 
-const codeRenderer = props => (
+const codeRenderer = (props) => (
   <Pre>
     <code>{props.value}</code>
   </Pre>

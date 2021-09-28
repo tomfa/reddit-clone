@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import Post from '../Post';
+import React from "react";
+import styled from "styled-components";
+import Post from "../Post";
 
 const Item = styled.li`
   :not(:first-child) {
-    border-top: 1px solid ${props => props.theme.border};
+    border-top: 1px solid ${(props) => props.theme.border};
   }
 `;
 
-const PostListItem = props => (
+const PostListItem = (props) => (
   <Item>
     <Post {...props} />
   </Item>

@@ -1,7 +1,7 @@
-import { auth, firestore } from './firebase';
-import {useEffect, useMemo, useState} from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import {useSession} from "next-auth/client";
+import { auth, firestore } from "./firebase";
+import { useEffect, useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useSession } from "next-auth/client";
 
 export function useUserData() {
   const [session] = useSession();

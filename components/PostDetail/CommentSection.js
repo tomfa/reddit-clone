@@ -1,6 +1,6 @@
-import React from 'react';
-import Empty from '../shared/Empty';
-import CommentList from '../CommentList';
+import React from "react";
+import Empty from "../shared/Empty";
+import CommentList from "../CommentList";
 
 const PostDetailCommentSection = ({ comments }) => (
   <>

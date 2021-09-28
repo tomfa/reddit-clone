@@ -1,4 +1,4 @@
-import { IncomingHttpHeaders } from 'http';
+import { IncomingHttpHeaders } from "http";
 
 export type RequestContext = {
   auth: UserAuth;
@@ -8,9 +8,9 @@ export type RequestContext = {
 };
 
 export type UserAuth = null | {
-  name?: string | null
-  email: string
-  image?: string | null
-}
+  name?: string | null;
+  email: string;
+  image?: string | null;
+};
 
 export type EmptyResolverArgs = Record<never, never>;

@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import CommentDetailContainer from './Detail/Container';
-import CommentContent from './Content';
+import React from "react";
+import styled from "styled-components";
+import CommentDetailContainer from "./Detail/Container";
+import CommentContent from "./Content";
 
 const Wrapper = styled.div`
-  border: 1px solid ${props => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 2px;
-  background-color: ${props => props.theme.foreground};
+  background-color: ${(props) => props.theme.foreground};
 
   @media (max-width: 768px) {
     border-left: none;
