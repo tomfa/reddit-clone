@@ -5,11 +5,16 @@ import 'firebase/compat/storage';
 
 import {config} from "./config";
 
+let app: firebase.app.App | null = null;
 
-if (!firebase.app.length) {
-  firebase.initializeApp(config.firebase)
+if (!app) {
+  console.log(`Initializing firebase app`)
+  app = firebase.initializeApp(config.firebase)
 }
 
-const auth = firebase.auth()
-const firestore = firebase.firestore()
-const storage = firebase.storage()
+export const auth = firebase.auth()
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
+export const firestore = firebase.firestore()
+export const storage = firebase.storage()
+

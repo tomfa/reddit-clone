@@ -151,12 +151,9 @@ button.btn-green {
 button.btn-google {
   background-color: white;
   color: var(--color-text);
+  padding: 0;
 }
 
-.btn-google img {
-  width: 30px;
-  margin-right: 10px;
-}
 
 button.btn-logo {
   background-color: var(--color-text);
