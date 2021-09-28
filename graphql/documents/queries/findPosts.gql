@@ -1,0 +1,6 @@
+query findPosts {
+    posts {
+        title
+        created
+    }
+}

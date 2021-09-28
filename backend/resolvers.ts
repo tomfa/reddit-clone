@@ -1,4 +1,4 @@
-import { dateScalar } from "./date.scalar";
+import { dateScalar } from "../graphql/date.scalar";
 
 export const resolvers = {
   Query: {

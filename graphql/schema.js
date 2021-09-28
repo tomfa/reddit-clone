@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-core";
+const { gql } = require("apollo-server-core");
 
 const typeDefs = gql`
   scalar Date
@@ -32,7 +32,7 @@ const typeDefs = gql`
     score: Int!
     votes: [UserVote!]!
     comments: [Comment!]!
-    created: Date
+    created: Date!
     views: Int!
     type: PostCategory!
     text: String

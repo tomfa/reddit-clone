@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ApolloServer } from "apollo-server-cloud-functions";
 import { resolvers } from "../../backend/resolvers";
-import typeDefs from "../../graphql/schema.graphql";
+import typeDefs from "../../graphql/schema";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import {NextApiRequest, NextApiResponse} from "next";
+
 
 const server = new ApolloServer({
   typeDefs,
@@ -21,8 +21,8 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 });
 
-const handler = server.createHandler()
-export default handler
+const handler = server.createHandler();
+export default handler;
 
 export const config = {
   api: {
