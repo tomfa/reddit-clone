@@ -5,6 +5,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import googleSSOImage from "../assets/btn_google_signin_dark_focus_web.png";
 import { toast } from "react-hot-toast";
 import { debounce } from "../utils/debounce";
+import {addUser} from "../lib/db";
 
 export default function Enter() {
   const { user, username } = useContext(UserContext);
@@ -51,21 +52,7 @@ function UsernameForm() {
     if (!user) {
       return;
     }
-
-    // Create refs for both documents
-    const userDoc = firestore.doc(`users/${user.uid}`);
-    const usernameDoc = firestore.doc(`usernames/${username}`);
-
-    // Commit both docs together as a batch write.
-    const batch = firestore.batch();
-    batch.set(userDoc, {
-      username: username,
-      photoURL: user.photoURL,
-      displayName: user.displayName,
-    });
-    batch.set(usernameDoc, { uid: user.uid });
-
-    await batch.commit();
+    return addUser(user, username)
   };
 
   useEffect(() => {
@@ -76,7 +63,6 @@ function UsernameForm() {
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     createUser(formValue);
   };
 
