@@ -16,6 +16,7 @@ export function useUserData() {
       unsubscribe = ref.onSnapshot((doc) => {
         setUsername(doc.data()?.username);
       });
+      setUsername(user.email)
     } else {
       setUsername(null);
     }

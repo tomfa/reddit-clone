@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { Toaster } from 'react-hot-toast';
 import client from "../lib/gqlclient";
 import { ApolloProvider } from "@apollo/client";
 import { UserContext } from "../lib/context";
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ApolloProvider client={client}>
         <Navbar />
         <Component {...pageProps} />
+        <Toaster />
       </ApolloProvider>
     </UserContext.Provider>
   );
