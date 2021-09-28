@@ -2,11 +2,9 @@
 import { ApolloServer } from "apollo-server-cloud-functions";
 import { resolvers } from "../../backend/resolvers";
 import typeDefs from "../../graphql/schema";
+import { Request, Response } from 'express';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import { initializeApp } from "firebase/app";
-import { config as appConfig } from "../../lib/config";
-
-const app = initializeApp(appConfig.firebase)
+import { RequestContext } from '../../request.types';
 
 const server = new ApolloServer({
   typeDefs,
@@ -16,12 +14,11 @@ const server = new ApolloServer({
     return err;
   },
   introspection: true,
-  context: ({ req, res }) => ({
-    headers: req.headers,
-    req,
-    res,
-  }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+  context: ({ req }: { req: Request; res: Response }): RequestContext => ({
+    headers: req.headers,
+    config: process.env,
+  }),
 });
 
 const handler = server.createHandler();

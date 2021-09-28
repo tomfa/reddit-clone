@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import HeaderLogo from './Logo';
 import HeaderDarkButtonContainer from './DarkButton/Container';
 import HeaderUsername from './Username';

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components/macro';
-import { Field } from 'redux-form';
+import styled from 'styled-components';
+import { Field } from 'react-final-form';
 import Input from '../shared/form/Input';
 
 const TextArea = styled(Input)`

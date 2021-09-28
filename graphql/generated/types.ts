@@ -15,6 +15,13 @@ export type Scalars = {
   Date: any;
 };
 
+export type AddPostInput = {
+  category: Scalars['String'];
+  content: Scalars['String'];
+  title: Scalars['String'];
+  type: PostType;
+};
+
 export type Comment = {
   __typename?: 'Comment';
   author: User;
@@ -22,22 +29,32 @@ export type Comment = {
   created: Scalars['Date'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addPost: Post;
+};
+
+
+export type MutationAddPostArgs = {
+  input: AddPostInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   author: User;
   category: Scalars['String'];
   comments: Array<Comment>;
+  content: Scalars['String'];
   created: Scalars['Date'];
   score: Scalars['Int'];
-  text?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
   title: Scalars['String'];
-  type: PostCategory;
-  url?: Maybe<Scalars['String']>;
+  type: PostType;
   views: Scalars['Int'];
   votes: Array<UserVote>;
 };
 
-export enum PostCategory {
+export enum PostType {
   Link = 'LINK',
   Text = 'TEXT'
 }
@@ -59,16 +76,59 @@ export type UserVote = {
   vote: Scalars['Int'];
 };
 
+export type AddPostMutationVariables = Exact<{
+  addPostInput: AddPostInput;
+}>;
+
+
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, category: string } };
+
 export type FindPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, created: any }> };
+export type FindPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, created: any }> };
 
 
+export const AddPostDocument = gql`
+    mutation addPost($addPostInput: AddPostInput!) {
+  addPost(input: $addPostInput) {
+    title
+    slug
+    category
+  }
+}
+    `;
+export type AddPostMutationFn = Apollo.MutationFunction<AddPostMutation, AddPostMutationVariables>;
+
+/**
+ * __useAddPostMutation__
+ *
+ * To run a mutation, you first call `useAddPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPostMutation, { data, loading, error }] = useAddPostMutation({
+ *   variables: {
+ *      addPostInput: // value for 'addPostInput'
+ *   },
+ * });
+ */
+export function useAddPostMutation(baseOptions?: Apollo.MutationHookOptions<AddPostMutation, AddPostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPostMutation, AddPostMutationVariables>(AddPostDocument, options);
+      }
+export type AddPostMutationHookResult = ReturnType<typeof useAddPostMutation>;
+export type AddPostMutationResult = Apollo.MutationResult<AddPostMutation>;
+export type AddPostMutationOptions = Apollo.BaseMutationOptions<AddPostMutation, AddPostMutationVariables>;
 export const FindPostsDocument = gql`
     query findPosts {
   posts {
     title
+    slug
     created
   }
 }

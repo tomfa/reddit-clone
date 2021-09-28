@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { overflow } from '../../shared/helpers';
 
 const PostContentPreview = styled.div`

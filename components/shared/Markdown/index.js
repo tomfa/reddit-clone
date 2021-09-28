@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import breaks from 'remark-breaks';
 import renderers from './renderers';

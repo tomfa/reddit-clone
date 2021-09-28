@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { transition } from '../helpers';
 
 const Input = styled.input`

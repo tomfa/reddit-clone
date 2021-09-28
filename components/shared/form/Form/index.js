@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { transition } from '../../helpers';
 import FormWrapper from './Wrapper';
 import LoadingIndicatorSpinner from '../../LoadingIndicator/Spinner';

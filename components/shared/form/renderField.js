@@ -7,7 +7,7 @@ import Input from './Input';
 import RadioGroup from './RadioGroup';
 
 const VariableField = field => {
-  switch (field.type) {
+  switch (field.input.type) {
     case 'select':
       return (
         <InputWrapper>

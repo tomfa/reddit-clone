@@ -26,7 +26,8 @@ const typeDefs = gql`
 
   type Post {
     title: String!
-    url: String
+    slug: String!
+    content: String!
     author: User!
     category: String!
     score: Int!
@@ -35,11 +36,22 @@ const typeDefs = gql`
     created: Date!
     views: Int!
     type: PostCategory!
-    text: String
+  }
+
+
+  input AddPostInput {
+      title: String!
+      content: String!
+      category: String!
+      type: PostCategory!
   }
 
   type Query {
     posts: [Post!]!
+  }
+  
+  type Mutation {
+      addPost(input: AddPostInput!): Post!
   }
 `;
 

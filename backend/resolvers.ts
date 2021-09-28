@@ -1,21 +1,29 @@
-import { dateScalar } from "../graphql/date.scalar";
+import { MutationAddPostArgs } from "../graphql/generated/types";
+import { IncomingHttpHeaders } from "http";
+import { getPosts } from "./queries/getPosts";
+import { EmptyResolverArgs } from "../request.types";
+import { addPost } from "./mutations/addPost";
+
+type RequestContext = {
+  headers: IncomingHttpHeaders;
+  config: NodeJS.ProcessEnv;
+};
+
+function resolverWrapper<T>(
+  fun: (args: T, token: undefined) => Promise<unknown>
+) {
+  return async (parent: unknown, args: T, { headers }: RequestContext) => {
+    const authHeader = headers.authorization || headers["x-authorization"];
+    const token = undefined; //await getVerifiedTokenData(authHeader && String(authHeader));
+    return fun(args as T, token);
+  };
+}
 
 export const resolvers = {
   Query: {
-    posts: () => [
-      {
-        title: "Test title",
-        url: "https://vg.no",
-        author: { id: "aosdkaosdkpasd" },
-        category: "TestCategory",
-        score: 0,
-        votes: [],
-        comments: [],
-        created: Date.now(),
-        views: 1,
-        type: "LINK",
-        text: null,
-      },
-    ],
+    posts: resolverWrapper<EmptyResolverArgs>(getPosts),
+  },
+  Mutation: {
+    addPost: resolverWrapper<MutationAddPostArgs>(addPost),
   },
 };

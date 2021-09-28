@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import { link, transition } from './helpers';
 

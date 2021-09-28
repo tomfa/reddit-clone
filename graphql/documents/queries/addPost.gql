@@ -1,0 +1,7 @@
+mutation addPost($addPostInput: AddPostInput!){
+    addPost(input: $addPostInput){
+        title
+        slug
+        category
+    }
+}

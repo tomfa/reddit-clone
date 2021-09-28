@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.15",
+    "@types/redux-form": "^8.3.2",
     "apollo-server-cloud-functions": "^3.3.0",
+    "final-form": "^4.20.2",
     "firebase": "^9.1.0",
     "firebase-tools": "^9.18.0",
     "global": "^4.4.0",
@@ -21,9 +23,11 @@
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-final-form": "^6.5.3",
     "react-firebase-hooks": "^3.0.4",
     "react-hot-toast": "^2.1.1",
-    "sass": "^1.42.1"
+    "sass": "^1.42.1",
+    "styled-components": "^5.3.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.2.0",
@@ -32,6 +36,7 @@
     "@graphql-codegen/typescript-operations": "^2.1.4",
     "@graphql-codegen/typescript-react-apollo": "^3.1.4",
     "@types/react": "17.0.24",
+    "babel-plugin-styled-components": "^1.13.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "prettier": "^2.4.1",

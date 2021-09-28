@@ -11,7 +11,7 @@ export default function Navbar() {
       <ul>
         <li>
           <Link href="/">
-            <button className="btn-logo">FEED</button>
+            <button className="btn-logo">ACO REDDIT</button>
           </Link>
         </li>
 
@@ -19,7 +19,7 @@ export default function Navbar() {
         {username && (
           <>
             <li className="push-left">
-              <Link href="/me">
+              <Link href="/posts/create">
                 <button className="btn-blue">Write Posts</button>
               </Link>
             </li>

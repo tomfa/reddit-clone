@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import toast from "react-hot-toast";
 import { addPost, getPostsForUser } from "../lib/db";
-import {Post, PostCategory} from "../graphql/generated/types";
+import {Post, PostType} from "../graphql/generated/types";
 import {Loader} from "../components/Loader";
 
 export default function AdminPostsPage() {

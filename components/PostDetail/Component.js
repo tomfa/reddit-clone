@@ -3,8 +3,8 @@ import LoadingIndicatorBox from '../shared/LoadingIndicator/Box';
 import Empty from '../shared/Empty';
 import PostDetailPost from './Post';
 import PostDetailInfoBarContainer from './InfoBar/Container';
-import CommentFormContainer from '../CommentForm/Container';
 import PostDetailCommentSection from './CommentSection';
+import CommentForm from "../CommentForm/Component";
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -30,7 +30,7 @@ class PostDetail extends React.Component {
           upvotePercentage={post.upvotePercentage}
           author={post.author}
         />
-        {this.props.token && <CommentFormContainer id={post.id} />}
+        {this.props.token && <CommentForm id={post.id} />}
         <PostDetailCommentSection comments={post.comments} />
       </>
     );

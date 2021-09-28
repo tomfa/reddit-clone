@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { transition } from '../shared/helpers';
 import ErrorNotificationMessage from './Message';

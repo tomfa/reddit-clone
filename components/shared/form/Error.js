@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { fade, smallFont } from '../helpers';
 
 const Error = styled.span`

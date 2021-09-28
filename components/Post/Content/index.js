@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import PostContentTitle from './Title';
 import PostContentPreview from './Preview';
 import PostContentFullText from './FullText';

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import PostListItem from './Item';
 import LoadingIndicatorBox from '../shared/LoadingIndicator/Box';
 import Empty from '../shared/Empty';

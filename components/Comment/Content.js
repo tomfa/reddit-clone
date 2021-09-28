@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import Markdown from '../shared/Markdown';
 
 const Content = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import SubmitButton from '../shared/form/SubmitButton';
 
 const StyledSubmitButton = styled(SubmitButton)`

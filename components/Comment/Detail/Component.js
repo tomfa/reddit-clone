@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import Author from '../../shared/Author';
 import CommentDetailTimestamp from './Timestamp';
 import DeleteButton from '../../shared/DeleteButton';

@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { transition, wideFont } from './helpers';
 
 const Button = styled.button`

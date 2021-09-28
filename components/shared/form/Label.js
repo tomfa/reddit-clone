@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 import { smallFont } from '../helpers';
 
 const Label = styled.label`
