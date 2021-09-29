@@ -6,7 +6,6 @@ import { config } from "../../lib/config";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import {
-  Post,
   PostType,
   useAddPostMutation,
 } from "../../graphql/generated/types";
@@ -35,7 +34,7 @@ export default function CreatePostForm() {
     title: string;
   }) => {
     console.log(`Posting`, post);
-    postMutation({ variables: { addPostInput: { ...post, type: postType } } });
+    postMutation({ variables: { input: { ...post, type: postType } } });
   };
   const post = useMemo(() => postResult.data?.addPost, [postResult]);
 

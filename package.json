@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:prettier-check": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
     "lint:prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
-    "schema:generate": "graphql-codegen --config codegen.yml"
+    "schema:generate-documents": "gqlg --schemaFilePath ./graphql/schema.graphql --destDirPath ./graphql/generated/documents --depthLimit 5",
+    "schema:generate": "npm run schema:generate-documents && graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.4.15",
@@ -45,6 +46,7 @@
     "babel-plugin-styled-components": "^1.13.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "gql-generator": "^1.0.13",
     "prettier": "^2.4.1",
     "typescript": "4.4.3",
     "webpack-graphql-loader": "^1.0.2"

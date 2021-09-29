@@ -1,0 +1,27 @@
+mutation addPost($input: AddPostInput!){
+    addPost(input: $input){
+        title
+        slug
+        content
+        author{
+            id
+        }
+        category
+        score
+        votes{
+            userId
+            vote
+            id
+        }
+        comments{
+            author{
+                id
+            }
+            body
+            created
+        }
+        created
+        views
+        type
+    }
+}

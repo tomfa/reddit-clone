@@ -1,7 +1,0 @@
-query findPosts {
-    posts {
-        title
-        slug
-        created
-    }
-}

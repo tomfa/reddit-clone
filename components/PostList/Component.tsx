@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostListItem from "./Item";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
-import { useFindPostsQuery } from "../../graphql/generated/types";
+import { usePostsQuery } from "../../graphql/generated/types";
 
 const List = styled.ul`
   list-style: none;
@@ -19,7 +19,7 @@ const List = styled.ul`
 `;
 
 const PostList = () => {
-  const { data, loading } = useFindPostsQuery();
+  const { data, loading } = usePostsQuery();
 
   if (loading) {
     return <LoadingIndicatorBox/>

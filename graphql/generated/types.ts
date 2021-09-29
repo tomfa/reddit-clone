@@ -77,24 +77,44 @@ export type UserVote = {
 };
 
 export type AddPostMutationVariables = Exact<{
-  addPostInput: AddPostInput;
+  input: AddPostInput;
 }>;
 
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, category: string } };
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, category: string, score: number, created: any, views: number, type: PostType, author: { __typename?: 'User', id: string }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, created: any, author: { __typename?: 'User', id: string } }> } };
 
-export type FindPostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, created: any, author: { __typename?: 'User', id: string } }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, category: string, score: number, created: any, views: number, type: PostType, author: { __typename?: 'User', id: string }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, created: any, author: { __typename?: 'User', id: string } }> }> };
 
 
 export const AddPostDocument = gql`
-    mutation addPost($addPostInput: AddPostInput!) {
-  addPost(input: $addPostInput) {
+    mutation addPost($input: AddPostInput!) {
+  addPost(input: $input) {
     title
     slug
+    content
+    author {
+      id
+    }
     category
+    score
+    votes {
+      userId
+      vote
+      id
+    }
+    comments {
+      author {
+        id
+      }
+      body
+      created
+    }
+    created
+    views
+    type
   }
 }
     `;
@@ -113,7 +133,7 @@ export type AddPostMutationFn = Apollo.MutationFunction<AddPostMutation, AddPost
  * @example
  * const [addPostMutation, { data, loading, error }] = useAddPostMutation({
  *   variables: {
- *      addPostInput: // value for 'addPostInput'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -124,42 +144,59 @@ export function useAddPostMutation(baseOptions?: Apollo.MutationHookOptions<AddP
 export type AddPostMutationHookResult = ReturnType<typeof useAddPostMutation>;
 export type AddPostMutationResult = Apollo.MutationResult<AddPostMutation>;
 export type AddPostMutationOptions = Apollo.BaseMutationOptions<AddPostMutation, AddPostMutationVariables>;
-export const FindPostsDocument = gql`
-    query findPosts {
+export const PostsDocument = gql`
+    query posts {
   posts {
     title
+    slug
+    content
     author {
       id
     }
-    slug
+    category
+    score
+    votes {
+      userId
+      vote
+      id
+    }
+    comments {
+      author {
+        id
+      }
+      body
+      created
+    }
     created
+    views
+    type
   }
 }
     `;
 
 /**
- * __useFindPostsQuery__
+ * __usePostsQuery__
  *
- * To run a query within a React component, call `useFindPostsQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindPostsQuery({
+ * const { data, loading, error } = usePostsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFindPostsQuery(baseOptions?: Apollo.QueryHookOptions<FindPostsQuery, FindPostsQueryVariables>) {
+export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindPostsQuery, FindPostsQueryVariables>(FindPostsDocument, options);
+        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
       }
-export function useFindPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPostsQuery, FindPostsQueryVariables>) {
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindPostsQuery, FindPostsQueryVariables>(FindPostsDocument, options);
+          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
         }
-export type FindPostsQueryHookResult = ReturnType<typeof useFindPostsQuery>;
-export type FindPostsLazyQueryHookResult = ReturnType<typeof useFindPostsLazyQuery>;
-export type FindPostsQueryResult = Apollo.QueryResult<FindPostsQuery, FindPostsQueryVariables>;
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
