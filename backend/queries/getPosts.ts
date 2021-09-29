@@ -1,7 +1,7 @@
 import {EmptyResolverArgs, UserAuth} from "../../request.types";
 import {Post, PostType} from "../../graphql/generated/types";
 
-export const getPosts = async (args: EmptyResolverArgs, session: UserAuth): Post[] => [
+export const getPosts = async (args: EmptyResolverArgs, session: UserAuth): Promise<Post[]> => [
   {
     title: "Test title",
     content: "https://vg.no",

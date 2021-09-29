@@ -1,13 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ApolloServer } from "apollo-server-cloud-functions";
 import { resolvers } from "../../backend/resolvers";
-import typeDefs from "../../graphql/schema";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { RequestContext } from "../../request.types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { toUserAuth } from "../../request.utils";
-import { getSession } from "next-auth/client";
 import { getToken } from "next-auth/jwt";
+import "graphql-import-node";
+import typeDefs from "../../graphql/schema.graphql";
+
 
 const server = new ApolloServer({
   typeDefs,
