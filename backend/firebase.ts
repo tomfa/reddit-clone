@@ -1,5 +1,5 @@
 import * as firebase from "firebase-admin";
-import { config } from "./config";
+import { config } from "../lib/config";
 
 let app: firebase.app.App | null = null;
 
@@ -12,7 +12,7 @@ if (!firebase.apps.length) {
     }),
     databaseURL: config.firebase.databaseUrl,
   });
-  console.log('initialize')
+  console.log("initialize");
 }
 
 export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;

@@ -2,7 +2,7 @@
 import NextAuth, { Account, Profile, User } from "next-auth";
 import Providers from "next-auth/providers";
 import { JWT } from "next-auth/jwt";
-import { db } from "../../../lib/db";
+import { db } from "../../../backend/db";
 
 export default NextAuth({
   providers: [
