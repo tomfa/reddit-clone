@@ -33,7 +33,6 @@ export default function CreatePostForm() {
     type: PostType;
     title: string;
   }) => {
-    console.log(`Posting`, post);
     postMutation({ variables: { input: { ...post, type: postType } } });
   };
   const post = useMemo(() => postResult.data?.addPost, [postResult]);

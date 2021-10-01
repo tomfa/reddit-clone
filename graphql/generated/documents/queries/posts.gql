@@ -3,8 +3,11 @@ query posts{
         title
         slug
         content
+        published
         author{
             id
+            username
+            name
         }
         category
         score
@@ -16,11 +19,13 @@ query posts{
         comments{
             author{
                 id
+                username
+                name
             }
             body
-            created
+            createdAt
         }
-        created
+        createdAt
         views
         type
     }

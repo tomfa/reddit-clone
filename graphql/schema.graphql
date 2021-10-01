@@ -7,6 +7,8 @@ enum PostType {
 
 type User {
   id: String!
+  username: String!
+  name: String
 }
 
 type UserVote {
@@ -18,19 +20,20 @@ type UserVote {
 type Comment {
   author: User!
   body: String!
-  created: Date!
+  createdAt: Date!
 }
 
 type Post {
   title: String!
   slug: String!
   content: String!
+  published: Boolean!
   author: User!
   category: String!
   score: Int!
   votes: [UserVote!]!
   comments: [Comment!]!
-  created: Date!
+  createdAt: Date!
   views: Int!
   type: PostType!
 }
@@ -43,9 +46,19 @@ input AddPostInput {
 }
 
 type Query {
+  getUserById(id: String!): User
   posts: [Post!]!
+}
+
+input AddUserInput {
+  email: String!
+  authId: String!
+  username: String
+  name: String
 }
 
 type Mutation {
   addPost(input: AddPostInput!): Post!
+  getUser(id: String!): User
+  addUser(input: AddUserInput!): User
 }
