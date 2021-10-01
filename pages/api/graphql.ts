@@ -33,8 +33,7 @@ const server = new ApolloServer({
     res: NextApiResponse;
   }): Promise<RequestContext> => {
     const token = await getToken({ req, secret: process.env.JWT_SECRET });
-    console.log("token", token);
-    const auth = toUserAuth(token);
+    const auth = token && toUserAuth(token);
     return {
       headers: req.headers,
       config: process.env,

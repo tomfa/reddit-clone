@@ -1,14 +1,10 @@
 import { UserAuth } from "./request.types";
 import { JWT } from "next-auth/jwt";
 
-export const toUserAuth = (jwt: JWT | null): UserAuth => {
-  const userEmail = jwt?.email;
-  if (!userEmail) {
-    return null;
-  }
+export const toUserAuth = (jwt: JWT): UserAuth => {
   return {
-    email: userEmail,
-    image: jwt?.picture,
-    name: jwt?.name,
+    id: jwt.id,
+    username: jwt.username,
+    name: jwt.name,
   };
 };
