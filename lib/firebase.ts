@@ -1,21 +1,21 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-import "firebase/compat/storage";
-
+import * as firebase from "firebase-admin";
 import { config } from "./config";
 
 let app: firebase.app.App | null = null;
 
-export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
-
-if (!app) {
-  console.log(`Initializing firebase app`);
-  app = firebase.initializeApp(config.firebase);
+if (!firebase.apps.length) {
+  app = firebase.initializeApp({
+    credential: firebase.credential.cert({
+      privateKey: config.firebase.privateKey,
+      clientEmail: config.firebase.clientEmail,
+      projectId: config.firebase.projectId,
+    }),
+    databaseURL: config.firebase.databaseUrl,
+  });
+  console.log('initialize')
 }
 
-export const auth = firebase.auth();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 
 export const firestore = firebase.firestore();
 export const storage = firebase.storage();

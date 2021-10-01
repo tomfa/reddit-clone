@@ -7,6 +7,9 @@ export const config = {
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY && process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, '\n'),
+    databaseUrl: process.env.FIREBASE_DATABASE_URL
   },
   categories: ["music", "funny", "videos", "programming", "news", "fashion"],
 };
