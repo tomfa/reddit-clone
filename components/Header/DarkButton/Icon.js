@@ -9,7 +9,7 @@ const Icon = styled.svg`
   & path {
     ${transition("fill")};
 
-    fill: ${(props) => props.theme.mutedText};
+    fill: var(--color-mutedText);
   }
 
   @media (max-width: 425px) {

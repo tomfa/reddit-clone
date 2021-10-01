@@ -6,7 +6,7 @@ import DeleteButton from "../../shared/DeleteButton";
 
 const Wrapper = styled.div`
   display: flex;
-  border-bottom: 1px solid ${(props) => props.theme.border};
+  border-bottom: 1px solid var(--color-border);
   padding: 8px;
   font-size: 13px;
 `;

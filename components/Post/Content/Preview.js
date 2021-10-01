@@ -8,7 +8,7 @@ const PostContentPreview = styled.div`
   padding-bottom: 1px;
   font-size: 13px;
   line-height: 19px;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 `;
 
 export default PostContentPreview;

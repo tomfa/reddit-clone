@@ -4,9 +4,9 @@ import CommentDetailContainer from "./Detail/Container";
 import CommentContent from "./Content";
 
 const Wrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   border-radius: 2px;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
 
   @media (max-width: 768px) {
     border-left: none;

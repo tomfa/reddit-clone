@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import PostContainer from "../Post";
-import {Post} from "../../graphql/generated/types";
+import { Post } from "../../graphql/generated/types";
 
 const Item = styled.li`
   :not(:first-child) {
-    border-top: 1px solid ${(props) => props.theme.border};
+    border-top: 1px solid var(--color-border);
   }
 `;
 
-const PostListItem = (props: Post) => (
+const PostListItem = (post: Post) => (
   <Item>
-    <PostContainer {...props} />
+    <PostContainer post={post} full={false} />
   </Item>
 );
 

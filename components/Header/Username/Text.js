@@ -7,7 +7,7 @@ const HeaderUsernameText = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 `;
 
 export default HeaderUsernameText;

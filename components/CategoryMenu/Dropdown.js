@@ -8,9 +8,9 @@ const Dropdown = styled.select`
   border-radius: 0;
   width: 100%;
   padding: 8px 16px;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
   font-size: 15px;
-  color: ${(props) => props.theme.normalText};
+  color:  var(--color-normalText);
   appearance: none;
 `;
 

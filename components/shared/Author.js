@@ -7,7 +7,7 @@ const StyledLink = styled(Link)`
   ${link};
 
   font-weight: 500;
-  color: ${(props) => props.theme.normalText};
+  color:  var(--color-normalText);
 `;
 
 const Author = ({ username }) => (

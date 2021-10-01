@@ -8,7 +8,7 @@ const Error = styled.span`
   position: absolute;
   right: 0;
   top: 0;
-  color: ${(props) => props.theme.error};
+  color: var(--color-error);
 `;
 
 export default Error;

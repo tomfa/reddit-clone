@@ -8,7 +8,7 @@ const Header = styled.span`
   display: block;
   padding: 12px;
   text-align: center;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 `;
 
 const SidebarCategoryListHeader = () => <Header>categories</Header>;

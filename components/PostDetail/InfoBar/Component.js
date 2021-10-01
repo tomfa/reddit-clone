@@ -5,12 +5,12 @@ import DeleteButton from "../../shared/DeleteButton";
 const Wrapper = styled.div`
   display: flex;
   margin-top: -1px;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   ${(props) => props.round && "border-radius: 0 0 2px 2px"};
   padding: 8px;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
   font-size: 13px;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 
   @media (max-width: 768px) {
     border-left: none;

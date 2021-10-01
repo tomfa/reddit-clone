@@ -6,12 +6,12 @@ const Wrapper = styled.div<{ comments: boolean }>`
   ${smallFont};
 
   ${(props) => props.comments && "margin-top: 16px"};
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   border-radius: 2px;
   padding: 48px 0;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
   text-align: center;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 
   @media (max-width: 768px) {
     ${(props) => !props.comments && "margin-top: -1px"};

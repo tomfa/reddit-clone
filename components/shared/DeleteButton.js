@@ -10,7 +10,7 @@ const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   font-size: 13px;
-  color: ${(props) => props.theme.normalText};
+  color:  var(--color-normalText);
   margin-left: auto;
 `;
 

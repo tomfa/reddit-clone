@@ -24,6 +24,7 @@ type Comment {
 }
 
 type Post {
+  id: String!
   title: String!
   slug: String!
   content: String!

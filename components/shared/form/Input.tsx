@@ -3,25 +3,24 @@ import { transition } from "../helpers";
 
 const Input = styled.input<{ error: boolean }>`
   ${transition("border", "box-shadow")};
-
-  border: 1px solid black;
-  --border: ${(props) =>
-    props.error ? props.theme.error : '--color-blue'};
+  
+  border: none;
+  box-shadow: 0 0 0 1px var(--color-border);
 
   display: block;
   border-radius: 3px;
   width: 100%;
   padding: 8px;
-  background-color: ${(props) => props.theme.inputBackground};
+  background-color: var(--color-inputBackground);
   font-size: 15px;
-  color: ${(props) => props.theme.normalText};
+  color:  var(--color-normalText);
   appearance: none;
   outline: none;
   resize: vertical;
 
   :hover,
   :focus {
-    box-shadow: 0 0 0 1px var(--color-text);
+    box-shadow: 0 0 0 1px var(--color-blue);
   }
 `;
 

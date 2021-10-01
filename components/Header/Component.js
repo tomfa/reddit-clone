@@ -12,11 +12,11 @@ const Wrapper = styled.header`
   display: flex;
   align-items: stretch;
   margin-bottom: 24px;
-  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  border-bottom: 1px solid ${(props) => props.theme.border};
+  box-shadow: 0 4px 12px var(--color-shadow);
+  border-bottom: 1px solid var(--color-border);
   height: 48px;
   padding: 0 10vw;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
   user-select: none;
 
   @media (max-width: 425px) {

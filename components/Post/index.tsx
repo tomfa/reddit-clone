@@ -2,22 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import PostVoteContainer from "./Vote/Component";
 import PostContent from "./Content";
-import {Post} from "../../graphql/generated/types";
+import { Post } from "../../graphql/generated/types";
 
 const Wrapper = styled.div`
   display: flex;
   height: auto;
-  background-color: ${(props) => props.theme.foreground};
+  background-color: var(--color-foreground);
 `;
 
-const PostContainer = ({ id, votes, score, comments, full, ...content }: Post) => (
+type Props = { post: Post; full: boolean };
+const PostContainer = ({ full, post }: Props) => (
   <Wrapper>
-    <PostVoteContainer id={id} votes={votes} score={score} />
+    <PostVoteContainer post={post} />
     <PostContent
       showFullPost={full}
-      id={id}
-      commentCount={comments ? comments.length : 0}
-      {...content}
+      post={post}
     />
   </Wrapper>
 );

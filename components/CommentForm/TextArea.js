@@ -6,14 +6,14 @@ import Input from "../shared/form/Input";
 const TextArea = styled(Input)`
   margin: 0;
   border: none;
-  border-bottom: 1px solid ${(props) => props.theme.border};
+  border-bottom: 1px solid var(--color-border);
   border-radius: 0;
   resize: none;
 
   :hover,
   :focus {
     border: none;
-    border-bottom: 1px solid ${(props) => props.theme.border};
+    border-bottom: 1px solid var(--color-border);
     box-shadow: none;
   }
 `;

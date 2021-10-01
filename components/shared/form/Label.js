@@ -6,7 +6,7 @@ const Label = styled.label`
 
   display: block;
   margin-bottom: 8px;
-  color: ${(props) => props.theme.mutedText};
+  color: var(--color-mutedText);
 `;
 
 export default Label;

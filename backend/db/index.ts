@@ -88,6 +88,7 @@ export const addPost = async (
   author: User,
   post: Pick<Post, "type" | "title" | "category" | "content">
 ): Promise<Post> => {
+  const id = uuid();
   const slug = encodeURI(slugify(post.title));
   const ref = firestore
     .collection(USERS)
@@ -97,6 +98,7 @@ export const addPost = async (
 
   const data: DBPost = {
     ...post,
+    id,
     published: true,
     slug,
     author,
@@ -127,7 +129,9 @@ export const getPosts = async (
 
   const data = await query.get().then((d) => d.docs);
   const posts = data.map((p) => p.data()) as DBPost[];
-  return posts;
+  const d =posts[0].createdAt
+  console.log('d', d)
+  return posts.map(p => ({...p, createdAt: p.createdAt.toDate()}));
 };
 
 export const db = {

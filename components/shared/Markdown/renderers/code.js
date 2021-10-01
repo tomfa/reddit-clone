@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Pre = styled.pre`
   border-radius: 2px;
   padding: 12px 16px;
-  background-color: ${(props) => props.theme.pageBackground};
+  background-color: var(--color-normalText);
   overflow-x: scroll;
 `;
 

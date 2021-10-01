@@ -9,7 +9,7 @@ const tableHeader = css`
 
 const tableCell = (isHeader) => css`
   ${isHeader && tableHeader};
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   padding: 0 0.75em;
 `;
 

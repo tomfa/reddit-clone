@@ -4,6 +4,7 @@ import moment from "moment";
 import  Link from "next/link";
 import { link } from "../../shared/helpers";
 import Author from "../../shared/Author";
+import {Post} from "../../../graphql/generated/types";
 
 const Wrapper = styled.div`
   font-size: 13px;
@@ -21,19 +22,19 @@ const Wrapper = styled.div`
   }
 
   & > span {
-    color: ${(props) => props.theme.mutedText};
+    color: var(--color-mutedText);
   }
 `;
 
-const PostContentDetail = (props) => (
+const PostContentDetail = ({post}: {post: Post} ) => (
   <Wrapper>
-    <Link href={`/a/${props.category}/${props.id}`}>
-      <span>{props.commentCount} comment{props.commentCount !== 1 ? "s" : null}</span>
+    <Link href={`/a/${post.category}/${post.id}`}>
+      <span>{post.comments.length} comment{post.comments.length !== 1 ? "s" : null}</span>
     </Link>
-    <Link href={`/a/${props.category}`}><span>/a/{props.category}</span></Link>
+    <Link href={`/a/${post.category}`}><span>/a/{post.category}</span></Link>
     <span>by</span>
-    <Author username={props.author && props.author.username} />
-    <span>{moment(props.created).fromNow()}</span>
+    <Author username={post.author && post.author.username} />
+    <span>{moment(post.createdAt).fromNow()}</span>
   </Wrapper>
 );
 

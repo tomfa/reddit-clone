@@ -65,6 +65,7 @@ export type Post = {
   comments: Array<Comment>;
   content: Scalars['String'];
   createdAt: Scalars['Date'];
+  id: Scalars['String'];
   published: Scalars['Boolean'];
   score: Scalars['Int'];
   slug: Scalars['String'];
@@ -109,7 +110,7 @@ export type AddPostMutationVariables = Exact<{
 }>;
 
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, category: string, score: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
@@ -135,12 +136,13 @@ export type GetUserByIdQuery = { __typename?: 'Query', getUserById?: Maybe<{ __t
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, category: string, score: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 
 export const AddPostDocument = gql`
     mutation addPost($input: AddPostInput!) {
   addPost(input: $input) {
+    id
     title
     slug
     content
@@ -308,6 +310,7 @@ export type GetUserByIdQueryResult = Apollo.QueryResult<GetUserByIdQuery, GetUse
 export const PostsDocument = gql`
     query posts {
   posts {
+    id
     title
     slug
     content

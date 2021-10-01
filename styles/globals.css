@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --color-bg: #eef0f1;
   --color-text: #08090a;
@@ -8,15 +14,29 @@
   --color-green: #3bdf72;
   --color-gray: #b5bdc4;
   --shadow: #08090a;
+  --color-normalText: #454f5b;
+  --color-mutedText: #818e99;
+  --color-border: #ebedf0;
+  --color-accent: #1890ff;
+  --color-pageBackground: #f4f6f8;
+  --color-vote: #b6b6b6;
+  --color-voteButtonHover: #f2f2f2;
+  --color-foreground: #ffffff;
+  --color-activeBackground: #fafafa;
+  --color-inputBackground: #fcfcfc;
+  --color-shadow: rgba(0, 0, 0, 0.05);
 }
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Noto Sans', sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   margin-top: 50px;
+  min-height: 100%;
+  padding-bottom: 48px;
+  font-family: 'IBM Plex Sans', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 
@@ -97,7 +117,7 @@ code {
 
 /* Buttons */
 
-.btn, button {
+.btn {
   background-color: var(--color-gray);
   border: none;
   color: var(--color-text);

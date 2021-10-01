@@ -11,7 +11,7 @@ export default function Navbar() {
       <ul>
         <li>
           <Link href="/">
-            <button className="btn-logo">ACO REDDIT</button>
+            <button className="btn btn-logo">ACO REDDIT</button>
           </Link>
         </li>
 
@@ -20,7 +20,7 @@ export default function Navbar() {
           <>
             <li className="push-left">
               <Link href="/posts/create">
-                <button className="btn-blue">Write Posts</button>
+                <button className="btn btn-blue">Write Posts</button>
               </Link>
             </li>
             <li>
@@ -37,7 +37,7 @@ export default function Navbar() {
         {!username && (
           <li>
             <Link href="/login">
-              <button className="btn-blue">Log in</button>
+              <button className="btn btn-blue">Log in</button>
             </Link>
           </li>
         )}

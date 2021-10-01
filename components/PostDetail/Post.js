@@ -4,7 +4,7 @@ import PostContainer from "../Post";
 
 const Wrapper = styled.div`
   overflow: hidden;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   border-radius: 2px 2px 0 0;
 
   @media (max-width: 768px) {

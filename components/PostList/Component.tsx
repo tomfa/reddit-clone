@@ -4,12 +4,13 @@ import PostListItem from "./Item";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
 import { usePostsQuery } from "../../graphql/generated/types";
-import {config} from "../../lib/config";
 
 const List = styled.ul`
   list-style: none;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--color-border);
   border-radius: 2px;
+  width: 100%;
+  max-width: 800px;
 
   @media (max-width: 768px) {
     border-top: none;
@@ -30,10 +31,12 @@ const PostList = () => {
     return <Empty comments={false} />
   }
 
+  console.log(data.posts)
+
   return (
     <List>
       {data?.posts.map((post, index) => (
-        <PostListItem key={post.slug} {...post} />
+        <PostListItem key={post.id} {...post} />
       ))}
     </List>
   );

@@ -9,7 +9,7 @@ const Logo = styled(Link)`
   margin-right: auto;
   font-size: 24px;
   font-weight: 500;
-  color: ${(props) => props.theme.normalText};
+  color:  var(--color-normalText);
   text-decoration: none;
 
   @media (max-width: 425px) {
