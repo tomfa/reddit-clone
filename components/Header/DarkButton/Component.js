@@ -11,7 +11,7 @@ const DarkButton = styled.span`
 
   @media (hover: hover) {
     :hover path {
-      fill: ${(props) => props.theme.accent};
+      fill: var(--color-blue);
     }
   }
 `;

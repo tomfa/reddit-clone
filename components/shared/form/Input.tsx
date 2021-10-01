@@ -1,23 +1,14 @@
 import styled from "styled-components";
 import { transition } from "../helpers";
 
-const Input = styled.input`
+const Input = styled.input<{ error: boolean }>`
   ${transition("border", "box-shadow")};
 
+  border: 1px solid black;
   --border: ${(props) =>
-    props.error ? props.theme.error : props.theme.accent};
-  --shadow: ${(props) =>
-    props.error ? props.theme.error + "4d" : props.theme.accent + "4d"};
+    props.error ? props.theme.error : '--color-blue'};
 
   display: block;
-  ${(props) =>
-    props.error
-      ? `
-    border: 1px solid var(--border)
-    `
-      : `
-    border: 1px solid ${props.theme.border}
-  `};
   border-radius: 3px;
   width: 100%;
   padding: 8px;
@@ -30,11 +21,7 @@ const Input = styled.input`
 
   :hover,
   :focus {
-    border: 1px solid var(--border);
-  }
-
-  :focus {
-    box-shadow: 0 0 0 2px var(--shadow);
+    box-shadow: 0 0 0 1px var(--color-text);
   }
 `;
 

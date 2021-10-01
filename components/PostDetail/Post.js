@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Post from "../Post";
+import PostContainer from "../Post";
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 const PostDetailPost = (props) => (
   <Wrapper>
-    <Post {...props} full />
+    <PostContainer {...props} full />
   </Wrapper>
 );
 

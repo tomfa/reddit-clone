@@ -51,7 +51,7 @@ export const link = (props) => css`
 
   :hover {
     ${props.underline && "text-decoration: underline"};
-    color: ${(props) => props.theme.accent};
+    color: var(--color-blue);
   }
 `;
 

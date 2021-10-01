@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PostVoteContainer from "./Vote/Component";
 import PostContent from "./Content";
+import {Post} from "../../graphql/generated/types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
   background-color: ${(props) => props.theme.foreground};
 `;
 
-const Post = ({ id, votes, score, comments, full, ...content }) => (
+const PostContainer = ({ id, votes, score, comments, full, ...content }: Post) => (
   <Wrapper>
     <PostVoteContainer id={id} votes={votes} score={score} />
     <PostContent
@@ -21,4 +22,4 @@ const Post = ({ id, votes, score, comments, full, ...content }) => (
   </Wrapper>
 );
 
-export default Post;
+export default PostContainer;

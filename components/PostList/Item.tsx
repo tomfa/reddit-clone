@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Post from "../Post";
+import PostContainer from "../Post";
+import {Post} from "../../graphql/generated/types";
 
 const Item = styled.li`
   :not(:first-child) {
@@ -8,9 +9,9 @@ const Item = styled.li`
   }
 `;
 
-const PostListItem = (props) => (
+const PostListItem = (props: Post) => (
   <Item>
-    <Post {...props} />
+    <PostContainer {...props} />
   </Item>
 );
 

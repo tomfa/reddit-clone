@@ -1,4 +1,5 @@
 import { Field, Form as FinalForm } from "react-final-form";
+import { OnChange } from 'react-final-form-listeners'
 import Form from "../../components/shared/form/Form/index";
 import renderField from "../../components/shared/form/renderField";
 import SubmitButton from "../../components/shared/form/SubmitButton";
@@ -68,6 +69,12 @@ export default function CreatePostForm() {
             component={renderField}
             options={postTypes}
           />
+          <OnChange name="type">
+            {(value: PostType, previous: PostType) => {
+              // TODO: This package is to be replaced...
+              setPostType(value);
+            }}
+          </OnChange>
           <Field
             name="category"
             label="category"

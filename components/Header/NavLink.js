@@ -20,7 +20,7 @@ const HeaderNavLink = styled(NavLink)`
     right: 0;
     bottom: 0;
     opacity: 0;
-    border-bottom: 1px solid ${(props) => props.theme.accent};
+    border-bottom: 1px solid var(--color-blue);
   }
 
   :hover::after {
@@ -31,7 +31,7 @@ const HeaderNavLink = styled(NavLink)`
     left: 0;
     right: 0;
     bottom: 0;
-    border-bottom: 3px solid ${(props) => props.theme.accent};
+    border-bottom: 3px solid var(--color-blue);
   }
 `;
 

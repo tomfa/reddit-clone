@@ -12,7 +12,7 @@ const Item = styled(NavLink)`
     left: -1px;
     top: 0;
     bottom: 0;
-    border-left: 3px solid ${(props) => props.theme.accent};
+    border-left: 3px solid var(--color-blue);
   }
 `;
 

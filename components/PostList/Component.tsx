@@ -4,6 +4,7 @@ import PostListItem from "./Item";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
 import { usePostsQuery } from "../../graphql/generated/types";
+import {config} from "../../lib/config";
 
 const List = styled.ul`
   list-style: none;
@@ -32,7 +33,7 @@ const PostList = () => {
   return (
     <List>
       {data?.posts.map((post, index) => (
-        <PostListItem key={index} {...post} />
+        <PostListItem key={post.slug} {...post} />
       ))}
     </List>
   );

@@ -8,7 +8,7 @@ const Button = styled.button`
   border: none;
   border-radius: 3px;
   padding: 8px 24px;
-  background-color: ${(props) => props.theme.accent};
+  background-color: var(--color-blue);
   cursor: pointer;
   color: #ffffff;
   outline: none;
@@ -22,7 +22,7 @@ const Button = styled.button`
   }
 
   :focus {
-    box-shadow: 0 0 0 2px ${(props) => props.theme.accent + "4d"};
+    box-shadow: 0 0 0 2px  var(--color-blue);
   }
 `;
 

@@ -6,7 +6,7 @@ const Link = styled.a`
   ${transition("color")};
 
   text-decoration: underline;
-  color: ${(props) => props.theme.accent};
+  color: var(--color-blue);
 
   :hover {
     filter: brightness(110%);

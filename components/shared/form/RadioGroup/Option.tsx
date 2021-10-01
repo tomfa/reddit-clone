@@ -2,24 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import { transition, wideFont } from "../../helpers";
 
-const Label = styled.label`
+const Label = styled.label<{ active?: boolean }>`
   ${transition("color", "background-color")};
   ${wideFont};
 
   display: block;
   flex: 1 1 100%;
-  border: 1px solid ${(props) => props.theme.accent};
+  border: 1px solid var(--color-blue);
   width: 100%;
   padding: 8px;
-  background: ${(props) => (props.active ? props.theme.accent : "transparent")};
+  background: ${(props) =>
+    props.active ? "var(--color-blue)" : "transparent"};
   cursor: pointer;
   text-align: center;
-  color: ${(props) => (props.active ? "#ffffff" : props.theme.accent)};
+  color: ${(props) => (props.active ? "#ffffff" : "var(--color-blue)")};
   outline: 0;
 
   @media (hover: hover) {
     :hover {
-      background: ${(props) => props.theme.accent};
+      background: var(--color-blue);
       color: #ffffff;
     }
   }
@@ -37,7 +38,12 @@ const Label = styled.label`
   }
 `;
 
-const RadioGroupOption = (props) => (
+const RadioGroupOption = (props: {
+  value: string;
+  active: boolean;
+  onClick: () => void;
+  label: string;
+}) => (
   <>
     <input
       type="radio"

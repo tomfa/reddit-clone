@@ -16,13 +16,13 @@ export const StyledForm = styled(Form)`
 
   @media (hover: hover) {
     :hover {
-      border: 1px solid ${(props) => props.theme.accent};
+      border: 1px solid var(--color-blue);
     }
   }
 
   :focus-within {
-    border: 1px solid ${(props) => props.theme.accent};
-    box-shadow: 0 0 0 2px ${(props) => props.theme.accent + "4d"};
+    border: 1px solid var(--color-blue);
+    box-shadow: 0 0 0 2px  var(--color-blue)4d;
   }
 
   @media (max-width: 768px) {

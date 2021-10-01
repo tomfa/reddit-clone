@@ -10,8 +10,8 @@ const SelectWrapper = styled.div`
     top: 50%;
     right: 0;
     transform: translate(-150%, calc(-50% - 2px)) rotate(45deg);
-    border-bottom: 2px solid ${(props) => props.theme.accent};
-    border-right: 2px solid ${(props) => props.theme.accent};
+    border-bottom: 2px solid var(--color-blue);
+    border-right: 2px solid var(--color-blue);
     width: 8px;
     height: 8px;
     pointer-events: none;
