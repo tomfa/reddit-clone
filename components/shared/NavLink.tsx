@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
 import { link, transition } from "./helpers";
+import Link from "next/link";
 
 const activeClassName = "active";
 
-const NavLink = styled(RouterNavLink).attrs({ activeClassName })`
+const LinkWrapper = styled.a.attrs({ activeClassName })`
   ${link};
 
   position: relative;
@@ -25,5 +25,21 @@ const NavLink = styled(RouterNavLink).attrs({ activeClassName })`
     }
   }
 `;
+
+const NavLink = ({
+  className,
+  href,
+  children,
+}: {
+  className?: string;
+  href: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <Link href={href} passHref={true}>
+      <LinkWrapper className={className}>{children}</LinkWrapper>
+    </Link>
+  );
+};
 
 export default NavLink;

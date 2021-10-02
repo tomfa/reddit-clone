@@ -71,7 +71,7 @@ export const addUser = async (
   batch.set(usernameDoc, { id });
 
   await batch.commit();
-  return data;
+  return data
 };
 
 export const getPostsForUser = async (userId: string): Promise<Post[]> => {
@@ -129,8 +129,6 @@ export const getPosts = async (
 
   const data = await query.get().then((d) => d.docs);
   const posts = data.map((p) => p.data()) as DBPost[];
-  const d =posts[0].createdAt
-  console.log('d', d)
   return posts.map(p => ({...p, createdAt: p.createdAt.toDate()}));
 };
 

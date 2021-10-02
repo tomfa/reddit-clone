@@ -54,6 +54,7 @@ export default function CreatePostForm() {
     <FinalForm
       onSubmit={onSubmit}
       initialValues={{ type: PostType.Text, category: config.categories[0] }}
+      style={{ width: '100%'}}
     >
       {({ handleSubmit }) => (
         <Form

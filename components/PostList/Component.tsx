@@ -10,7 +10,7 @@ const List = styled.ul`
   border: 1px solid var(--color-border);
   border-radius: 2px;
   width: 100%;
-  max-width: 800px;
+  background-color: var(--color-foreground);
 
   @media (max-width: 768px) {
     border-top: none;
@@ -24,14 +24,13 @@ const PostList = () => {
   const { data, loading } = usePostsQuery();
 
   if (loading) {
-    return <LoadingIndicatorBox/>
+    return <List><LoadingIndicatorBox/></List>
   }
 
   if (!data?.posts || data?.posts.length === 0) {
-    return <Empty comments={false} />
+    return <List><Empty comments={false} /></List>
   }
 
-  console.log(data.posts)
 
   return (
     <List>

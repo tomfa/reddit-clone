@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Route } from "react-router-dom";
 import CategoryMenuDropdown from "./Dropdown";
 import CategoryMenuCreatePostButton from "./CreatePostButton";
+import {useUserData} from "../../lib/hooks";
 
 const Menu = styled.nav`
   display: none;
@@ -15,19 +15,16 @@ const Menu = styled.nav`
   }
 `;
 
-const CategoryMenu = (props) => (
-  <Menu>
-    <Route
-      path="/a/:category"
-      children={({ match, history }) => (
-        <CategoryMenuDropdown
-          category={match ? match.params.category : "all"}
-          history={history}
-        />
-      )}
-    />
-    {props.token && <CategoryMenuCreatePostButton />}
-  </Menu>
-);
+const CategoryMenu = () => {
+  const { isLoggedIn } = useUserData();
+  return (
+    <Menu>
+      <CategoryMenuDropdown
+        category={"all"}
+      />
+      {isLoggedIn && <CategoryMenuCreatePostButton/>}
+    </Menu>
+  )
+};
 
 export default CategoryMenu;

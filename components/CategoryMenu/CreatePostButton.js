@@ -12,9 +12,9 @@ const CreatePostButton = styled(Button)`
 `;
 
 const CategoryMenuCreatePostButton = () => (
-  <CreatePostButton as={Link} href="/createpost">
-    create post
-  </CreatePostButton>
+  <Link href={"/posts/create"} passHref>
+    <CreatePostButton as={'a'}>create post</CreatePostButton>
+  </Link>
 );
 
 export default CategoryMenuCreatePostButton;

@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar";
 import { Provider as NextAuthProvider } from "next-auth/client";
 import type { AppProps } from "next/app";
 import { config } from "../lib/config";
+import { PageWrapper } from "../components/PageWrapper";
+import CategoryMenu from "../components/CategoryMenu/Component";
 
 const App = (props: AppProps) => {
   const client = new ApolloClient({
@@ -17,7 +19,10 @@ const App = (props: AppProps) => {
     <NextAuthProvider session={props.pageProps.session}>
       <ApolloProvider client={client}>
         <Navbar />
-        <props.Component {...props.pageProps} />
+        <PageWrapper>
+          <props.Component {...props.pageProps} />
+        </PageWrapper>
+
         <Toaster />
       </ApolloProvider>
     </NextAuthProvider>

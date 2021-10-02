@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import SidebarCreatePostButton from "./CreatePostButton";
 import SidebarCategoryList from "./CategoryList";
+import { useUserData } from "../../lib/hooks";
 
 const Wrapper = styled.aside`
   display: flex;
+  flex: 1;
   flex-direction: column;
   flex-basis: 240px;
   margin-left: 24px;
@@ -17,11 +19,14 @@ const Wrapper = styled.aside`
   }
 `;
 
-const Sidebar = ({ token }) => (
-  <Wrapper>
-    {token && <SidebarCreatePostButton />}
-    <SidebarCategoryList />
-  </Wrapper>
-);
+const Sidebar = () => {
+  const { isLoggedIn } = useUserData();
+  return (
+    <Wrapper>
+      {isLoggedIn && <SidebarCreatePostButton />}
+      <SidebarCategoryList />
+    </Wrapper>
+  );
+};
 
 export default Sidebar;

@@ -11,9 +11,9 @@ const CreatePostButton = styled(Button)`
 `;
 
 const SidebarCreatePostButton = () => (
-  <CreatePostButton as={Link} to="/createpost">
-    create post
-  </CreatePostButton>
+  <Link href="/posts/create" passHref={true}>
+    <CreatePostButton as={"a"}>create post</CreatePostButton>
+  </Link>
 );
 
 export default SidebarCreatePostButton;

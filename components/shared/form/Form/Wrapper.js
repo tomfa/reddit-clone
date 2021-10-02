@@ -3,10 +3,9 @@ import styled from "styled-components";
 const FormWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
   border: 1px solid var(--color-border);
+  width: 100%;
   border-radius: 2px;
-  max-width: ${(props) => (props.wide ? "600px" : "375px")};
   padding: 24px;
   background-color: var(--color-foreground);
 
