@@ -305,8 +305,9 @@ const getVotesForUser = async (args: {
   let query = await firestore
     .collectionGroup(VOTES)
     .where("userId", "==", args.userId)
-    .where("postSlug", "in", args.filterPostIds)
     .get();
+
+  // TODO: Find a way to only retrieve votes by filterPostsId ("IN" is max 10)
 
   const votes = query.docs.map((d) => d.data()) as DBVote[];
   return args.filterPostIds.reduce(
