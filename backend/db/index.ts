@@ -342,6 +342,10 @@ export const getPosts = async ({
     query = query.where("category", "==", filter.category);
   }
 
+  if (filter.username) {
+    query = query.where("author.username", "==", filter.username);
+  }
+
   if (filter.createdAfter) {
     query = query.where("createdAt", ">", filter.createdAfter);
   }

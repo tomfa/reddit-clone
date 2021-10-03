@@ -135,6 +135,7 @@ export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['Date']>;
   order?: Maybe<SortOrder>;
   sort?: Maybe<PostSort>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export enum SortOrder {
@@ -395,6 +396,7 @@ export type GetUserByIdQuery = { __typename?: 'Query', getUserById?: Maybe<{ __t
 export type PostsQueryVariables = Exact<{
   category?: Maybe<Scalars['String']>;
   sort?: Maybe<PostSort>;
+  username?: Maybe<Scalars['String']>;
   order?: Maybe<SortOrder>;
   createdAfter?: Maybe<Scalars['Date']>;
   cursor?: Maybe<Scalars['Date']>;
@@ -759,10 +761,11 @@ export type GetUserByIdQueryHookResult = ReturnType<typeof useGetUserByIdQuery>;
 export type GetUserByIdLazyQueryHookResult = ReturnType<typeof useGetUserByIdLazyQuery>;
 export type GetUserByIdQueryResult = Apollo.QueryResult<GetUserByIdQuery, GetUserByIdQueryVariables>;
 export const PostsDocument = gql`
-    query posts($category: String, $sort: PostSort, $order: SortOrder, $createdAfter: Date, $cursor: Date) {
+    query posts($category: String, $sort: PostSort, $username: String, $order: SortOrder, $createdAfter: Date, $cursor: Date) {
   posts(
     category: $category
     sort: $sort
+    username: $username
     order: $order
     createdAfter: $createdAfter
     cursor: $cursor
@@ -817,6 +820,7 @@ export const PostsDocument = gql`
  *   variables: {
  *      category: // value for 'category'
  *      sort: // value for 'sort'
+ *      username: // value for 'username'
  *      order: // value for 'order'
  *      createdAfter: // value for 'createdAfter'
  *      cursor: // value for 'cursor'

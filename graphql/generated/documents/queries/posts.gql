@@ -1,5 +1,5 @@
-query posts($category: String, $sort: PostSort, $order: SortOrder, $createdAfter: Date, $cursor: Date){
-    posts(category: $category, sort: $sort, order: $order, createdAfter: $createdAfter, cursor: $cursor){
+query posts($category: String, $sort: PostSort, $username: String, $order: SortOrder, $createdAfter: Date, $cursor: Date){
+    posts(category: $category, sort: $sort, username: $username, order: $order, createdAfter: $createdAfter, cursor: $cursor){
         title
         slug
         content
