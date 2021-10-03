@@ -128,7 +128,7 @@ export const addComment = async (
 
   await commentRef.set(data);
 
-  return data;
+  return {...data, createdAt: new Date()};
 };
 
 export const addUser = async (
@@ -374,5 +374,6 @@ export const db = {
   addComment,
   getPostBySlug,
   unVote,
+  vote,
   getComments,
 };

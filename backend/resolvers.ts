@@ -19,6 +19,7 @@ import { getPostBySlug, getUserById } from "./db";
 import { vote } from "./mutations/vote";
 import { addComment } from "./mutations/addComment";
 import {getComments} from "./queries/comments";
+import {dateScalar} from "../graphql/date.scalar";
 
 function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
   return (parent: unknown, args: T, { auth }: RequestContext) =>
@@ -41,7 +42,8 @@ function authWrapper<T, S = unknown>(
   };
 }
 
-export const resolvers: Pick<Resolvers, "Query" | "Mutation"> = {
+export const resolvers: Pick<Resolvers, "Query" | "Mutation" | "Date"> = {
+  Date: dateScalar,
   Query: {
     posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
     comments: wrapper<QueryCommentsArgs, Comment[]>(getComments),

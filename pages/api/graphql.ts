@@ -6,7 +6,6 @@ import { RequestContext } from "../../request.types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { toUserAuth } from "../../utils/request.utils";
 import { getToken } from "next-auth/jwt";
-import "graphql-import-node";
 import typeDefs from "../../graphql/schema.graphql";
 
 

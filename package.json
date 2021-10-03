@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.15",
     "@types/redux-form": "^8.3.2",
+    "apollo-link-scalars": "^3.0.0",
     "apollo-server-cloud-functions": "^3.3.0",
     "final-form": "^4.20.2",
     "firebase": "^9.1.0",
@@ -22,7 +23,6 @@
     "firebase-tools": "^9.18.0",
     "global": "^4.4.0",
     "graphql": "^15.6.0",
-    "graphql-import-node": "^0.0.4",
     "moment": "^2.29.1",
     "next": "11.1.2",
     "next-auth": "^3.29.0",

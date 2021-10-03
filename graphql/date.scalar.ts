@@ -1,7 +1,18 @@
 import { GraphQLScalarType, Kind } from "graphql";
 
-export const parseValue = (value: number): Date => new Date(value);
-export const serialize = (value: Date): number => value.getTime();
+type FireStoreDate = { _seconds: number, _nanoseconds: number }
+export const parseValue = (value: number | FireStoreDate): Date => {
+  if (typeof value === 'number') {
+    return new Date(value * 1000)
+  }
+  return new Date(value._seconds * 1000)
+};
+export const serialize = (value: Date | FireStoreDate): number => {
+  if (!(value instanceof Date)) {
+    return value._seconds
+  }
+  return Math.floor(value.getTime() / 1000)
+};
 
 export const dateScalar = new GraphQLScalarType({
   name: "Date",
