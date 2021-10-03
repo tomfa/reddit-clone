@@ -8,19 +8,20 @@ export function useUserData() {
   return { user: session?.user, username, isLoggedIn: !!session?.user, isLoading };
 }
 
-
-export function getCurrentCategory() {
+export const getUrlQueryString = (key: string, defaultValue?: string) => {
   const router = useRouter();
-  const category = useMemo(() => {
-    const defaultCategory = 'all';
-    const val = router.query['category'];
+  return useMemo(() => {
+    const val = router.query[key];
     if (!val) {
-      return defaultCategory
+      return defaultValue
     }
     if (typeof val === 'string') {
       return val
     }
     return val[0];
-  }, [router.query])
-  return category
+  }, [router.query, key])
+}
+
+export function getCurrentCategory() {
+  return getUrlQueryString('category', 'all')
 }

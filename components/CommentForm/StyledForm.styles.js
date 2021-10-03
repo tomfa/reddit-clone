@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Form from "../shared/form/Form";
 import { transition } from "../shared/helpers";
-import CommentFormTextArea from "./TextArea";
-import CommentFormSubmitButton from "./SubmitButton";
 
 export const StyledForm = styled(Form)`
   ${transition("border", "box-shadow")};

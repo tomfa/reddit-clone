@@ -1,0 +1,34 @@
+query getPostBySlug($slug: String!){
+    getPostBySlug(slug: $slug){
+        title
+        slug
+        content
+        published
+        author{
+            id
+            username
+            name
+        }
+        category
+        score
+        numVotes
+        myVote{
+            userId
+            vote
+            id
+            postSlug
+        }
+        comments{
+            author{
+                id
+                username
+                name
+            }
+            body
+            createdAt
+        }
+        createdAt
+        views
+        type
+    }
+}

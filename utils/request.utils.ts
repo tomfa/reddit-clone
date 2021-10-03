@@ -1,4 +1,4 @@
-import { UserAuth } from "./request.types";
+import { UserAuth } from "../request.types";
 import { JWT } from "next-auth/jwt";
 
 export const toUserAuth = (jwt: JWT): UserAuth => {

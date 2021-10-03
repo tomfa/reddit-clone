@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostContainer from "../Post";
+import { Post } from "../../graphql/generated/types";
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -16,9 +17,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const PostDetailPost = (props) => (
+const PostDetailPost = ({ post }: { post: Post }) => (
   <Wrapper>
-    <PostContainer {...props} full />
+    <PostContainer post={post} full />
   </Wrapper>
 );
 

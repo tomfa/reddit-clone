@@ -54,12 +54,12 @@ const allowed = [
   "inlineCode",
 ];
 
-const Markdown = (props) => (
+const Markdown = ({ children }: { children: string }) => (
   <StyledReactMarkdown
-    source={props.children}
+    children={children}
     plugins={[breaks]}
-    allowedTypes={allowed}
-    renderers={renderers}
+    allowedElements={allowed}
+    components={renderers}
     unwrapDisallowed
   />
 );

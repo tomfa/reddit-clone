@@ -15,20 +15,18 @@ const Wrapper = styled.div`
   min-width: 0;
 `;
 
-const renderContent = ({ post, showFullPost }: Props) => {
-  if (post.type === PostType.Text && showFullPost) {
-    return <PostContentFullText>{post.content}</PostContentFullText>;
-  }
-  return <PostContentPreview>{post.content}</PostContentPreview>;
-};
-
 type Props = { showFullPost: boolean; post: Post };
-const PostContent = ({ post, showFullPost }: Props) => (
-  <Wrapper>
-    <PostContentTitle post={post} full={showFullPost} />
-    {renderContent({ post, showFullPost })}
-    <PostContentDetail post={post} />
-  </Wrapper>
-);
+const PostContent = ({ post, showFullPost }: Props) => {
+  const previewOnly = post.type === PostType.Link || !showFullPost;
+  console.log(post)
+  return (
+    <Wrapper>
+      <PostContentTitle post={post} full={showFullPost}/>
+      {previewOnly && <PostContentPreview>{post.content}</PostContentPreview>}
+      {!previewOnly && <PostContentFullText>{post.content}</PostContentFullText>}
+      <PostContentDetail post={post}/>
+    </Wrapper>
+  )
+};
 
 export default PostContent;

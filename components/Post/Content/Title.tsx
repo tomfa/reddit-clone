@@ -32,7 +32,7 @@ const renderTitle = ({post, full}: Props) => {
     case "TEXT":
       if (full) return <span>{post.title}</span>;
       return (
-        <Link href={`/a/${post.category}/${post.id}`}>{post.title}</Link>
+        <Link href={`/a/${post.category}/${post.slug}`}>{post.title}</Link>
       );
 
     default:

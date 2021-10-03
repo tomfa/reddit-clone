@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   background-color: var(--color-inputBackground);
 `;
 
-const PostContentFullText = (props) => (
+const PostContentFullText = (props: { children: string }) => (
   <Wrapper>
     <Markdown>{props.children}</Markdown>
   </Wrapper>

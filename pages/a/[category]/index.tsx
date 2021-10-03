@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import styles from "../../styles/Home.module.css";
-import PostList from "../../components/PostList/Component";
-import Sidebar from "../../components/Sidebar/Component";
-import CategoryMenu from "../../components/CategoryMenu/Component";
-import { usePostsQuery } from "../../graphql/generated/types";
-import { getCurrentCategory } from "../../lib/hooks";
+import styles from "../../../styles/Home.module.css";
+import PostList from "../../../components/PostList/Component";
+import Sidebar from "../../../components/Sidebar/Component";
+import CategoryMenu from "../../../components/CategoryMenu/Component";
+import { usePostsQuery } from "../../../graphql/generated/types";
+import { getCurrentCategory } from "../../../lib/hooks";
 
 const PostListPage: NextPage = () => {
   const category = getCurrentCategory();

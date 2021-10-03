@@ -3,7 +3,7 @@ import styled from "styled-components";
 import moment from "moment";
 import  Link from "next/link";
 import { link } from "../../shared/helpers";
-import Author from "../../shared/Author";
+import StyledLink from "../../shared/StyledLinkComponent";
 import {Post} from "../../../graphql/generated/types";
 
 const Wrapper = styled.div`
@@ -26,16 +26,20 @@ const Wrapper = styled.div`
   }
 `;
 
-const PostContentDetail = ({post}: {post: Post} ) => (
-  <Wrapper>
-    <Link href={`/a/${post.category}/${post.id}`}>
-      <span>{post.comments.length} comment{post.comments.length !== 1 ? "s" : null}</span>
-    </Link>
-    <Link href={`/a/${post.category}`}><span>/a/{post.category}</span></Link>
-    <span>by</span>
-    <Author username={post.author && post.author.username} />
-    <span>{moment(post.createdAt).fromNow()}</span>
-  </Wrapper>
-);
+const PostContentDetail = ({post}: {post: Post} ) => {
+  return (
+    <Wrapper>
+      <Link href={`/a/${post.category}/${post.slug}`} passHref>
+        <a>{post.comments.length} comment{post.comments.length !== 1 ? "s" : null}</a>
+      </Link>
+      <StyledLink href={`/a/${post.category}`}
+                  passHref><a>/a/{post.category}</a></StyledLink>
+      <span>by</span>
+      <StyledLink
+        href={`/u/${post.author.username}`}>{post.author.username}</StyledLink>
+      <span>{moment(post.createdAt).fromNow()}</span>
+    </Wrapper>
+  )
+};
 
 export default PostContentDetail;
