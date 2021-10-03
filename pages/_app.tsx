@@ -1,12 +1,11 @@
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import Navbar from "../components/Navbar";
 import { Provider as NextAuthProvider } from "next-auth/client";
 import type { AppProps } from "next/app";
 import { config } from "../lib/config";
 import { PageWrapper } from "../components/PageWrapper";
-import CategoryMenu from "../components/CategoryMenu/Component";
+import Header from "../components/Header/Component";
 
 const App = (props: AppProps) => {
   const client = new ApolloClient({
@@ -18,7 +17,7 @@ const App = (props: AppProps) => {
   return (
     <NextAuthProvider session={props.pageProps.session}>
       <ApolloProvider client={client}>
-        <Navbar />
+        <Header />
         <PageWrapper>
           <props.Component {...props.pageProps} />
         </PageWrapper>

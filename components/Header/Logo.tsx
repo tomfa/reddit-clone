@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { headerItem } from "../shared/helpers";
+import NavLink from "../shared/NavLink";
 
-const Logo = styled(Link)`
+const Logo = styled(NavLink)`
   ${headerItem};
 
   margin-right: auto;
   font-size: 24px;
   font-weight: 500;
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
   text-decoration: none;
 
   @media (max-width: 425px) {
@@ -18,6 +19,6 @@ const Logo = styled(Link)`
   }
 `;
 
-const HeaderLogo = () => <Logo to="/">asperitas</Logo>;
+const HeaderLogo = () => <Logo href="/">ACO reddit</Logo>;
 
 export default HeaderLogo;

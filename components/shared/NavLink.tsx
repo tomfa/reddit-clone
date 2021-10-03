@@ -8,6 +8,8 @@ const LinkWrapper = styled.a.attrs({ activeClassName })`
   ${link};
 
   position: relative;
+  border: none;
+  background-color: transparent;
 
   ::after {
     ${transition("opacity")};
@@ -30,11 +32,20 @@ const NavLink = ({
   className,
   href,
   children,
+  onClick,
 }: {
   className?: string;
-  href: string;
   children: React.ReactNode;
+  href?: string;
+  onClick?: () => unknown;
 }) => {
+  if (!href) {
+    return (
+      <LinkWrapper as="button" className={className} onClick={onClick}>
+        {children}
+      </LinkWrapper>
+    );
+  }
   return (
     <Link href={href} passHref={true}>
       <LinkWrapper className={className}>{children}</LinkWrapper>

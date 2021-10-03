@@ -16,10 +16,12 @@ const DarkButton = styled.span`
   }
 `;
 
-const HeaderDarkButton = (props) => (
-  <DarkButton onClick={props.toggleDarkTheme}>
-    <HeaderDarkButtonIcon />
-  </DarkButton>
-);
+const HeaderDarkButton = () => {
+  return (
+    <DarkButton onClick={() => console.log('TODO: implement theme')}>
+      <HeaderDarkButtonIcon/>
+    </DarkButton>
+  )
+};
 
 export default HeaderDarkButton;
