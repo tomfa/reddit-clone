@@ -1,6 +1,5 @@
 import { firestore, serverTimestamp } from "../firebase";
 import * as firebase from "firebase-admin";
-const increment = firebase.firestore.FieldValue.increment(1);
 import {
   Maybe,
   Post,
@@ -18,6 +17,10 @@ import { POSTS, USERS, VOTES } from "./collections";
 import { uuid } from "uuidv4";
 import { getNumericVoteValue } from "../../graphql/vote.utils";
 import { UserAuth } from "../../request.types";
+
+const increment = firebase.firestore.FieldValue.increment(1);
+const add = (num: number) => firebase.firestore.FieldValue.increment(num);
+
 
 export const getUserById = async ({
   id,
@@ -179,7 +182,7 @@ export const vote = async (args: {
   const existingVoteValue = getNumericVoteValue(
     existingVote?.vote || VoteValue.Neutral
   );
-  const valueDiff = getNumericVoteValue(args.value) - existingVoteValue;
+  const numScoreDiff = getNumericVoteValue(args.value) - existingVoteValue;
 
   console.log(`Voting ${args.value} for ${args.postSlug}`);
   const post: DBPost = await firestore.runTransaction(async (transaction) => {
@@ -192,14 +195,13 @@ export const vote = async (args: {
       return data;
     }
 
-    const newScore = data.score + valueDiff;
+    const newScore = data.score + numScoreDiff;
     const previousCount = existingVote ? 1 : 0;
     const newCount = args.value !== VoteValue.Neutral ? 1 : 0;
-    const countDiff = newCount - previousCount;
-    const newNumVotes = data.numVotes + countDiff;
+    const numVotesDiff = newCount - previousCount;
 
     const updatedFields: Partial<DBPost> = {
-      numVotes: newNumVotes,
+      numVotes: numVotesDiff,
       score: newScore,
     };
 
@@ -210,7 +212,7 @@ export const vote = async (args: {
       vote: args.value,
     };
 
-    transaction.update(postRef, updatedFields);
+    transaction.update(postRef, { numVotes: add(numVotesDiff), score: add(numScoreDiff) })
     if (args.value === VoteValue.Neutral) {
       transaction.delete(voteRef);
     } else {
