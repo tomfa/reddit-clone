@@ -1,10 +1,10 @@
-import { EmptyResolverArgs, UserAuth } from "../../request.types";
-import { Post, PostType } from "../../graphql/generated/types";
+import { UserAuth } from "../../request.types";
+import {Post, QueryPostsArgs} from "../../graphql/generated/types";
 import { db } from "../db";
 
 export const getPosts = async (
-  args: EmptyResolverArgs,
+  args: QueryPostsArgs,
   user: UserAuth | null
 ): Promise<Post[]> => {
-  return db.getPosts();
+  return db.getPosts(args);
 };

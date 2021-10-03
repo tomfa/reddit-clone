@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostListItem from "./Item";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
-import { usePostsQuery } from "../../graphql/generated/types";
+import {Post, usePostsQuery} from "../../graphql/generated/types";
 
 const List = styled.ul`
   list-style: none;
@@ -20,21 +20,20 @@ const List = styled.ul`
   }
 `;
 
-const PostList = () => {
-  const { data, loading } = usePostsQuery();
+const PostList = ({ posts, loading }: { posts?: Post[], loading: boolean }) => {
 
   if (loading) {
     return <List><LoadingIndicatorBox/></List>
   }
 
-  if (!data?.posts || data?.posts.length === 0) {
+  if (!posts || posts.length === 0) {
     return <List><Empty comments={false} /></List>
   }
 
 
   return (
     <List>
-      {data?.posts.map((post, index) => (
+      {posts.map((post, index) => (
         <PostListItem key={post.id} {...post} />
       ))}
     </List>

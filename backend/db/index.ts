@@ -1,10 +1,16 @@
-import { firestore, serverTimestamp } from "../firebase";
-import { Maybe, Post, User } from "../../graphql/generated/types";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { slugify } from "../../utils/string.utils";
-import { DBPost, DBUser } from "./types";
-import { POSTS, USERS } from "./collections";
-import { uuid } from "uuidv4";
+import {firestore, serverTimestamp} from "../firebase";
+import {
+  Maybe,
+  Post,
+  PostSort,
+  QueryPostsArgs,
+  User
+} from "../../graphql/generated/types";
+import {useCollection} from "react-firebase-hooks/firestore";
+import {slugify} from "../../utils/string.utils";
+import {DBPost, DBUser} from "./types";
+import {POSTS, USERS} from "./collections";
+import {uuid} from "uuidv4";
 
 export const getUserById = async (id: string): Promise<User | null> => {
   const query = await firestore
@@ -32,17 +38,19 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   return user;
 };
 
-const getOrCreateUser = async (user: Omit<User, "id" | "username" | "createdAt"> & {
-  authId: string;
-  email: string;
-  username?: Maybe<string>;
-}): Promise<User> => {
+const getOrCreateUser = async (
+  user: Omit<User, "id" | "username" | "createdAt"> & {
+    authId: string;
+    email: string;
+    username?: Maybe<string>;
+  }
+): Promise<User> => {
   const existingUser = await getUserByEmail(user.email);
   if (existingUser) {
-    return existingUser
+    return existingUser;
   }
   return addUser(user);
-}
+};
 
 export const addUser = async (
   user: Omit<User, "id" | "username" | "createdAt"> & {
@@ -65,13 +73,13 @@ export const addUser = async (
     ...user,
     username: uName,
     id,
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
   };
   batch.set(userDoc, data);
   batch.set(usernameDoc, { id });
 
   await batch.commit();
-  return data
+  return data;
 };
 
 export const getPostsForUser = async (userId: string): Promise<Post[]> => {
@@ -113,23 +121,39 @@ export const addPost = async (
   return data;
 };
 
-export const getPosts = async (
-  createdBefore?: number,
-  limit = 20
-): Promise<Post[]> => {
+export const getPosts = async ({
+  order,
+  cursor,
+  limit = 20,
+  ...filter
+}: QueryPostsArgs & {
+  limit?: number;
+} = {}): Promise<Post[]> => {
   let query = firestore
     .collectionGroup(POSTS)
     .where("published", "==", true)
-    .orderBy("createdAt", "desc")
     .limit(limit);
 
-  if (createdBefore) {
-    query = query.startAfter(createdBefore);
+  const sortBy = filter.sort || PostSort.Recent;
+  const sortField = sortBy === PostSort.Recent ? "createdAt" : "score"
+
+  query = query.orderBy(sortField, order || "desc")
+
+  if (filter.category) {
+    query = query.where('category', '==', filter.category)
+  }
+
+  if (filter.createdAfter) {
+    query = query.where('createdAt', '>', filter.createdAfter)
+  }
+
+  if (cursor) {
+    query = query.startAfter(cursor);
   }
 
   const data = await query.get().then((d) => d.docs);
   const posts = data.map((p) => p.data()) as DBPost[];
-  return posts.map(p => ({...p, createdAt: p.createdAt.toDate()}));
+  return posts.map((p) => ({ ...p, createdAt: p.createdAt.toDate() }));
 };
 
 export const db = {

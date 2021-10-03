@@ -5,6 +5,16 @@ enum PostType {
   TEXT
 }
 
+enum SortOrder {
+  asc
+  desc
+}
+
+enum PostSort {
+  POPULAR
+  RECENT
+}
+
 type User {
   id: String!
   username: String!
@@ -48,7 +58,13 @@ input AddPostInput {
 
 type Query {
   getUserById(id: String!): User
-  posts: [Post!]!
+  posts(
+    category: String
+    sort: PostSort
+    order: SortOrder
+    createdAfter: Date
+    cursor: Date
+  ): [Post!]!
 }
 
 input AddUserInput {

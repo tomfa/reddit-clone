@@ -75,6 +75,11 @@ export type Post = {
   votes: Array<UserVote>;
 };
 
+export enum PostSort {
+  Popular = 'POPULAR',
+  Recent = 'RECENT'
+}
+
 export enum PostType {
   Link = 'LINK',
   Text = 'TEXT'
@@ -90,6 +95,20 @@ export type Query = {
 export type QueryGetUserByIdArgs = {
   id: Scalars['String'];
 };
+
+
+export type QueryPostsArgs = {
+  category?: Maybe<Scalars['String']>;
+  createdAfter?: Maybe<Scalars['Date']>;
+  cursor?: Maybe<Scalars['Date']>;
+  order?: Maybe<SortOrder>;
+  sort?: Maybe<PostSort>;
+};
+
+export enum SortOrder {
+  Asc = 'asc',
+  Desc = 'desc'
+}
 
 export type User = {
   __typename?: 'User';
@@ -133,7 +152,13 @@ export type GetUserByIdQueryVariables = Exact<{
 
 export type GetUserByIdQuery = { __typename?: 'Query', getUserById?: Maybe<{ __typename?: 'User', id: string, username: string, name?: Maybe<string> }> };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{
+  category?: Maybe<Scalars['String']>;
+  sort?: Maybe<PostSort>;
+  order?: Maybe<SortOrder>;
+  createdAfter?: Maybe<Scalars['Date']>;
+  cursor?: Maybe<Scalars['Date']>;
+}>;
 
 
 export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, category: string, score: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, votes: Array<{ __typename?: 'UserVote', userId: string, vote: number, id: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
@@ -308,8 +333,14 @@ export type GetUserByIdQueryHookResult = ReturnType<typeof useGetUserByIdQuery>;
 export type GetUserByIdLazyQueryHookResult = ReturnType<typeof useGetUserByIdLazyQuery>;
 export type GetUserByIdQueryResult = Apollo.QueryResult<GetUserByIdQuery, GetUserByIdQueryVariables>;
 export const PostsDocument = gql`
-    query posts {
-  posts {
+    query posts($category: String, $sort: PostSort, $order: SortOrder, $createdAfter: Date, $cursor: Date) {
+  posts(
+    category: $category
+    sort: $sort
+    order: $order
+    createdAfter: $createdAfter
+    cursor: $cursor
+  ) {
     id
     title
     slug
@@ -355,6 +386,11 @@ export const PostsDocument = gql`
  * @example
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
+ *      category: // value for 'category'
+ *      sort: // value for 'sort'
+ *      order: // value for 'order'
+ *      createdAfter: // value for 'createdAfter'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */

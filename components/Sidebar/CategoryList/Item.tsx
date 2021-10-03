@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import NavLink from "../../shared/NavLink";
 
-const Item = styled(NavLink)`
+const Item = styled(NavLink)<{ active: boolean }>`
   display: block;
   padding: 12px;
   font-size: 15px;
   text-decoration: none;
-  color: var(--color-normalText);
+  color: ${(p) => p.active ? 'var(--color-blue)' : 'var(--color-normalText)'};
 
   ::after {
     left: -1px;
@@ -17,9 +17,9 @@ const Item = styled(NavLink)`
   }
 `;
 
-const SidebarCategoryListItem = ({ category }: { category: string }) => {
+const SidebarCategoryListItem = ({ category, active }: { category: string,active: boolean }) => {
   const isAll = category === "all";
-  return <Item href={isAll ? "/" : `/a/${category}`}>{category}</Item>;
+  return <Item href={isAll ? "/" : `/a/${category}`} active={active}>{category}</Item>;
 };
 
 export default SidebarCategoryListItem;

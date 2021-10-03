@@ -1,6 +1,6 @@
 import {
   MutationAddPostArgs,
-  MutationAddUserArgs,
+  MutationAddUserArgs, QueryPostsArgs,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
 import { EmptyResolverArgs, RequestContext, UserAuth } from "../request.types";
@@ -32,7 +32,7 @@ function authWrapper<T>(fun: (args: T, token: UserAuth) => Promise<unknown>) {
 
 export const resolvers = {
   Query: {
-    posts: wrapper<EmptyResolverArgs>(getPosts),
+    posts: wrapper<QueryPostsArgs>(getPosts),
     getUserById: wrapper<string>(getUserById),
   },
   Mutation: {

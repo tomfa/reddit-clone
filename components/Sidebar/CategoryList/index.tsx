@@ -9,11 +9,11 @@ const CategoryList = styled.nav`
   flex-direction: column;
 `;
 
-const SidebarCategoryList = () => (
+const SidebarCategoryList = ({ activeCategory }: { activeCategory: string }) => (
   <CategoryList>
     <SidebarCategoryListHeader />
     {config.categories.map((category, index) => (
-      <SidebarCategoryListItem key={index} category={category} />
+      <SidebarCategoryListItem key={index} category={category} active={activeCategory===category}/>
     ))}
   </CategoryList>
 );

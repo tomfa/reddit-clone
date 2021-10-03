@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SidebarCreatePostButton from "./CreatePostButton";
 import SidebarCategoryList from "./CategoryList";
-import { useUserData } from "../../lib/hooks";
+import {getCurrentCategory, useUserData} from "../../lib/hooks";
 
 const Wrapper = styled.aside`
   display: flex;
@@ -20,11 +20,12 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = () => {
+  const category = getCurrentCategory();
   const { isLoggedIn } = useUserData();
   return (
     <Wrapper>
       {isLoggedIn && <SidebarCreatePostButton />}
-      <SidebarCategoryList />
+      <SidebarCategoryList activeCategory={category} />
     </Wrapper>
   );
 };
