@@ -22,9 +22,8 @@ const Wrapper = styled.div`
 
 type Props = { post: Post }
 const PostVote = ({ post }: Props) => {
-  const user = useSession();
-  console.log(user)
-  const isByUser = post.author.id === user;
+  const {username} = useUserData();
+  const isByUser = post.author.username === username;
   const upvote = () => {}
   const downvote = () => {}
 
