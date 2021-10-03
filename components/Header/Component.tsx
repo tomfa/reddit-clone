@@ -20,6 +20,7 @@ const Wrapper = styled.header`
   background-color: var(--color-foreground);
   user-select: none;
   width: 100%;
+  overflow: hidden;
 
   @media (max-width: 425px) {
     margin-bottom: 16px;

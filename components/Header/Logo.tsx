@@ -14,11 +14,11 @@ const Logo = styled(NavLink)`
   text-decoration: none;
 
   @media (max-width: 425px) {
-    padding: 0 8px 0 16px;
+    padding: 0 8px 0 0;
     font-size: 19px;
   }
 `;
 
-const HeaderLogo = () => <Logo href="/">ACO reddit</Logo>;
+const HeaderLogo = () => <Logo href="/">ACO</Logo>;
 
 export default HeaderLogo;

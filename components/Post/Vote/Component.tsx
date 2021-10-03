@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useMemo, useState} from "react";
 import styled from "styled-components";
 import PostVoteUpvote from "./Upvote";
 import PostVoteDownvote from "./Downvote";
-import {Post, User, UserVote} from "../../../graphql/generated/types";
-import {useUserData} from "../../../lib/hooks";
-import {useSession} from "next-auth/client";
+import { Post, User, UserVote } from "../../../graphql/generated/types";
+import { useUserData } from "../../../lib/hooks";
+import { useSession } from "next-auth/client";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,104 +16,42 @@ const Wrapper = styled.div`
   line-height: 25px;
   font-weight: 500;
   text-align: center;
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
 `;
 
-
-type Props = { post: Post }
+type Props = { post: Post };
 const PostVote = ({ post }: Props) => {
-  const {username} = useUserData();
-  const isByUser = post.author.username === username;
-  const upvote = () => {}
-  const downvote = () => {}
+  const { user, isLoggedIn } = useUserData();
+  const [extraPoint, setExtraPoint] = useState(0);
+  const isByUser = post.author.id !== user?.id;
+  const existingVote = useMemo(
+    () => post.votes.find((v) => v.userId === user?.id),
+    [post, user]
+  );
+  const upvote = () => {
+    // TODO: Send to server
+    setExtraPoint(1)
+  };
+  const downvote = () => {
+    // TODO: Send to server
+    setExtraPoint(-1)
+  };
 
   return (
     <Wrapper>
       <PostVoteUpvote
-        canVote={!isByUser}
-        didVote={false}
+        canVote={!isByUser && isLoggedIn}
+        didVote={!!existingVote && existingVote.vote > 0}
         onClick={upvote}
       />
-      <span>{post.score}</span>
+      <span>{post.score + extraPoint}</span>
       <PostVoteDownvote
-        canVote={!isByUser}
-        didVote={false}
+        canVote={!isByUser && isLoggedIn}
+        didVote={!!existingVote && existingVote.vote < 0}
         onClick={downvote}
       />
     </Wrapper>
-  )
-}
-//
-// class PostVote extends React.Component<Props> {
-//   constructor(props: Props) {
-//     super(props);
-//     const didVote = PostVote.existingVote(props);
-//     this.state = {
-//       score: props.score,
-//       didVote,
-//       didUpvote: didVote === 1,
-//       didDownvote: didVote === -1,
-//     };
-//   }
-//
-//   static existingVote({ user, votes }: Props) {
-//     const existingVote =
-//       user && votes && votes.find((vote) => vote.userId === user.id);
-//     return existingVote ? existingVote.vote : 0;
-//   }
-//
-//   componentWillUpdate(nextProps, nextState, nextContext) {
-//     if (this.props.score !== nextProps.score) {
-//       const didVote = PostVote.existingVote(nextProps);
-//       this.setState({
-//         score: nextProps.score,
-//         didVote,
-//         didUpvote: didVote === 1,
-//         didDownvote: didVote === -1,
-//       });
-//     } else if (this.props.token !== nextProps.token && !nextProps.token) {
-//       this.setState({
-//         didVote: false,
-//         didUpvote: false,
-//         didDownvote: false,
-//       });
-//     }
-//   }
-//
-//   castVote(vote) {
-//     const { attemptVote, id, token } = this.props;
-//     if (token) {
-//       attemptVote(id, vote);
-//       this.setState({
-//         score: this.state.score + vote - this.state.didVote,
-//         didVote: vote,
-//         didUpvote: vote === 1,
-//         didDownvote: vote === -1,
-//       });
-//     }
-//   }
-//
-//   upvote = () => this.castVote(this.state.didUpvote ? 0 : 1);
-//
-//   downvote = () => this.castVote(this.state.didDownvote ? 0 : -1);
-//
-//   render() {
-//     return (
-//       <Wrapper>
-//         <PostVoteUpvote
-//           canVote={!!this.props.token}
-//           didVote={this.state.didUpvote}
-//           onClick={this.upvote}
-//         />
-//         <span>{this.state.score}</span>
-//         <PostVoteDownvote
-//           canVote={!this.props.token}
-//           didVote={this.state.didDownvote}
-//           onClick={this.downvote}
-//         />
-//       </Wrapper>
-//     );
-//   }
-// }
+  );
+};
 
 export default PostVote;

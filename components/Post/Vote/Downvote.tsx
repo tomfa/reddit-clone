@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PostVoteButton from "./Button";
 
-const PostVoteDownvote = styled(PostVoteButton)`
+const PostVoteDownvote = styled(PostVoteButton)<{ didVote: boolean }>`
   --iconColor: ${(props) =>
     props.didVote ? 'var(--color-downvote)' : 'var(--color-vote)'};
 
