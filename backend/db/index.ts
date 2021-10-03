@@ -1,19 +1,23 @@
-import {firestore, serverTimestamp} from "../firebase";
+import { firestore, serverTimestamp } from "../firebase";
+import * as firebase from "firebase-admin";
+const increment = firebase.firestore.FieldValue.increment(1);
 import {
   Maybe,
   Post,
   PostSort,
+  QueryGetPostBySlugArgs,
   QueryGetUserByIdArgs,
   QueryPostsArgs,
   User,
   VoteValue,
 } from "../../graphql/generated/types";
-import {useCollection} from "react-firebase-hooks/firestore";
-import {slugify} from "../../utils/string.utils";
-import {DBPost, DBUser, DBVote} from "./types";
-import {POSTS, USERS, VOTES} from "./collections";
-import {uuid} from "uuidv4";
-import {getNumericVoteValue} from "../../graphql/vote.utils";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { slugify } from "../../utils/string.utils";
+import { DBPost, DBUser, DBVote } from "./types";
+import { POSTS, USERS, VOTES } from "./collections";
+import { uuid } from "uuidv4";
+import { getNumericVoteValue } from "../../graphql/vote.utils";
+import { UserAuth } from "../../request.types";
 
 export const getUserById = async ({
   id,
@@ -28,6 +32,40 @@ export const getUserById = async ({
   }
   const user = query.docs[0].data() as DBUser;
   return { ...user, name: user.name || null };
+};
+
+const increasePostViewCount = async ({ post }: { post: Post }) => {
+  await firestore
+    .collection(USERS)
+    .doc(post.author.id)
+    .collection(POSTS)
+    .doc(post.slug)
+    .update({ views: increment });
+};
+
+export const getPostBySlug = async (
+  { slug }: QueryGetPostBySlugArgs,
+  auth: UserAuth | null
+): Promise<Post | null> => {
+  let query = await firestore
+    .collectionGroup(POSTS)
+    .where("slug", "==", slug)
+    .limit(1)
+    .get();
+
+  if (query.docs.length === 0) {
+    return null;
+  }
+  const post = query.docs[0].data() as DBPost;
+
+  const [votesForUser, _] = await Promise.all([
+    getVotesForUser({
+      userId: auth?.id,
+      filterPostIds: [slug],
+    }),
+    increasePostViewCount({ post }),
+  ]);
+  return { ...post, views: post.views + 1, myVote: votesForUser[slug] };
 };
 
 export const getUserByEmail = async (email: string): Promise<User | null> => {
@@ -269,6 +307,7 @@ export const db = {
   getPostsForUser,
   getUserById,
   getPosts,
+  getPostBySlug,
   vote,
   unVote,
 };

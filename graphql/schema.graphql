@@ -64,6 +64,7 @@ input AddPostInput {
 }
 
 type Query {
+  getPostBySlug(slug: String!): Post
   getUserById(id: String!): User
   posts(
     category: String

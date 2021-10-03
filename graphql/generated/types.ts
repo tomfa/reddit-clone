@@ -92,8 +92,14 @@ export enum PostType {
 
 export type Query = {
   __typename?: 'Query';
+  getPostBySlug?: Maybe<FieldWrapper<Post>>;
   getUserById?: Maybe<FieldWrapper<User>>;
   posts: Array<FieldWrapper<Post>>;
+};
+
+
+export type QueryGetPostBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -275,6 +281,7 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getPostBySlug: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryGetPostBySlugArgs, 'slug'>>;
   getUserById: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
   posts: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostsArgs, never>>;
 }>;
@@ -327,6 +334,13 @@ export type VoteMutationVariables = Exact<{
 
 
 export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+
+export type GetPostBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -508,6 +522,70 @@ export function useVoteMutation(baseOptions?: Apollo.MutationHookOptions<VoteMut
 export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
 export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
 export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
+export const GetPostBySlugDocument = gql`
+    query getPostBySlug($slug: String!) {
+  getPostBySlug(slug: $slug) {
+    title
+    slug
+    content
+    published
+    author {
+      id
+      username
+      name
+    }
+    category
+    score
+    numVotes
+    myVote {
+      userId
+      vote
+      id
+      postSlug
+    }
+    comments {
+      author {
+        id
+        username
+        name
+      }
+      body
+      createdAt
+    }
+    createdAt
+    views
+    type
+  }
+}
+    `;
+
+/**
+ * __useGetPostBySlugQuery__
+ *
+ * To run a query within a React component, call `useGetPostBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetPostBySlugQuery(baseOptions: Apollo.QueryHookOptions<GetPostBySlugQuery, GetPostBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostBySlugQuery, GetPostBySlugQueryVariables>(GetPostBySlugDocument, options);
+      }
+export function useGetPostBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostBySlugQuery, GetPostBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostBySlugQuery, GetPostBySlugQueryVariables>(GetPostBySlugDocument, options);
+        }
+export type GetPostBySlugQueryHookResult = ReturnType<typeof useGetPostBySlugQuery>;
+export type GetPostBySlugLazyQueryHookResult = ReturnType<typeof useGetPostBySlugLazyQuery>;
+export type GetPostBySlugQueryResult = Apollo.QueryResult<GetPostBySlugQuery, GetPostBySlugQueryVariables>;
 export const GetUserByIdDocument = gql`
     query getUserById($id: String!) {
   getUserById(id: $id) {
