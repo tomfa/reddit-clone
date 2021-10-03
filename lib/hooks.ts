@@ -4,8 +4,7 @@ import {useRouter} from "next/router";
 
 export function useUserData() {
   const [session, isLoading] = useSession();
-  const username = useMemo(() => session?.user?.email, [session]);
-
+  const username = useMemo(() => session?.user?.username, [session]);
   return { user: session?.user, username, isLoggedIn: !!session?.user, isLoading };
 }
 
