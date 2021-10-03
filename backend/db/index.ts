@@ -1,7 +1,10 @@
 import { firestore, serverTimestamp } from "../firebase";
 import * as firebase from "firebase-admin";
 import {
+  AddCommentInput,
+  Comment,
   Maybe,
+  MutationAddCommentArgs,
   Post,
   PostSort,
   QueryGetPostBySlugArgs,
@@ -12,15 +15,14 @@ import {
 } from "../../graphql/generated/types";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { slugify } from "../../utils/string.utils";
-import { DBPost, DBUser, DBVote } from "./types";
-import { POSTS, USERS, VOTES } from "./collections";
+import { DBComment, DBPost, DBUser, DBVote } from "./types";
+import { COMMENT, POSTS, USERS, VOTES } from "./collections";
 import { uuid } from "uuidv4";
 import { getNumericVoteValue } from "../../graphql/vote.utils";
 import { UserAuth } from "../../request.types";
 
 const increment = firebase.firestore.FieldValue.increment(1);
 const add = (num: number) => firebase.firestore.FieldValue.increment(num);
-
 
 export const getUserById = async ({
   id,
@@ -96,6 +98,35 @@ const getOrCreateUser = async (
     return existingUser;
   }
   return addUser(user);
+};
+
+export const addComment = async (
+  input: AddCommentInput,
+  auth: UserAuth
+): Promise<Comment> => {
+  const commentId = uuid();
+  const post = await getPostBySlug({ slug: input.postSlug }, null);
+  if (!post) {
+    throw new Error(`Can not find post with slug ${input.postSlug}`);
+  }
+  const commentRef = firestore
+    .collection(USERS)
+    .doc(auth.id)
+    .collection(POSTS)
+    .doc(post.slug)
+    .collection(COMMENT)
+    .doc(commentId);
+
+  const data: DBComment = {
+    id: commentId,
+    author: auth,
+    body: input.content,
+    createdAt: serverTimestamp(),
+  };
+
+  await commentRef.set(data);
+
+  return data;
 };
 
 export const addUser = async (
@@ -212,7 +243,10 @@ export const vote = async (args: {
       vote: args.value,
     };
 
-    transaction.update(postRef, { numVotes: add(numVotesDiff), score: add(numScoreDiff) })
+    transaction.update(postRef, {
+      numVotes: add(numVotesDiff),
+      score: add(numScoreDiff),
+    });
     if (args.value === VoteValue.Neutral) {
       transaction.delete(voteRef);
     } else {
@@ -309,7 +343,7 @@ export const db = {
   getPostsForUser,
   getUserById,
   getPosts,
+  addComment,
   getPostBySlug,
-  vote,
   unVote,
 };

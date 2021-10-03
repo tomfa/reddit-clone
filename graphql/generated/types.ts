@@ -18,6 +18,11 @@ export type Scalars = {
   Date: any;
 };
 
+export type AddCommentInput = {
+  content: Scalars['String'];
+  postSlug: Scalars['String'];
+};
+
 export type AddPostInput = {
   category: Scalars['String'];
   content: Scalars['String'];
@@ -37,13 +42,20 @@ export type Comment = {
   author: FieldWrapper<User>;
   body: FieldWrapper<Scalars['String']>;
   createdAt: FieldWrapper<Scalars['Date']>;
+  id: FieldWrapper<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addComment: FieldWrapper<Comment>;
   addPost: FieldWrapper<Post>;
   addUser?: Maybe<FieldWrapper<User>>;
   vote?: Maybe<FieldWrapper<Post>>;
+};
+
+
+export type MutationAddCommentArgs = {
+  input: AddCommentInput;
 };
 
 
@@ -212,6 +224,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AddCommentInput: AddCommentInput;
   AddPostInput: AddPostInput;
   AddUserInput: AddUserInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -232,6 +245,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AddCommentInput: AddCommentInput;
   AddPostInput: AddPostInput;
   AddUserInput: AddUserInput;
   Boolean: Scalars['Boolean'];
@@ -250,6 +264,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   author: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   body: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -258,6 +273,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  addComment: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationAddCommentArgs, 'input'>>;
   addPost: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<MutationAddPostArgs, 'input'>>;
   addUser: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
   vote: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationVoteArgs, 'authorId' | 'postSlug' | 'value'>>;
@@ -312,12 +328,19 @@ export type Resolvers<ContextType = any> = ResolversObject<{
 }>;
 
 
+export type AddCommentMutationVariables = Exact<{
+  input: AddCommentInput;
+}>;
+
+
+export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', id: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } } };
+
 export type AddPostMutationVariables = Exact<{
   input: AddPostInput;
 }>;
 
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
@@ -333,14 +356,14 @@ export type VoteMutationVariables = Exact<{
 }>;
 
 
-export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type GetPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -358,9 +381,49 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 
+export const AddCommentDocument = gql`
+    mutation addComment($input: AddCommentInput!) {
+  addComment(input: $input) {
+    id
+    author {
+      id
+      username
+      name
+    }
+    body
+    createdAt
+  }
+}
+    `;
+export type AddCommentMutationFn = Apollo.MutationFunction<AddCommentMutation, AddCommentMutationVariables>;
+
+/**
+ * __useAddCommentMutation__
+ *
+ * To run a mutation, you first call `useAddCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCommentMutation, { data, loading, error }] = useAddCommentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddCommentMutation(baseOptions?: Apollo.MutationHookOptions<AddCommentMutation, AddCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCommentMutation, AddCommentMutationVariables>(AddCommentDocument, options);
+      }
+export type AddCommentMutationHookResult = ReturnType<typeof useAddCommentMutation>;
+export type AddCommentMutationResult = Apollo.MutationResult<AddCommentMutation>;
+export type AddCommentMutationOptions = Apollo.BaseMutationOptions<AddCommentMutation, AddCommentMutationVariables>;
 export const AddPostDocument = gql`
     mutation addPost($input: AddPostInput!) {
   addPost(input: $input) {
@@ -383,6 +446,7 @@ export const AddPostDocument = gql`
       postSlug
     }
     comments {
+      id
       author {
         id
         username
@@ -480,6 +544,7 @@ export const VoteDocument = gql`
       postSlug
     }
     comments {
+      id
       author {
         id
         username
@@ -544,6 +609,7 @@ export const GetPostBySlugDocument = gql`
       postSlug
     }
     comments {
+      id
       author {
         id
         username
@@ -651,6 +717,7 @@ export const PostsDocument = gql`
       postSlug
     }
     comments {
+      id
       author {
         id
         username

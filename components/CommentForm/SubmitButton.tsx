@@ -7,8 +7,10 @@ const StyledSubmitButton = styled(SubmitButton)`
   padding: 4px 12px;
 `;
 
-const CommentFormSubmitButton = () => (
-  <StyledSubmitButton type="submit">submit</StyledSubmitButton>
+const CommentFormSubmitButton = ({ loading }: { loading: boolean }) => (
+  <StyledSubmitButton type="submit" disabled={loading}>
+    {(loading && "...") || "submit"}
+  </StyledSubmitButton>
 );
 
 export default CommentFormSubmitButton;

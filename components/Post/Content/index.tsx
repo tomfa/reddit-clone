@@ -18,7 +18,6 @@ const Wrapper = styled.div`
 type Props = { showFullPost: boolean; post: Post };
 const PostContent = ({ post, showFullPost }: Props) => {
   const previewOnly = post.type === PostType.Link || !showFullPost;
-  console.log(post)
   return (
     <Wrapper>
       <PostContentTitle post={post} full={showFullPost}/>

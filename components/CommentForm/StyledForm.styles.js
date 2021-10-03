@@ -20,7 +20,7 @@ export const StyledForm = styled(Form)`
 
   :focus-within {
     border: 1px solid var(--color-blue);
-    box-shadow: 0 0 0 2px  var(--color-blue)4d;
+    box-shadow: 0 0 0 2px var(--color-blue) 4d;
   }
 
   @media (max-width: 768px) {

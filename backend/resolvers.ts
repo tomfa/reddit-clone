@@ -6,14 +6,18 @@ import {
   QueryPostsArgs,
   User,
   MutationVoteArgs,
-  Resolvers, QueryGetPostBySlugArgs,
+  Comment,
+  Resolvers,
+  QueryGetPostBySlugArgs,
+  MutationAddCommentArgs,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
 import { RequestContext, UserAuth } from "../request.types";
 import { addPost } from "./mutations/addPost";
 import { addUser } from "./mutations/addUser";
-import {getPostBySlug, getUserById} from "./db";
+import { getPostBySlug, getUserById } from "./db";
 import { vote } from "./mutations/vote";
+import { addComment } from "./mutations/addComment";
 
 function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
   return (parent: unknown, args: T, { auth }: RequestContext) =>
@@ -36,7 +40,7 @@ function authWrapper<T, S = unknown>(
   };
 }
 
-export const resolvers: Pick<Resolvers, 'Query' | 'Mutation'> = {
+export const resolvers: Pick<Resolvers, "Query" | "Mutation"> = {
   Query: {
     posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
     getUserById: wrapper<QueryGetUserByIdArgs, User | null>(getUserById),
@@ -46,5 +50,6 @@ export const resolvers: Pick<Resolvers, 'Query' | 'Mutation'> = {
     addPost: authWrapper<MutationAddPostArgs, Post>(addPost),
     addUser: authWrapper<MutationAddUserArgs, User>(addUser),
     vote: authWrapper<MutationVoteArgs, Post>(vote),
+    addComment: authWrapper<MutationAddCommentArgs, Comment>(addComment),
   },
 };

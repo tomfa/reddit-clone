@@ -35,6 +35,7 @@ type UserVote {
 }
 
 type Comment {
+  id: String!
   author: User!
   body: String!
   createdAt: Date!
@@ -82,8 +83,16 @@ input AddUserInput {
   name: String
 }
 
+
+input AddCommentInput {
+  postSlug: String!
+  content: String!
+}
+
+
 type Mutation {
   vote(authorId: String!, postSlug: String!, value: VoteValue!): Post
   addPost(input: AddPostInput!): Post!
   addUser(input: AddUserInput!): User
+  addComment(input: AddCommentInput!): Comment!
 }

@@ -19,6 +19,7 @@ query posts($category: String, $sort: PostSort, $order: SortOrder, $createdAfter
             postSlug
         }
         comments{
+            id
             author{
                 id
                 username

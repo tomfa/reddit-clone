@@ -19,6 +19,7 @@ mutation addPost($input: AddPostInput!){
             postSlug
         }
         comments{
+            id
             author{
                 id
                 username
