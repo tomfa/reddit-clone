@@ -1,31 +1,36 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+import { OnChange } from "react-final-form-listeners";
 import CommentFormTextArea from "./TextArea";
 import CommentFormSubmitButton from "./SubmitButton";
 import { StyledForm } from "./StyledForm.styles";
 import { Form } from "react-final-form";
-import { useAddCommentMutation } from "../../graphql/generated/types";
+import { AddCommentInput, PostType } from "../../graphql/generated/types";
 
-const CommentForm = ({ slug }: { slug: string }) => {
-  const [addComment, { data, loading, error }] = useAddCommentMutation();
-  const submitComment = useCallback(
-    ({ comment }: { comment: string }) => {
-      if (!comment) {
-        return;
-      }
-      addComment({
-        variables: { input: { content: comment, postSlug: slug } },
-      });
-    },
-    [addComment, slug]
-  );
-  if (data) {
-    return null;
-  }
+type Props = {
+  onAddComment: (input: Pick<AddCommentInput, "content">) => void;
+  loading: boolean;
+};
+const CommentForm = ({ onAddComment, loading }: Props) => {
+  // TODO: Replace this form library
   return (
-    <Form onSubmit={submitComment}>
-      {({ handleSubmit }) => (
-        <StyledForm onSubmit={handleSubmit}>
-          <CommentFormTextArea name="comment" onSubmit={handleSubmit} />
+    <Form onSubmit={onAddComment}>
+      {({ handleSubmit, form }) => (
+        <StyledForm
+          onSubmit={(
+            e:
+              | Partial<
+                  Pick<
+                    React.SyntheticEvent<Element, Event>,
+                    "preventDefault" | "stopPropagation"
+                  >
+                >
+              | undefined
+          ) => {
+            handleSubmit(e);
+            form.reset();
+          }}
+        >
+          <CommentFormTextArea name="content" onSubmit={handleSubmit} />
           <CommentFormSubmitButton loading={loading} />
         </StyledForm>
       )}

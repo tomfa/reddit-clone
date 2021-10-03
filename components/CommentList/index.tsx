@@ -9,7 +9,6 @@ const List = styled.ul`
 `;
 
 const CommentList = ({ comments }: { comments: Comment[] }) => {
-  console.log(comments);
   return (
     comments && (
       <List>
