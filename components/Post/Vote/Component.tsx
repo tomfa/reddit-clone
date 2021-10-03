@@ -51,9 +51,9 @@ const PostVote = ({ post }: Props) => {
       });
       updatePostsQuery &&
         updatePostsQuery((query: PostsQuery) => {
-          const newPosts = query.posts
-            .filter((p) => p.slug !== post.slug)
-            .concat([updatedPost]);
+          const newPosts = query.posts.map((p) =>
+            p.slug !== post.slug ? p : updatedPost
+          );
           return {
             posts: newPosts,
           };

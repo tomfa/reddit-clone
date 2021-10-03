@@ -5,10 +5,15 @@ import renderField from "../../components/shared/form/renderField";
 import SubmitButton from "../../components/shared/form/SubmitButton";
 import { config } from "../../lib/config";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {
+  Post,
+  PostsQuery,
   PostType,
   useAddPostMutation,
+  useGetPostBySlugLazyQuery,
+  useGetPostBySlugQuery,
+  usePostsLazyQuery,
 } from "../../graphql/generated/types";
 import { useUserData } from "../../lib/hooks";
 
@@ -25,30 +30,45 @@ const postTypes = [
 
 export default function CreatePostForm() {
   const router = useRouter();
+  const { user } = useUserData();
   const { isLoggedIn } = useUserData();
+  const [fetchPosts, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const [postMutation, postResult] = useAddPostMutation();
   const [postType, setPostType] = useState<PostType>(PostType.Text);
-  const onSubmit = (post: {
+  const onSubmit = useCallback(async (post: {
     content: string;
     category: string;
     type: PostType;
     title: string;
   }) => {
-    postMutation({ variables: { input: { ...post, type: postType } } });
-  };
-  const post = useMemo(() => postResult.data?.addPost, [postResult]);
+    if (!user) {
+      return
+    }
+    const postMutationData = await postMutation({ variables: { input: { ...post, type: postType } } });
+    const newPost = postMutationData.data?.addPost;
+    if (newPost && updatePostsQuery) {
+      updatePostsQuery((query: PostsQuery) => {
+        return {
+          posts: [newPost].concat(query.posts),
+        };
+      });
+    }
+    await router.push(`/`)
+  }, [user, router, updatePostsQuery, postMutation]);
+
+  useEffect(() => {
+    if (!updatePostsQuery) {
+      // TODO: This is just a hack so we're able to update it...
+      //  Not sure why updatePostsQuery shoudl be undefined
+      fetchPosts();
+    }
+  }, [fetchPosts, updatePostsQuery]);
 
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/");
     }
   }, [isLoggedIn, router]);
-
-  useEffect(() => {
-    if (post) {
-      // router.push(`/a/${post.category}/${post.slug}`);
-    }
-  }, [post, router]);
 
   return (
     <FinalForm

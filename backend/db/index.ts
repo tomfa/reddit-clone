@@ -220,7 +220,7 @@ const addPost = async (
   };
 
   await ref.set(data);
-  return data;
+  return { ...data, createdAt: new Date() };
 };
 
 const vote = async (args: {
