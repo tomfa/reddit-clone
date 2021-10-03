@@ -25,7 +25,7 @@ import { UserAuth } from "../../request.types";
 const increment = firebase.firestore.FieldValue.increment(1);
 const add = (num: number) => firebase.firestore.FieldValue.increment(num);
 
-export const getUserById = async ({
+const getUserById = async ({
   id,
 }: QueryGetUserByIdArgs): Promise<User | null> => {
   const query = await firestore
@@ -49,8 +49,11 @@ const increasePostViewCount = async ({ post }: { post: Post }) => {
     .update({ views: increment });
 };
 
-export const getPostBySlug = async (
-  { slug }: QueryGetPostBySlugArgs,
+const getPostBySlug = async (
+  {
+    slug,
+    incrementViews,
+  }: QueryGetPostBySlugArgs & { incrementViews?: boolean },
   auth: UserAuth | null
 ): Promise<Post | null> => {
   let query = await firestore
@@ -64,17 +67,26 @@ export const getPostBySlug = async (
   }
   const post = query.docs[0].data() as DBPost;
 
+  const incementPromise = incrementViews
+    ? increasePostViewCount({ post })
+    : Promise.resolve();
+
   const [votesForUser, _] = await Promise.all([
     getVotesForUser({
       userId: auth?.id,
       filterPostIds: [slug],
     }),
-    increasePostViewCount({ post }),
+    incementPromise,
   ]);
-  return { ...post, views: post.views + 1, myVote: votesForUser[slug] };
+  return {
+    ...post,
+    views: post.views + 1,
+    myVote: votesForUser[slug],
+    archived: post.archived || false,
+  };
 };
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
+const getUserByEmail = async (email: string): Promise<User | null> => {
   const query = await firestore
     .collection(USERS)
     .where("email", "==", email)
@@ -101,7 +113,19 @@ const getOrCreateUser = async (
   return addUser(user);
 };
 
-export const addComment = async (
+const setPostArchived = async (post: Post, archived: boolean) => {
+  const commentRef = firestore
+    .collection(USERS)
+    .doc(post.author.id)
+    .collection(POSTS)
+    .doc(post.slug);
+
+  await commentRef.update({ archived });
+
+  return { ...post, archived: true };
+};
+
+const addComment = async (
   input: AddCommentInput,
   auth: UserAuth
 ): Promise<Comment> => {
@@ -128,10 +152,10 @@ export const addComment = async (
 
   await commentRef.set(data);
 
-  return {...data, createdAt: new Date()};
+  return { ...data, createdAt: new Date() };
 };
 
-export const addUser = async (
+const addUser = async (
   user: Omit<User, "id" | "username" | "createdAt"> & {
     authId: string;
     email: string;
@@ -161,7 +185,7 @@ export const addUser = async (
   return data;
 };
 
-export const getPostsForUser = async (userId: string): Promise<Post[]> => {
+const getPostsForUser = async (userId: string): Promise<Post[]> => {
   const ref = firestore.collection(USERS).doc(userId).collection(POSTS);
   const query = ref.orderBy("createdAt");
   const [querySnapshot] = useCollection(query);
@@ -171,7 +195,7 @@ export const getPostsForUser = async (userId: string): Promise<Post[]> => {
   return posts || [];
 };
 
-export const addPost = async (
+const addPost = async (
   author: User,
   post: Pick<Post, "type" | "title" | "category" | "content">
 ): Promise<Post> => {
@@ -192,13 +216,14 @@ export const addPost = async (
     views: 0,
     numVotes: 0,
     createdAt: serverTimestamp(),
+    archived: false,
   };
 
   await ref.set(data);
   return data;
 };
 
-export const vote = async (args: {
+const vote = async (args: {
   authorId: string;
   postSlug: string;
   userId: string;
@@ -261,7 +286,7 @@ export const vote = async (args: {
   return post;
 };
 
-export const unVote = async (args: {
+const unVote = async (args: {
   authorId: string;
   postSlug: string;
   userId: string;
@@ -293,7 +318,7 @@ const getVotesForUser = async (args: {
   );
 };
 
-export const getComments = async ({
+const getComments = async ({
   postSlug,
   cursor,
   limit = 20,
@@ -318,7 +343,7 @@ export const getComments = async ({
   return data.map((p) => p.data()) as DBComment[];
 };
 
-export const getPosts = async ({
+const getPosts = async ({
   order,
   cursor,
   limit = 20,
@@ -364,6 +389,7 @@ export const getPosts = async ({
     ...p,
     createdAt: p.createdAt.toDate(),
     myVote: votesForUser[p.slug],
+    archived: p.archived || false,
   }));
 };
 
@@ -379,4 +405,6 @@ export const db = {
   unVote,
   vote,
   getComments,
+  setPostArchived,
 };
+export default db;

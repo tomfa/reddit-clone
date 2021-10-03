@@ -47,6 +47,7 @@ type Post {
   slug: String!
   content: String!
   published: Boolean!
+  archived: Boolean!
   author: User!
   category: String!
   score: Int!
@@ -96,4 +97,5 @@ type Mutation {
   addPost(input: AddPostInput!): Post!
   addUser(input: AddUserInput!): User
   addComment(input: AddCommentInput!): Comment!
+  setPostArchived(slug: String!, archived: Boolean!): Post
 }

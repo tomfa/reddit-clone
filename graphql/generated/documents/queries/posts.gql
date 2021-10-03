@@ -4,6 +4,7 @@ query posts($category: String, $sort: PostSort, $username: String, $order: SortO
         slug
         content
         published
+        archived
         author{
             id
             username

@@ -14,6 +14,7 @@ const Button = styled.button`
   margin-left: auto;
 `;
 
-const DeleteButton = (props) => <Button onClick={props.onClick}>delete</Button>;
+type Props = { onClick: () => void, label: string }
+const DeleteButton = ({ onClick, label = 'archive'}: Props) => <Button onClick={onClick}>{label}</Button>;
 
 export default DeleteButton;

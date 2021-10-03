@@ -30,7 +30,6 @@ const PostList = ({ posts, loading }: { posts?: Post[], loading: boolean }) => {
     return <List><Empty comments={false} /></List>
   }
 
-
   return (
     <List>
       {posts.map((post, index) => (

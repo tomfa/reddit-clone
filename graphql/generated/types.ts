@@ -51,6 +51,7 @@ export type Mutation = {
   addComment: FieldWrapper<Comment>;
   addPost: FieldWrapper<Post>;
   addUser?: Maybe<FieldWrapper<User>>;
+  setPostArchived?: Maybe<FieldWrapper<Post>>;
   vote?: Maybe<FieldWrapper<Post>>;
 };
 
@@ -70,6 +71,12 @@ export type MutationAddUserArgs = {
 };
 
 
+export type MutationSetPostArchivedArgs = {
+  archived: Scalars['Boolean'];
+  slug: Scalars['String'];
+};
+
+
 export type MutationVoteArgs = {
   authorId: Scalars['String'];
   postSlug: Scalars['String'];
@@ -78,6 +85,7 @@ export type MutationVoteArgs = {
 
 export type Post = {
   __typename?: 'Post';
+  archived: FieldWrapper<Scalars['Boolean']>;
   author: FieldWrapper<User>;
   category: FieldWrapper<Scalars['String']>;
   comments: Array<FieldWrapper<Comment>>;
@@ -287,10 +295,12 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addComment: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationAddCommentArgs, 'input'>>;
   addPost: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<MutationAddPostArgs, 'input'>>;
   addUser: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
+  setPostArchived: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationSetPostArchivedArgs, 'archived' | 'slug'>>;
   vote: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationVoteArgs, 'authorId' | 'postSlug' | 'value'>>;
 }>;
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
+  archived: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   author: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   category: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   comments: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>;
@@ -352,7 +362,7 @@ export type AddPostMutationVariables = Exact<{
 }>;
 
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
@@ -361,6 +371,14 @@ export type AddUserMutationVariables = Exact<{
 
 export type AddUserMutation = { __typename?: 'Mutation', addUser?: Maybe<{ __typename?: 'User', id: string, username: string, name?: Maybe<string> }> };
 
+export type SetPostArchivedMutationVariables = Exact<{
+  slug: Scalars['String'];
+  archived: Scalars['Boolean'];
+}>;
+
+
+export type SetPostArchivedMutation = { __typename?: 'Mutation', setPostArchived?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+
 export type VoteMutationVariables = Exact<{
   authorId: Scalars['String'];
   postSlug: Scalars['String'];
@@ -368,7 +386,7 @@ export type VoteMutationVariables = Exact<{
 }>;
 
 
-export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type CommentsQueryVariables = Exact<{
   postSlug: Scalars['String'];
@@ -384,7 +402,7 @@ export type GetPostBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -403,7 +421,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 
 export const AddCommentDocument = gql`
@@ -454,6 +472,7 @@ export const AddPostDocument = gql`
     slug
     content
     published
+    archived
     author {
       id
       username
@@ -546,6 +565,72 @@ export function useAddUserMutation(baseOptions?: Apollo.MutationHookOptions<AddU
 export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
 export type AddUserMutationResult = Apollo.MutationResult<AddUserMutation>;
 export type AddUserMutationOptions = Apollo.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
+export const SetPostArchivedDocument = gql`
+    mutation setPostArchived($slug: String!, $archived: Boolean!) {
+  setPostArchived(slug: $slug, archived: $archived) {
+    title
+    slug
+    content
+    published
+    archived
+    author {
+      id
+      username
+      name
+    }
+    category
+    score
+    numVotes
+    myVote {
+      userId
+      vote
+      id
+      postSlug
+    }
+    comments {
+      id
+      postSlug
+      author {
+        id
+        username
+        name
+      }
+      body
+      createdAt
+    }
+    createdAt
+    views
+    type
+  }
+}
+    `;
+export type SetPostArchivedMutationFn = Apollo.MutationFunction<SetPostArchivedMutation, SetPostArchivedMutationVariables>;
+
+/**
+ * __useSetPostArchivedMutation__
+ *
+ * To run a mutation, you first call `useSetPostArchivedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetPostArchivedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setPostArchivedMutation, { data, loading, error }] = useSetPostArchivedMutation({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      archived: // value for 'archived'
+ *   },
+ * });
+ */
+export function useSetPostArchivedMutation(baseOptions?: Apollo.MutationHookOptions<SetPostArchivedMutation, SetPostArchivedMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetPostArchivedMutation, SetPostArchivedMutationVariables>(SetPostArchivedDocument, options);
+      }
+export type SetPostArchivedMutationHookResult = ReturnType<typeof useSetPostArchivedMutation>;
+export type SetPostArchivedMutationResult = Apollo.MutationResult<SetPostArchivedMutation>;
+export type SetPostArchivedMutationOptions = Apollo.BaseMutationOptions<SetPostArchivedMutation, SetPostArchivedMutationVariables>;
 export const VoteDocument = gql`
     mutation vote($authorId: String!, $postSlug: String!, $value: VoteValue!) {
   vote(authorId: $authorId, postSlug: $postSlug, value: $value) {
@@ -553,6 +638,7 @@ export const VoteDocument = gql`
     slug
     content
     published
+    archived
     author {
       id
       username
@@ -664,6 +750,7 @@ export const GetPostBySlugDocument = gql`
     slug
     content
     published
+    archived
     author {
       id
       username
@@ -774,6 +861,7 @@ export const PostsDocument = gql`
     slug
     content
     published
+    archived
     author {
       id
       username

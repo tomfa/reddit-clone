@@ -73,12 +73,7 @@ const PostDetail = () => {
   return (
     <div style={{ flexDirection: "column", width: "100%" }}>
       <PostDetailPost post={post} />
-      <PostDetailInfoBarContainer
-        slug={post.slug}
-        numViews={post.views}
-        upvotePercentage={getUpvotePercentage(post)}
-        author={post.author}
-      />
+      <PostDetailInfoBarContainer post={post} />
       {isLoggedIn && (
         <CommentForm
           loading={addCommentLoading}

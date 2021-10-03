@@ -4,9 +4,9 @@ import Link from "next/link";
 import { overflow, link } from "../../shared/helpers";
 import {Post, PostType} from "../../../graphql/generated/types";
 
-const Wrapper = styled.div<{ full: boolean }>`
+const Wrapper = styled.div<{ full: boolean, archived: boolean }>`
   display: flex;
-
+  
   * {
     ${overflow};
 
@@ -17,10 +17,12 @@ const Wrapper = styled.div<{ full: boolean }>`
     text-decoration: none;
     color: var(--color-normalText);
     ${(props) => props.full && "white-space: unset"};
+    ${(props) => props.archived && "text-decoration: line-through;"};
   }
 
-  a {
+  a, a:hover {
     ${link({ underline: true })};
+    ${(props) => props.archived && "text-decoration: line-through;"};
   }
 `;
 
@@ -42,7 +44,7 @@ const renderTitle = ({post, full}: Props) => {
 
 type Props = { post: Post, full: boolean }
 const PostContentTitle = (props: Props) => {
-  return <Wrapper full={props.full}>{renderTitle(props)}</Wrapper>;
+  return <Wrapper full={props.full} archived={props.post.archived}>{renderTitle(props)}</Wrapper>;
 };
 
 export default PostContentTitle;

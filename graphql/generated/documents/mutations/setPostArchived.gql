@@ -1,5 +1,5 @@
-mutation addPost($input: AddPostInput!){
-    addPost(input: $input){
+mutation setPostArchived($slug: String!, $archived: Boolean!){
+    setPostArchived(slug: $slug, archived: $archived){
         title
         slug
         content

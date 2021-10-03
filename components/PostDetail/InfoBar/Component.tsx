@@ -1,8 +1,15 @@
-import React from "react";
+import React, {useCallback, useMemo} from "react";
 import styled from "styled-components";
 import DeleteButton from "../../shared/DeleteButton";
 import { useUserData } from "../../../lib/hooks";
-import { User } from "../../../graphql/generated/types";
+import {
+  Post,
+  PostsQuery,
+  useArchivePostMutation,
+  usePostsLazyQuery,
+  User, useSetPostArchivedMutation,
+} from "../../../graphql/generated/types";
+import { getUpvotePercentage } from "../../../utils/post.utils";
 
 const Wrapper = styled.div<{ round?: boolean }>`
   display: flex;
@@ -21,23 +28,36 @@ const Wrapper = styled.div<{ round?: boolean }>`
 `;
 
 type Props = {
-  slug: string;
-  numViews: number;
-  upvotePercentage: number;
-  author: User;
+  post: Post;
 };
-const PostDetailInfoBar = (props: Props) => {
+const PostDetailInfoBar = ({ post }: Props) => {
   const { user, isLoggedIn } = useUserData();
-  const canDelete = user?.id === props.author.id;
-  const deletePost = () => console.log(`Delete not implemented`);
+  const [_, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
+  const [setPostArchived, { loading }] = useSetPostArchivedMutation();
+  const canUpdate = user?.id === post.author.id;
+  const upvotePercentage = useMemo(() => getUpvotePercentage(post), [post]);
+  const deletePost = useCallback(() => {
+    if (loading) {
+      return
+    }
+    setPostArchived({ variables: { slug: post.slug, archived: !post.archived } });
+    updatePostsQuery &&
+      updatePostsQuery((query: PostsQuery) => {
+        const updatedPost = { ...post, archived: !post.archived };
+        const newPosts = query.posts
+          .filter((p) => p.slug !== post.slug)
+          .concat([updatedPost]);
+        return {
+          posts: newPosts,
+        };
+      });
+  }, [post, loading, updatePostsQuery, setPostArchived]);
   return (
     <Wrapper round={!isLoggedIn}>
-      <span>{props.numViews} views</span>
+      <span>{post.views} views</span>
       <span>&nbsp;|&nbsp;</span>
-      <span>{props.upvotePercentage.toFixed(0)}% upvoted</span>
-      {canDelete && (
-        <DeleteButton onClick={deletePost} />
-      )}
+      <span>{upvotePercentage.toFixed(0)}% upvoted</span>
+      {canUpdate && <DeleteButton onClick={deletePost} label={loading ? '...' : post.archived ? 'Unarchive': "Archive"}/>}
     </Wrapper>
   );
 };

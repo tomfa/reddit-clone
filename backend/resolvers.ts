@@ -9,17 +9,20 @@ import {
   Comment,
   Resolvers,
   QueryGetPostBySlugArgs,
-  MutationAddCommentArgs, QueryCommentsArgs,
+  MutationAddCommentArgs,
+  QueryCommentsArgs, MutationSetPostArchivedArgs,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
 import { RequestContext, UserAuth } from "../request.types";
 import { addPost } from "./mutations/addPost";
 import { addUser } from "./mutations/addUser";
-import { getPostBySlug, getUserById } from "./db";
 import { vote } from "./mutations/vote";
 import { addComment } from "./mutations/addComment";
-import {getComments} from "./queries/comments";
-import {dateScalar} from "../graphql/date.scalar";
+import { getComments } from "./queries/comments";
+import { dateScalar } from "../graphql/date.scalar";
+import { setPostArchived } from "./mutations/setPostArchived";
+import {getPostBySlug} from "./queries/getPostBySlug";
+import db from "./db";
 
 function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
   return (parent: unknown, args: T, { auth }: RequestContext) =>
@@ -47,7 +50,7 @@ export const resolvers: Pick<Resolvers, "Query" | "Mutation" | "Date"> = {
   Query: {
     posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
     comments: wrapper<QueryCommentsArgs, Comment[]>(getComments),
-    getUserById: wrapper<QueryGetUserByIdArgs, User | null>(getUserById),
+    getUserById: wrapper<QueryGetUserByIdArgs, User | null>(db.getUserById),
     getPostBySlug: wrapper<QueryGetPostBySlugArgs, Post | null>(getPostBySlug),
   },
   Mutation: {
@@ -55,5 +58,8 @@ export const resolvers: Pick<Resolvers, "Query" | "Mutation" | "Date"> = {
     addUser: authWrapper<MutationAddUserArgs, User>(addUser),
     vote: authWrapper<MutationVoteArgs, Post>(vote),
     addComment: authWrapper<MutationAddCommentArgs, Comment>(addComment),
+    setPostArchived: authWrapper<MutationSetPostArchivedArgs, Post>(
+      setPostArchived
+    ),
   },
 };
