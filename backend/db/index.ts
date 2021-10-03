@@ -315,8 +315,7 @@ export const getComments = async ({
   }
 
   const data = await query.get().then((d) => d.docs);
-  const comments = data.map((p) => p.data()) as DBComment[];
-  return comments;
+  return data.map((p) => p.data()) as DBComment[];
 };
 
 export const getPosts = async ({
