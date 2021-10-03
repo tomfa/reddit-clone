@@ -15,19 +15,12 @@ const Wrapper = styled.div`
 `;
 
 const CommentDetail = ({ comment }: { comment: Comment }) => {
-  const { user } = useUserData();
-  const deleteComment = () => {
-    console.log("delete comment not implemented");
-  };
   return (
     <Wrapper>
       <StyledLink href={`/u/${comment.author.username}`}>
         {comment.author.username}
       </StyledLink>
       <CommentDetailTimestamp created={comment.createdAt} />
-      {user?.id === comment.author.id && (
-        <DeleteButton onClick={deleteComment} />
-      )}
     </Wrapper>
   );
 };
