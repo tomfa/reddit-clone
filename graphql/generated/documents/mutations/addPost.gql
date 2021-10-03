@@ -1,6 +1,5 @@
 mutation addPost($input: AddPostInput!){
     addPost(input: $input){
-        id
         title
         slug
         content
@@ -12,10 +11,12 @@ mutation addPost($input: AddPostInput!){
         }
         category
         score
-        votes{
+        numVotes
+        myVote{
             userId
             vote
             id
+            postSlug
         }
         comments{
             author{

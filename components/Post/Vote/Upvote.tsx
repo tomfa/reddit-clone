@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import PostVoteButton from "./Button";
 
-const PostVoteUpvote = styled(PostVoteButton)<{ didVote: boolean }>`
-  --iconColor: ${(props) =>
-    props.didVote ? 'var(--color-upvote)' : 'var(--color-vote)'};
+const PostVoteUpvote = styled(PostVoteButton)<{ hasVoted: boolean }>`
+  --iconColor: ${(props) => (props.hasVoted ? "var(--color-blue)" : "var(--color-vote)")};
 
   ::after {
     border-top: 2px solid var(--iconColor);

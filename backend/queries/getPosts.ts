@@ -6,5 +6,5 @@ export const getPosts = async (
   args: QueryPostsArgs,
   user: UserAuth | null
 ): Promise<Post[]> => {
-  return db.getPosts(args);
+  return db.getPosts({...args, userId: user?.id });
 };

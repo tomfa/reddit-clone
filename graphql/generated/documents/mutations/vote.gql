@@ -1,5 +1,5 @@
-query posts($category: String, $sort: PostSort, $order: SortOrder, $createdAfter: Date, $cursor: Date){
-    posts(category: $category, sort: $sort, order: $order, createdAfter: $createdAfter, cursor: $cursor){
+mutation vote($authorId: String!, $postSlug: String!, $value: VoteValue!){
+    vote(authorId: $authorId, postSlug: $postSlug, value: $value){
         title
         slug
         content

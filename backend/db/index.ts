@@ -3,16 +3,21 @@ import {
   Maybe,
   Post,
   PostSort,
+  QueryGetUserByIdArgs,
   QueryPostsArgs,
-  User
+  User,
+  VoteValue,
 } from "../../graphql/generated/types";
 import {useCollection} from "react-firebase-hooks/firestore";
 import {slugify} from "../../utils/string.utils";
-import {DBPost, DBUser} from "./types";
-import {POSTS, USERS} from "./collections";
+import {DBPost, DBUser, DBVote} from "./types";
+import {POSTS, USERS, VOTES} from "./collections";
 import {uuid} from "uuidv4";
+import {getNumericVoteValue} from "../../graphql/vote.utils";
 
-export const getUserById = async (id: string): Promise<User | null> => {
+export const getUserById = async ({
+  id,
+}: QueryGetUserByIdArgs): Promise<User | null> => {
   const query = await firestore
     .collection(USERS)
     .where("id", "==", id)
@@ -22,7 +27,7 @@ export const getUserById = async (id: string): Promise<User | null> => {
     return null;
   }
   const user = query.docs[0].data() as DBUser;
-  return user;
+  return { ...user, name: user.name || null };
 };
 
 export const getUserByEmail = async (email: string): Promise<User | null> => {
@@ -96,7 +101,6 @@ export const addPost = async (
   author: User,
   post: Pick<Post, "type" | "title" | "category" | "content">
 ): Promise<Post> => {
-  const id = uuid();
   const slug = encodeURI(slugify(post.title));
   const ref = firestore
     .collection(USERS)
@@ -106,14 +110,13 @@ export const addPost = async (
 
   const data: DBPost = {
     ...post,
-    id,
     published: true,
     slug,
     author,
     score: 0,
     comments: [],
     views: 0,
-    votes: [],
+    numVotes: 0,
     createdAt: serverTimestamp(),
   };
 
@@ -121,30 +124,125 @@ export const addPost = async (
   return data;
 };
 
+export const vote = async (args: {
+  authorId: string;
+  postSlug: string;
+  userId: string;
+  value: VoteValue;
+}): Promise<Post> => {
+  const postRef = firestore
+    .collection(USERS)
+    .doc(args.authorId)
+    .collection(POSTS)
+    .doc(args.postSlug);
+
+  const voteRef = postRef.collection(VOTES).doc(args.userId);
+  const existingVote = (await voteRef.get().then((d) => d.data())) as DBVote;
+  const existingVoteValue = getNumericVoteValue(
+    existingVote?.vote || VoteValue.Neutral
+  );
+  const valueDiff = getNumericVoteValue(args.value) - existingVoteValue;
+
+  console.log(`Voting ${args.value} for ${args.postSlug}`);
+  const post: DBPost = await firestore.runTransaction(async (transaction) => {
+    const res = await transaction.get(postRef);
+    if (!res.exists) {
+      throw "Document does not exist!";
+    }
+    const data = res.data() as DBPost;
+    if (!existingVote && args.value === VoteValue.Neutral) {
+      return data;
+    }
+
+    const newScore = data.score + valueDiff;
+    const previousCount = existingVote ? 1 : 0;
+    const newCount = args.value !== VoteValue.Neutral ? 1 : 0;
+    const countDiff = newCount - previousCount;
+    const newNumVotes = data.numVotes + countDiff;
+
+    const updatedFields: Partial<DBPost> = {
+      numVotes: newNumVotes,
+      score: newScore,
+    };
+
+    const vote: DBVote = {
+      id: uuid(),
+      postSlug: args.postSlug,
+      userId: args.userId,
+      vote: args.value,
+    };
+
+    transaction.update(postRef, updatedFields);
+    if (args.value === VoteValue.Neutral) {
+      transaction.delete(voteRef);
+    } else {
+      transaction.set(voteRef, vote);
+    }
+
+    return { ...data, ...updatedFields, myVote: vote };
+  });
+
+  return post;
+};
+
+export const unVote = async (args: {
+  authorId: string;
+  postSlug: string;
+  userId: string;
+}): Promise<Post> => {
+  return vote({ ...args, value: VoteValue.Neutral });
+};
+
+const getVotesForUser = async (args: {
+  userId?: string;
+  filterPostIds: string[];
+}): Promise<{ [postId: string]: DBVote }> => {
+  if (!args.userId || !args.filterPostIds.length) {
+    return {};
+  }
+
+  let query = await firestore
+    .collectionGroup(VOTES)
+    .where("userId", "==", args.userId)
+    .where("postSlug", "in", args.filterPostIds)
+    .get();
+
+  const votes = query.docs.map((d) => d.data()) as DBVote[];
+  return args.filterPostIds.reduce(
+    (map, postSlug) => ({
+      ...map,
+      [postSlug]: votes.find((v) => v.postSlug === postSlug),
+    }),
+    {}
+  );
+};
+
 export const getPosts = async ({
   order,
   cursor,
   limit = 20,
+  userId,
   ...filter
 }: QueryPostsArgs & {
   limit?: number;
-} = {}): Promise<Post[]> => {
+  userId?: string;
+}): Promise<Post[]> => {
   let query = firestore
     .collectionGroup(POSTS)
     .where("published", "==", true)
     .limit(limit);
 
   const sortBy = filter.sort || PostSort.Recent;
-  const sortField = sortBy === PostSort.Recent ? "createdAt" : "score"
+  const sortField = sortBy === PostSort.Recent ? "createdAt" : "score";
 
-  query = query.orderBy(sortField, order || "desc")
+  query = query.orderBy(sortField, order || "desc");
 
   if (filter.category) {
-    query = query.where('category', '==', filter.category)
+    query = query.where("category", "==", filter.category);
   }
 
   if (filter.createdAfter) {
-    query = query.where('createdAt', '>', filter.createdAfter)
+    query = query.where("createdAt", ">", filter.createdAfter);
   }
 
   if (cursor) {
@@ -153,7 +251,15 @@ export const getPosts = async ({
 
   const data = await query.get().then((d) => d.docs);
   const posts = data.map((p) => p.data()) as DBPost[];
-  return posts.map((p) => ({ ...p, createdAt: p.createdAt.toDate() }));
+  const votesForUser = await getVotesForUser({
+    userId,
+    filterPostIds: posts.map((p) => p.slug),
+  });
+  return posts.map((p) => ({
+    ...p,
+    createdAt: p.createdAt.toDate(),
+    myVote: votesForUser[p.slug],
+  }));
 };
 
 export const db = {
@@ -163,4 +269,6 @@ export const db = {
   getPostsForUser,
   getUserById,
   getPosts,
+  vote,
+  unVote,
 };

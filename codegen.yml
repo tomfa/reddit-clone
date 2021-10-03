@@ -5,10 +5,19 @@ generates:
   graphql/generated/types.ts:
     plugins:
       - "typescript"
+      - "typescript-resolvers"
       - "typescript-operations"
       - "typescript-react-apollo"
     config:
       withHooks: true
+      useIndexSignature: true
+      wrapFieldDefinitions: true
+      avoidOptionals:
+        field: false
+        inputValue: false
+        object: false
+        defaultValue: false
+
   graphql/generated/graphql.schema.json:
     plugins:
       - "introspection"

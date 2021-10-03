@@ -1,10 +1,14 @@
-import React, {useMemo, useState} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import PostVoteUpvote from "./Upvote";
 import PostVoteDownvote from "./Downvote";
-import { Post, User, UserVote } from "../../../graphql/generated/types";
+import {
+  Post,
+  useVoteMutation,
+  VoteValue,
+} from "../../../graphql/generated/types";
 import { useUserData } from "../../../lib/hooks";
-import { useSession } from "next-auth/client";
+import { getNumericVoteValue } from "../../../graphql/vote.utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,35 +24,49 @@ const Wrapper = styled.div`
 `;
 
 type Props = { post: Post };
-const PostVote = ({ post }: Props) => {
+const PostVote = (props: Props) => {
+  const [voteMutation, voteResult] = useVoteMutation();
   const { user, isLoggedIn } = useUserData();
-  const [extraPoint, setExtraPoint] = useState(0);
+  const post: Post = useMemo(() => voteResult.data?.vote || props.post, [voteResult,props])
+  const [voteValue, setVoteValue] = useState(post.myVote?.vote);
+  const [scoreFromOthers, setScoreFromOthers] = useState(post.myVote ? post.score - getNumericVoteValue(post.myVote.vote) : post.score);
+  const score = useMemo(() => scoreFromOthers + (voteValue ? getNumericVoteValue(voteValue) : 0), [voteValue, scoreFromOthers])
   const isByUser = post.author.id !== user?.id;
-  const existingVote = useMemo(
-    () => post.votes.find((v) => v.userId === user?.id),
-    [post, user]
+  const submitVote = useCallback(
+    (newVote: VoteValue) => {
+      const value = newVote === voteValue ? VoteValue.Neutral : newVote;
+      setVoteValue(value)
+      voteMutation({
+        variables: {
+          postSlug: post.slug,
+          authorId: post.author.id,
+          value,
+        },
+      });
+    },
+    [voteMutation, post]
   );
-  const upvote = () => {
-    // TODO: Send to server
-    setExtraPoint(1)
-  };
-  const downvote = () => {
-    // TODO: Send to server
-    setExtraPoint(-1)
-  };
+
+  const votingEnabled = !isByUser && isLoggedIn && !voteResult.loading
 
   return (
     <Wrapper>
       <PostVoteUpvote
-        canVote={!isByUser && isLoggedIn}
-        didVote={!!existingVote && existingVote.vote > 0}
-        onClick={upvote}
+        canVote={votingEnabled}
+        hasVoted={voteValue === VoteValue.Positive}
+        onClick={useCallback(
+          () => submitVote(VoteValue.Positive),
+          [submitVote]
+        )}
       />
-      <span>{post.score + extraPoint}</span>
+      <span>{ score}</span>
       <PostVoteDownvote
-        canVote={!isByUser && isLoggedIn}
-        didVote={!!existingVote && existingVote.vote < 0}
-        onClick={downvote}
+        canVote={votingEnabled}
+        hasVoted={voteValue === VoteValue.Negative}
+        onClick={useCallback(
+          () => submitVote(VoteValue.Negative),
+          [submitVote]
+        )}
       />
     </Wrapper>
   );

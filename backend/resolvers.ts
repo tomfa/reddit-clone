@@ -1,22 +1,28 @@
 import {
   MutationAddPostArgs,
-  MutationAddUserArgs, QueryPostsArgs,
+  MutationAddUserArgs,
+  Post,
+  QueryGetUserByIdArgs,
+  QueryPostsArgs,
+  User,
+  MutationVoteArgs,
+  Resolvers,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
-import { EmptyResolverArgs, RequestContext, UserAuth } from "../request.types";
+import { RequestContext, UserAuth } from "../request.types";
 import { addPost } from "./mutations/addPost";
 import { addUser } from "./mutations/addUser";
 import { getUserById } from "./db";
+import { vote } from "./mutations/vote";
 
-function wrapper<T>(
-  fun: (args: T, token: UserAuth | null) => Promise<unknown>
-) {
-  return async (parent: unknown, args: T, { auth }: RequestContext) => {
-    return fun(args as T, auth);
-  };
+function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
+  return (parent: unknown, args: T, { auth }: RequestContext) =>
+    fun(args as T, auth);
 }
 
-function authWrapper<T>(fun: (args: T, token: UserAuth) => Promise<unknown>) {
+function authWrapper<T, S = unknown>(
+  fun: (args: T, token: UserAuth) => Promise<S>
+) {
   return async (parent: unknown, args: T, { auth }: RequestContext) => {
     if (!auth) {
       throw new Error("Missing authentication");
@@ -30,13 +36,14 @@ function authWrapper<T>(fun: (args: T, token: UserAuth) => Promise<unknown>) {
   };
 }
 
-export const resolvers = {
+export const resolvers: Pick<Resolvers, 'Query' | 'Mutation'> = {
   Query: {
-    posts: wrapper<QueryPostsArgs>(getPosts),
-    getUserById: wrapper<string>(getUserById),
+    posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
+    getUserById: wrapper<QueryGetUserByIdArgs, User | null>(getUserById),
   },
   Mutation: {
-    addPost: authWrapper<MutationAddPostArgs>(addPost),
-    addUser: authWrapper<MutationAddUserArgs>(addUser),
+    addPost: authWrapper<MutationAddPostArgs, Post>(addPost),
+    addUser: authWrapper<MutationAddUserArgs, User>(addUser),
+    vote: authWrapper<MutationVoteArgs, Post>(vote),
   },
 };

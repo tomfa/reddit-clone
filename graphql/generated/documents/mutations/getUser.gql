@@ -1,7 +1,0 @@
-mutation getUser($id: String!){
-    getUser(id: $id){
-        id
-        username
-        name
-    }
-}

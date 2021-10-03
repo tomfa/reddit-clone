@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { transition } from "../../shared/helpers";
 
-const PostVoteButton = styled.button<{ canVote: boolean }>`
+const PostVoteButton = styled.button<{ canVote: boolean; hasVoted?: boolean }>`
   ${transition("background-color")};
 
   border: 0;
@@ -15,9 +15,12 @@ const PostVoteButton = styled.button<{ canVote: boolean }>`
     outline: 0;
   }
 
+  ${(p) =>
+    p.canVote &&
+    `
   :hover {
     background-color: var(--color-voteButtonHover);
-  }
+  }`}
 
   ::after {
     ${transition("border")};
@@ -40,4 +43,3 @@ const PostVoteButton = styled.button<{ canVote: boolean }>`
 `;
 
 export default PostVoteButton;
-
