@@ -28,11 +28,18 @@ const link = ApolloLink.from([
   new HttpLink({ uri: config.graphqlAPIUrl }),
 ]);
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Post: {
+      keyFields: ["slug"],
+    },
+  },
+});
+
 const App = (props: AppProps) => {
   const client = new ApolloClient({
     link,
-    cache: new InMemoryCache(),
-    connectToDevTools: process.env.NODE_ENV === "development",
+    cache,
   });
 
   return (

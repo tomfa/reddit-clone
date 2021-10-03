@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
 import PostDetailPost from "./Post";
@@ -33,24 +33,29 @@ const PostDetail = () => {
     slug && getComments({ variables: { postSlug: slug } });
   }, [slug, getPost]);
 
-  const onSubmitNewComment = ({ content }: { content: string }) => {
-    if (!slug || !user) {
-      return;
-    }
-    const input: AddCommentInput = { content, postSlug: slug };
-    const tempComment: Comment = {
-      body: content,
-      createdAt: new Date(),
-      id: Math.random().toString(), // Temporary ID
-      author: {...user, id: 'deleting-this-comment-wont-work'},
-      postSlug: slug,
-    };
-    addComment({ variables: { input } });
-    updateQuery &&
-      updateQuery((query: CommentsQuery) => ({
-        comments: query.comments.concat([tempComment]),
-      }));
-  };
+  const onSubmitNewComment = useCallback(
+    ({ content }: { content: string }) => {
+      if (!slug || !user) {
+        return;
+      }
+      const input: AddCommentInput = { content, postSlug: slug };
+      addComment({ variables: { input } }).then((result) => {
+        const id = result.data?.addComment.id;
+        const tempComment: Comment = {
+          body: content,
+          createdAt: new Date(),
+          id: id || Math.random().toString(),
+          author: user,
+          postSlug: slug,
+        };
+        updateQuery &&
+          updateQuery((query: CommentsQuery) => ({
+            comments: query.comments.concat([tempComment]),
+          }));
+      });
+    },
+    [slug, user, updateQuery]
+  );
 
   if (loading || !slug)
     return (
@@ -80,7 +85,10 @@ const PostDetail = () => {
           onAddComment={onSubmitNewComment}
         />
       )}
-      <PostDetailCommentSection comments={comments} loading={commentsLoading} />
+      <PostDetailCommentSection
+        comments={comments}
+        loading={commentsLoading || addCommentLoading}
+      />
     </div>
   );
 };

@@ -4,6 +4,9 @@ import PostVoteUpvote from "./Upvote";
 import PostVoteDownvote from "./Downvote";
 import {
   Post,
+  PostsQuery,
+  useGetPostBySlugLazyQuery,
+  usePostsLazyQuery,
   useVoteMutation,
   VoteValue,
 } from "../../../graphql/generated/types";
@@ -24,18 +27,21 @@ const Wrapper = styled.div`
 `;
 
 type Props = { post: Post };
-const PostVote = (props: Props) => {
+const PostVote = ({ post }: Props) => {
   const [voteMutation, voteResult] = useVoteMutation();
+  const [_, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const { user, isLoggedIn } = useUserData();
-  const post: Post = useMemo(() => voteResult.data?.vote || props.post, [voteResult,props])
-  const [voteValue, setVoteValue] = useState(post.myVote?.vote);
-  const [scoreFromOthers, setScoreFromOthers] = useState(post.myVote ? post.score - getNumericVoteValue(post.myVote.vote) : post.score);
-  const score = useMemo(() => scoreFromOthers + (voteValue ? getNumericVoteValue(voteValue) : 0), [voteValue, scoreFromOthers])
+  const voteValue = useMemo(() => post.myVote?.vote, [post.myVote]);
   const isByUser = post.author.id !== user?.id;
   const submitVote = useCallback(
     (newVote: VoteValue) => {
       const value = newVote === voteValue ? VoteValue.Neutral : newVote;
-      setVoteValue(value)
+      const numVotes = voteValue ? post.numVotes : post.numVotes + 1;
+      const scoreDiff = voteValue
+        ? getNumericVoteValue(voteValue) - getNumericVoteValue(newVote)
+        : getNumericVoteValue(newVote);
+      const score = post.score + scoreDiff;
+      const updatedPost: Post = { ...post, numVotes, score };
       voteMutation({
         variables: {
           postSlug: post.slug,
@@ -43,11 +49,20 @@ const PostVote = (props: Props) => {
           value,
         },
       });
+      updatePostsQuery &&
+        updatePostsQuery((query: PostsQuery) => {
+          const newPosts = query.posts
+            .filter((p) => p.slug !== post.slug)
+            .concat([updatedPost]);
+          return {
+            posts: newPosts,
+          };
+        });
     },
     [voteMutation, post]
   );
 
-  const votingEnabled = !isByUser && isLoggedIn && !voteResult.loading
+  const votingEnabled = !isByUser && isLoggedIn && !voteResult.loading;
 
   return (
     <Wrapper>
@@ -59,7 +74,7 @@ const PostVote = (props: Props) => {
           [submitVote]
         )}
       />
-      <span>{ score}</span>
+      <span>{post.score}</span>
       <PostVoteDownvote
         canVote={votingEnabled}
         hasVoted={voteValue === VoteValue.Negative}

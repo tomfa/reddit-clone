@@ -8,13 +8,26 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const CommentList = ({ comments }: { comments: Comment[] }) => {
+const loadingComment: Comment = {
+  id: '...',
+  author: {
+    id: '...',
+    name: '...',
+    username: 'Loading...'
+  },
+  body: '...',
+  createdAt: new Date(),
+  postSlug: '...'
+}
+
+const CommentList = ({ comments, loading }: { comments: Comment[], loading: boolean }) => {
   return (
     comments && (
       <List>
         {comments.map((comment) => (
           <CommentListItem key={comment.id} comment={comment} />
         ))}
+        {loading && <CommentListItem key={'loading'} comment={loadingComment} />}
       </List>
     )
   );

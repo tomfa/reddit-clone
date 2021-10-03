@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from "react";
-import { OnChange } from "react-final-form-listeners";
+import React from "react";
 import CommentFormTextArea from "./TextArea";
 import CommentFormSubmitButton from "./SubmitButton";
 import { StyledForm } from "./StyledForm.styles";
@@ -17,20 +16,18 @@ const CommentForm = ({ onAddComment, loading }: Props) => {
       {({ handleSubmit, form }) => (
         <StyledForm
           onSubmit={(
-            e:
-              | Partial<
-                  Pick<
-                    React.SyntheticEvent<Element, Event>,
-                    "preventDefault" | "stopPropagation"
-                  >
-                >
-              | undefined
+            e: React.SyntheticEvent
           ) => {
             handleSubmit(e);
             form.reset();
           }}
         >
-          <CommentFormTextArea name="content" onSubmit={handleSubmit} />
+          <CommentFormTextArea name="content" onSubmit={(
+            e: React.SyntheticEvent
+          ) => {
+            handleSubmit(e);
+            form.reset();
+          }} />
           <CommentFormSubmitButton loading={loading} />
         </StyledForm>
       )}
