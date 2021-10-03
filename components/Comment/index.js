@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CommentDetailContainer from "./Detail/Container";
+import CommentDetailContainer from "./Detail/Component";
 import CommentContent from "./Content";
 
 const Wrapper = styled.div`

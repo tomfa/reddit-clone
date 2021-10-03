@@ -1,5 +1,5 @@
-mutation addComment($input: AddCommentInput!){
-    addComment(input: $input){
+query comments($postSlug: String!, $authorId: String, $cursor: Date){
+    comments(postSlug: $postSlug, authorId: $authorId, cursor: $cursor){
         id
         postSlug
         author{

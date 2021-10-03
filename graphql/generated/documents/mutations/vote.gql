@@ -20,6 +20,7 @@ mutation vote($authorId: String!, $postSlug: String!, $value: VoteValue!){
         }
         comments{
             id
+            postSlug
             author{
                 id
                 username

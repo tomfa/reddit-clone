@@ -20,6 +20,7 @@ query getPostBySlug($slug: String!){
         }
         comments{
             id
+            postSlug
             author{
                 id
                 username

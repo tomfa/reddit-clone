@@ -20,6 +20,7 @@ mutation addPost($input: AddPostInput!){
         }
         comments{
             id
+            postSlug
             author{
                 id
                 username

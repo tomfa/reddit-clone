@@ -9,7 +9,7 @@ import {
   Comment,
   Resolvers,
   QueryGetPostBySlugArgs,
-  MutationAddCommentArgs,
+  MutationAddCommentArgs, QueryCommentsArgs,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
 import { RequestContext, UserAuth } from "../request.types";
@@ -18,6 +18,7 @@ import { addUser } from "./mutations/addUser";
 import { getPostBySlug, getUserById } from "./db";
 import { vote } from "./mutations/vote";
 import { addComment } from "./mutations/addComment";
+import {getComments} from "./queries/comments";
 
 function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
   return (parent: unknown, args: T, { auth }: RequestContext) =>
@@ -43,6 +44,7 @@ function authWrapper<T, S = unknown>(
 export const resolvers: Pick<Resolvers, "Query" | "Mutation"> = {
   Query: {
     posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
+    comments: wrapper<QueryCommentsArgs, Comment[]>(getComments),
     getUserById: wrapper<QueryGetUserByIdArgs, User | null>(getUserById),
     getPostBySlug: wrapper<QueryGetPostBySlugArgs, Post | null>(getPostBySlug),
   },

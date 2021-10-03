@@ -7,6 +7,7 @@ import {
   MutationAddCommentArgs,
   Post,
   PostSort,
+  QueryCommentsArgs,
   QueryGetPostBySlugArgs,
   QueryGetUserByIdArgs,
   QueryPostsArgs,
@@ -118,6 +119,7 @@ export const addComment = async (
     .doc(commentId);
 
   const data: DBComment = {
+    postSlug: post.slug,
     id: commentId,
     author: auth,
     body: input.content,
@@ -291,6 +293,32 @@ const getVotesForUser = async (args: {
   );
 };
 
+export const getComments = async ({
+  postSlug,
+  cursor,
+  limit = 20,
+  ...filter
+}: QueryCommentsArgs & {
+  limit?: number;
+}): Promise<Comment[]> => {
+  let query = firestore
+    .collectionGroup(COMMENT)
+    .where("postSlug", "==", postSlug)
+    .limit(limit);
+
+  if (filter.authorId) {
+    query = query.where("author.id", "==", filter.authorId);
+  }
+
+  if (cursor) {
+    query = query.startAfter(cursor);
+  }
+
+  const data = await query.get().then((d) => d.docs);
+  const comments = data.map((p) => p.data()) as DBComment[];
+  return comments;
+};
+
 export const getPosts = async ({
   order,
   cursor,
@@ -346,4 +374,5 @@ export const db = {
   addComment,
   getPostBySlug,
   unVote,
+  getComments,
 };

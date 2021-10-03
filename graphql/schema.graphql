@@ -36,6 +36,7 @@ type UserVote {
 
 type Comment {
   id: String!
+  postSlug: String!
   author: User!
   body: String!
   createdAt: Date!
@@ -64,6 +65,18 @@ input AddPostInput {
   type: PostType!
 }
 
+input AddUserInput {
+  email: String!
+  authId: String!
+  username: String
+  name: String
+}
+
+input AddCommentInput {
+  postSlug: String!
+  content: String!
+}
+
 type Query {
   getPostBySlug(slug: String!): Post
   getUserById(id: String!): User
@@ -74,21 +87,8 @@ type Query {
     createdAfter: Date
     cursor: Date
   ): [Post!]!
+  comments(postSlug: String!, authorId: String, cursor: Date): [Comment!]!
 }
-
-input AddUserInput {
-  email: String!
-  authId: String!
-  username: String
-  name: String
-}
-
-
-input AddCommentInput {
-  postSlug: String!
-  content: String!
-}
-
 
 type Mutation {
   vote(authorId: String!, postSlug: String!, value: VoteValue!): Post
