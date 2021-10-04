@@ -82,7 +82,6 @@ const getPostBySlug = async (
     ...post,
     views: post.views + 1,
     myVote: votesForUser[slug],
-    archived: post.archived || false,
   };
 };
 
@@ -390,7 +389,6 @@ const getPosts = async ({
     ...p,
     createdAt: p.createdAt.toDate(),
     myVote: votesForUser[p.slug],
-    archived: p.archived || false,
   }));
 };
 
