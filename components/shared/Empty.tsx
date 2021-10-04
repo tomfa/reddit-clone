@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { smallFont } from "../shared/helpers";
+import { smallFont } from "./helpers";
 
 const Wrapper = styled.div<{ comments: boolean }>`
   ${smallFont};

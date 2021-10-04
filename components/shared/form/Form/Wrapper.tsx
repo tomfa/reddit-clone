@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FormWrapper = styled.div`
+const FormWrapper = styled.div<{ wide?: boolean }>`
   position: relative;
   overflow: hidden;
   border: 1px solid var(--color-border);

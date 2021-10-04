@@ -41,7 +41,7 @@ const Label = styled.label<{ active?: boolean }>`
 const RadioGroupOption = (props: {
   value: string;
   active: boolean;
-  onClick: () => void;
+  onClick?: React.ChangeEventHandler<HTMLInputElement>;
   label: string;
 }) => (
   <>

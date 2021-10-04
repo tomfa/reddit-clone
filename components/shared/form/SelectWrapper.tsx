@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SelectWrapper = styled.div<{ flex: boolean }>`
+const SelectWrapper = styled.div<{ flex?: boolean }>`
   position: relative;
   ${(props) => props.flex && "flex: 1"};
 

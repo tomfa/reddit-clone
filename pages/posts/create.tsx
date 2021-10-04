@@ -1,6 +1,6 @@
 import { Field, Form as FinalForm } from "react-final-form";
 import { OnChange } from 'react-final-form-listeners'
-import Form from "../../components/shared/form/Form/index";
+import Form from "../../components/shared/form/Form";
 import renderField from "../../components/shared/form/renderField";
 import SubmitButton from "../../components/shared/form/SubmitButton";
 import { config } from "../../lib/config";

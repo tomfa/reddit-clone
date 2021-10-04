@@ -6,7 +6,7 @@ const Content = styled.div`
   padding: 12px;
 `;
 
-const CommentContent = (props) => (
+const CommentContent = (props: { children: string }) => (
   <Content>
     <Markdown>{props.children}</Markdown>
   </Content>

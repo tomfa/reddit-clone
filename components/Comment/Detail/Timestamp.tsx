@@ -7,8 +7,8 @@ const Timestamp = styled.span`
   color: var(--color-mutedText);
 `;
 
-const CommentDetailTimestamp = (props) => (
-  <Timestamp>{moment(props.created).fromNow()}</Timestamp>
+const CommentDetailTimestamp = ({ created }: { created: Date }) => (
+  <Timestamp>{moment(created).fromNow()}</Timestamp>
 );
 
 export default CommentDetailTimestamp;

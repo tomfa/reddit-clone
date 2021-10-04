@@ -5,8 +5,9 @@ import Error from "./Error";
 import SelectWrapper from "./SelectWrapper";
 import Input from "./Input";
 import RadioGroup from "./RadioGroup";
+import {FieldProps} from "react-final-form";
 
-const VariableField = (field) => {
+const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
   switch (field.input.type) {
     case "select":
       return (
@@ -66,7 +67,7 @@ const VariableField = (field) => {
   }
 };
 
-const renderField = (field) => {
+const renderField = (field: FieldProps<HTMLInputElement, any>) => {
   return <VariableField {...field} />;
 };
 

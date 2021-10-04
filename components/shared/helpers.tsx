@@ -21,7 +21,7 @@ export const fade = css`
   animation: ${fadeKeyframes} 0.25s;
 `;
 
-export const transition = (...props) => {
+export const transition = (...props: string[]) => {
   let str = "transition: ";
   props.forEach((item, index) => {
     str = str.concat(
@@ -42,7 +42,7 @@ export const headerItem = css`
   }
 `;
 
-export const link = (props) => css`
+export const link = (props: { underline?: boolean}) => css`
   ${transition("color")};
 
   text-underline-position: under;

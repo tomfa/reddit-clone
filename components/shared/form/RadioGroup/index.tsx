@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import RadioGroupOption from "./Option";
+import {FieldProps} from "react-final-form";
 
 const RadioGroupWrapper = styled.div`
   display: flex;
@@ -12,23 +13,22 @@ const RadioGroupWrapper = styled.div`
   }
 `;
 
-function handleClick(e, value, fn) {
-  e.preventDefault();
-  fn(value);
-}
-
-const renderOptions = (field) => {
-  return field.options.map((option, key) => (
+const renderOptions = (field: FieldProps<HTMLInputElement, any>) => {
+  return field.options.map((option: HTMLOptionElement, key: number) => (
     <RadioGroupOption
       {...option}
       active={field.input.value === option.value}
-      onClick={(e) => handleClick(e, option.value, field.input.onChange)}
+      onClick={(e) => {
+        e.preventDefault();
+        field.input.onChange(option.value);
+      }}
       key={key}
     />
   ));
 };
 
-const RadioGroup = ({ field }) => (
+type Props = { field: FieldProps<HTMLInputElement, any> };
+const RadioGroup = ({ field }: Props) => (
   <RadioGroupWrapper>{renderOptions(field)}</RadioGroupWrapper>
 );
 

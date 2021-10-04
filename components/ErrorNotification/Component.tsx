@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+// @ts-ignore
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { transition } from "../shared/helpers";
 import ErrorNotificationMessage from "./Message";
@@ -36,22 +37,20 @@ const Wrapper = styled.div`
   }
 `;
 
-class ErrorNotification extends React.Component {
-  render() {
-    return (
-      <TransitionGroup component={null}>
-        {this.props.error && (
-          <CSSTransition classNames={className} timeout={300}>
-            <Wrapper>
-              <ErrorNotificationMessage>
-                {this.props.error.message}
-              </ErrorNotificationMessage>
-            </Wrapper>
-          </CSSTransition>
-        )}
-      </TransitionGroup>
-    );
-  }
-}
+const ErrorNotification = (props: { error?: { message: string } }) => {
+  return (
+    <TransitionGroup component={null}>
+      {props.error && (
+        <CSSTransition classNames={className} timeout={300}>
+          <Wrapper>
+            <ErrorNotificationMessage>
+              {props.error.message}
+            </ErrorNotificationMessage>
+          </Wrapper>
+        </CSSTransition>
+      )}
+    </TransitionGroup>
+  );
+};
 
 export default ErrorNotification;
