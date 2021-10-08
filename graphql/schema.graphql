@@ -31,18 +31,19 @@ type UserVote {
   userId: String!
   vote: VoteValue!
   id: String!
-  postSlug: String!
+  postId: String!
 }
 
 type Comment {
   id: String!
-  postSlug: String!
+  postId: String!
   author: User!
   body: String!
   createdAt: Date!
 }
 
 type Post {
+  id: String!
   title: String!
   slug: String!
   content: String!
@@ -74,12 +75,12 @@ input AddUserInput {
 }
 
 input AddCommentInput {
-  postSlug: String!
+  postId: String!
   content: String!
 }
 
 type Query {
-  getPostBySlug(slug: String!): Post
+  getPostById(id: String!): Post
   getUserById(id: String!): User
   posts(
     category: String
@@ -89,13 +90,13 @@ type Query {
     createdAfter: Date
     cursor: Date
   ): [Post!]!
-  comments(postSlug: String!, authorId: String, cursor: Date): [Comment!]!
+  comments(postId: String!, authorId: String, cursor: Date): [Comment!]!
 }
 
 type Mutation {
-  vote(authorId: String!, postSlug: String!, value: VoteValue!): Post
+  vote(authorId: String!, postId: String!, value: VoteValue!): Post
   addPost(input: AddPostInput!): Post!
   addUser(input: AddUserInput!): User
   addComment(input: AddCommentInput!): Comment!
-  setPostArchived(slug: String!, archived: Boolean!): Post
+  setPostArchived(id: String!, archived: Boolean!): Post
 }

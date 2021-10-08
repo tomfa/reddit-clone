@@ -8,9 +8,10 @@ import {
   MutationVoteArgs,
   Comment,
   Resolvers,
-  QueryGetPostBySlugArgs,
+  QueryGetPostByIdArgs,
   MutationAddCommentArgs,
-  QueryCommentsArgs, MutationSetPostArchivedArgs,
+  QueryCommentsArgs,
+  MutationSetPostArchivedArgs,
 } from "../graphql/generated/types";
 import { getPosts } from "./queries/getPosts";
 import { RequestContext, UserAuth } from "../request.types";
@@ -21,7 +22,7 @@ import { addComment } from "./mutations/addComment";
 import { getComments } from "./queries/comments";
 import { dateScalar } from "../graphql/date.scalar";
 import { setPostArchived } from "./mutations/setPostArchived";
-import {getPostBySlug} from "./queries/getPostBySlug";
+import { getPostById } from "./queries/getPostById";
 import db from "./db";
 
 function wrapper<T, S>(fun: (args: T, token: UserAuth | null) => Promise<S>) {
@@ -51,7 +52,7 @@ export const resolvers: Pick<Resolvers, "Query" | "Mutation" | "Date"> = {
     posts: wrapper<QueryPostsArgs, Post[]>(getPosts),
     comments: wrapper<QueryCommentsArgs, Comment[]>(getComments),
     getUserById: wrapper<QueryGetUserByIdArgs, User | null>(db.getUserById),
-    getPostBySlug: wrapper<QueryGetPostBySlugArgs, Post | null>(getPostBySlug),
+    getPostById: wrapper<QueryGetPostByIdArgs, Post | null>(getPostById),
   },
   Mutation: {
     addPost: authWrapper<MutationAddPostArgs, Post>(addPost),

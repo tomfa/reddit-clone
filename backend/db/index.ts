@@ -4,11 +4,11 @@ import {
   AddCommentInput,
   Comment,
   Maybe,
-  MutationAddCommentArgs,
+  MutationVoteArgs,
   Post,
   PostSort,
   QueryCommentsArgs,
-  QueryGetPostBySlugArgs,
+  QueryGetPostByIdArgs,
   QueryGetUserByIdArgs,
   QueryPostsArgs,
   User,
@@ -21,8 +21,8 @@ import { COMMENT, POSTS, USERS, VOTES } from "./collections";
 import { uuid } from "uuidv4";
 import { getNumericVoteValue } from "../../graphql/vote.utils";
 import { UserAuth } from "../../request.types";
-import {config} from "../../lib/config";
-import {getDomainFromEmail} from "../../utils/user.utils";
+import { config } from "../../lib/config";
+import { getDomainFromEmail } from "../../utils/user.utils";
 
 const increment = firebase.firestore.FieldValue.increment(1);
 const add = (num: number) => firebase.firestore.FieldValue.increment(num);
@@ -47,20 +47,17 @@ const increasePostViewCount = async ({ post }: { post: Post }) => {
     .collection(USERS)
     .doc(post.author.id)
     .collection(POSTS)
-    .doc(post.slug)
+    .doc(post.id)
     .update({ views: increment });
 };
 
-const getPostBySlug = async (
-  {
-    slug,
-    incrementViews,
-  }: QueryGetPostBySlugArgs & { incrementViews?: boolean },
+const getPostById = async (
+  { id, incrementViews }: QueryGetPostByIdArgs & { incrementViews?: boolean },
   auth: UserAuth | null
 ): Promise<Post | null> => {
   let query = await firestore
     .collectionGroup(POSTS)
-    .where("slug", "==", slug)
+    .where("id", "==", id)
     .limit(1)
     .get();
 
@@ -76,14 +73,14 @@ const getPostBySlug = async (
   const [votesForUser, _] = await Promise.all([
     getVotesForUser({
       userId: auth?.id,
-      filterPostIds: [slug],
+      filterPostIds: [id],
     }),
     incementPromise,
   ]);
   return {
     ...post,
     views: post.views + 1,
-    myVote: votesForUser[slug],
+    myVote: votesForUser[id],
   };
 };
 
@@ -112,9 +109,11 @@ const getOrCreateUser = async (
     return existingUser;
   }
   const domain = getDomainFromEmail(user.email);
-  const isAllowedSignup = !config.auth.allowSignupFromDomains || config.auth.allowSignupFromDomains.includes(domain);
+  const isAllowedSignup =
+    !config.auth.allowSignupFromDomains ||
+    config.auth.allowSignupFromDomains.includes(domain);
   if (!isAllowedSignup) {
-    throw new Error(`User signup is not allowed from domain ${domain}`)
+    throw new Error(`User signup is not allowed from domain ${domain}`);
   }
   return addUser(user);
 };
@@ -124,7 +123,7 @@ const setPostArchived = async (post: Post, archived: boolean) => {
     .collection(USERS)
     .doc(post.author.id)
     .collection(POSTS)
-    .doc(post.slug);
+    .doc(post.id);
 
   await commentRef.update({ archived });
 
@@ -136,20 +135,20 @@ const addComment = async (
   auth: UserAuth
 ): Promise<Comment> => {
   const commentId = uuid();
-  const post = await getPostBySlug({ slug: input.postSlug }, null);
+  const post = await getPostById({ id: input.postId }, null);
   if (!post) {
-    throw new Error(`Can not find post with slug ${input.postSlug}`);
+    throw new Error(`Can not find post with slug ${input.postId}`);
   }
   const commentRef = firestore
     .collection(USERS)
     .doc(auth.id)
     .collection(POSTS)
-    .doc(post.slug)
+    .doc(post.id)
     .collection(COMMENT)
     .doc(commentId);
 
   const data: DBComment = {
-    postSlug: post.slug,
+    postId: post.id,
     id: commentId,
     author: auth,
     body: input.content,
@@ -169,17 +168,17 @@ const addUser = async (
   }
 ): Promise<User> => {
   const id = uuid();
-  const defaultUserName = user.email && user.email.split('@')[0]
+  const defaultUserName = user.email && user.email.split("@")[0];
   const uName = user.username || defaultUserName;
 
   const userDoc = firestore.doc(`${USERS}/${id}`);
 
   // TODO: I don't understand why we create a username doc
   const usernameDoc = firestore.doc(`usernames/${uName}`);
-  const usernameTaken = await usernameDoc.get().then(d => d.exists)
+  const usernameTaken = await usernameDoc.get().then((d) => d.exists);
 
   if (usernameTaken) {
-    throw new Error(`Username ${uName} already exists`)
+    throw new Error(`Username ${uName} already exists`);
   }
 
   // Commit both docs together as a batch write.
@@ -212,14 +211,16 @@ const addPost = async (
   post: Pick<Post, "type" | "title" | "category" | "content">
 ): Promise<Post> => {
   const slug = encodeURI(slugify(post.title));
+  const id = uuid();
   const ref = firestore
     .collection(USERS)
     .doc(author.id)
     .collection(POSTS)
-    .doc(slug);
+    .doc(id);
 
   const data: DBPost = {
     ...post,
+    id,
     published: true,
     slug,
     author,
@@ -235,17 +236,14 @@ const addPost = async (
   return { ...data, createdAt: new Date() };
 };
 
-const vote = async (args: {
-  authorId: string;
-  postSlug: string;
-  userId: string;
-  value: VoteValue;
-}): Promise<Post> => {
+const vote = async (
+  args: MutationVoteArgs & { userId: string }
+): Promise<Post> => {
   const postRef = firestore
     .collection(USERS)
     .doc(args.authorId)
     .collection(POSTS)
-    .doc(args.postSlug);
+    .doc(args.postId);
 
   const voteRef = postRef.collection(VOTES).doc(args.userId);
   const existingVote = (await voteRef.get().then((d) => d.data())) as DBVote;
@@ -254,7 +252,7 @@ const vote = async (args: {
   );
   const numScoreDiff = getNumericVoteValue(args.value) - existingVoteValue;
 
-  console.log(`Voting ${args.value} for ${args.postSlug}`);
+  console.log(`Voting ${args.value} for ${args.authorId}.${args.postId}`);
   const post: DBPost = await firestore.runTransaction(async (transaction) => {
     const res = await transaction.get(postRef);
     if (!res.exists) {
@@ -277,7 +275,7 @@ const vote = async (args: {
 
     const vote: DBVote = {
       id: uuid(),
-      postSlug: args.postSlug,
+      postId: args.postId,
       userId: args.userId,
       vote: args.value,
     };
@@ -298,11 +296,9 @@ const vote = async (args: {
   return post;
 };
 
-const unVote = async (args: {
-  authorId: string;
-  postSlug: string;
-  userId: string;
-}): Promise<Post> => {
+const unVote = async (
+  args: Omit<MutationVoteArgs, "value"> & { userId: string }
+): Promise<Post> => {
   return vote({ ...args, value: VoteValue.Neutral });
 };
 
@@ -314,25 +310,34 @@ const getVotesForUser = async (args: {
     return {};
   }
 
-  let query = await firestore
+  let query = firestore
     .collectionGroup(VOTES)
     .where("userId", "==", args.userId)
-    .get();
 
-  // TODO: Find a way to only retrieve votes by filterPostsId ("IN" is max 10)
 
-  const votes = query.docs.map((d) => d.data()) as DBVote[];
+  if (args.filterPostIds.length === 1) {
+    query = query.where('postId', '==', args.filterPostIds[0])
+  } else if (args.filterPostIds.length && args.filterPostIds.length < 10) {
+    query = query.where('postId', 'in', args.filterPostIds)
+  } else {
+    // TODO: Find a way to only retrieve votes by filterPostsId ("IN" is max 10)
+  }
+
+  const result = await query.get();
+
+
+  const votes = result.docs.map((d) => d.data()) as DBVote[];
   return args.filterPostIds.reduce(
-    (map, postSlug) => ({
+    (map, postId) => ({
       ...map,
-      [postSlug]: votes.find((v) => v.postSlug === postSlug),
+      [postId]: votes.find((v) => v.postId === postId),
     }),
     {}
   );
 };
 
 const getComments = async ({
-  postSlug,
+  postId,
   cursor,
   limit = 20,
   ...filter
@@ -341,7 +346,7 @@ const getComments = async ({
 }): Promise<Comment[]> => {
   let query = firestore
     .collectionGroup(COMMENT)
-    .where("postSlug", "==", postSlug)
+    .where("postId", "==", postId)
     .limit(limit);
 
   if (filter.authorId) {
@@ -396,12 +401,12 @@ const getPosts = async ({
   const posts = data.map((p) => p.data()) as DBPost[];
   const votesForUser = await getVotesForUser({
     userId,
-    filterPostIds: posts.map((p) => p.slug),
+    filterPostIds: posts.map((p) => p.id),
   });
   return posts.map((p) => ({
     ...p,
     createdAt: p.createdAt.toDate(),
-    myVote: votesForUser[p.slug],
+    myVote: votesForUser[p.id],
   }));
 };
 
@@ -413,7 +418,7 @@ export const db = {
   getUserById,
   getPosts,
   addComment,
-  getPostBySlug,
+  getPostById,
   unVote,
   vote,
   getComments,

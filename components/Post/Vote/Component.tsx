@@ -5,7 +5,7 @@ import PostVoteDownvote from "./Downvote";
 import {
   Post,
   PostsQuery,
-  useGetPostBySlugLazyQuery,
+  useGetPostByIdLazyQuery,
   usePostsLazyQuery,
   useVoteMutation,
   VoteValue,
@@ -44,7 +44,7 @@ const PostVote = ({ post }: Props) => {
       const updatedPost: Post = { ...post, numVotes, score };
       voteMutation({
         variables: {
-          postSlug: post.slug,
+          postId: post.id,
           authorId: post.author.id,
           value,
         },
@@ -52,7 +52,7 @@ const PostVote = ({ post }: Props) => {
       updatePostsQuery &&
         updatePostsQuery((query: PostsQuery) => {
           const newPosts = query.posts.map((p) =>
-            p.slug !== post.slug ? p : updatedPost
+            p.id !== post.id ? p : updatedPost
           );
           return {
             posts: newPosts,

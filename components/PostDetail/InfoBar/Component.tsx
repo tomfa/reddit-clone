@@ -41,13 +41,13 @@ const PostDetailInfoBar = ({ post }: Props) => {
       return;
     }
     setPostArchived({
-      variables: { slug: post.slug, archived: !post.archived },
+      variables: { id: post.id, archived: !post.archived },
     });
     updatePostsQuery &&
       updatePostsQuery((query: PostsQuery) => {
         const updatedPost = { ...post, archived: !post.archived };
         const newPosts = query.posts.map((p) =>
-          p.slug !== post.slug ? p : updatedPost
+          p.id !== post.id ? p : updatedPost
         );
         return {
           posts: newPosts,

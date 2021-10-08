@@ -17,7 +17,7 @@ const loadingComment: Comment = {
   },
   body: '...',
   createdAt: new Date(),
-  postSlug: '...'
+  postId: '...'
 }
 
 const CommentList = ({ comments, loading }: { comments: Comment[], loading: boolean }) => {

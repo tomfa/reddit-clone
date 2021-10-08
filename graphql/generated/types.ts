@@ -20,7 +20,7 @@ export type Scalars = {
 
 export type AddCommentInput = {
   content: Scalars['String'];
-  postSlug: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 export type AddPostInput = {
@@ -43,7 +43,7 @@ export type Comment = {
   body: FieldWrapper<Scalars['String']>;
   createdAt: FieldWrapper<Scalars['Date']>;
   id: FieldWrapper<Scalars['String']>;
-  postSlug: FieldWrapper<Scalars['String']>;
+  postId: FieldWrapper<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -73,13 +73,13 @@ export type MutationAddUserArgs = {
 
 export type MutationSetPostArchivedArgs = {
   archived: Scalars['Boolean'];
-  slug: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
 export type MutationVoteArgs = {
   authorId: Scalars['String'];
-  postSlug: Scalars['String'];
+  postId: Scalars['String'];
   value: VoteValue;
 };
 
@@ -91,6 +91,7 @@ export type Post = {
   comments: Array<FieldWrapper<Comment>>;
   content: FieldWrapper<Scalars['String']>;
   createdAt: FieldWrapper<Scalars['Date']>;
+  id: FieldWrapper<Scalars['String']>;
   myVote?: Maybe<FieldWrapper<UserVote>>;
   numVotes: FieldWrapper<Scalars['Int']>;
   published: FieldWrapper<Scalars['Boolean']>;
@@ -114,7 +115,7 @@ export enum PostType {
 export type Query = {
   __typename?: 'Query';
   comments: Array<FieldWrapper<Comment>>;
-  getPostBySlug?: Maybe<FieldWrapper<Post>>;
+  getPostById?: Maybe<FieldWrapper<Post>>;
   getUserById?: Maybe<FieldWrapper<User>>;
   posts: Array<FieldWrapper<Post>>;
 };
@@ -123,12 +124,12 @@ export type Query = {
 export type QueryCommentsArgs = {
   authorId?: Maybe<Scalars['String']>;
   cursor?: Maybe<Scalars['Date']>;
-  postSlug: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 
-export type QueryGetPostBySlugArgs = {
-  slug: Scalars['String'];
+export type QueryGetPostByIdArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -161,7 +162,7 @@ export type User = {
 export type UserVote = {
   __typename?: 'UserVote';
   id: FieldWrapper<Scalars['String']>;
-  postSlug: FieldWrapper<Scalars['String']>;
+  postId: FieldWrapper<Scalars['String']>;
   userId: FieldWrapper<Scalars['String']>;
   vote: FieldWrapper<VoteValue>;
 };
@@ -283,7 +284,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   body: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  postSlug: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postId: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -295,8 +296,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addComment: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationAddCommentArgs, 'input'>>;
   addPost: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<MutationAddPostArgs, 'input'>>;
   addUser: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
-  setPostArchived: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationSetPostArchivedArgs, 'archived' | 'slug'>>;
-  vote: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationVoteArgs, 'authorId' | 'postSlug' | 'value'>>;
+  setPostArchived: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationSetPostArchivedArgs, 'archived' | 'id'>>;
+  vote: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationVoteArgs, 'authorId' | 'postId' | 'value'>>;
 }>;
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
@@ -306,6 +307,7 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
   comments: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>;
   content: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   myVote: Resolver<Maybe<ResolversTypes['UserVote']>, ParentType, ContextType>;
   numVotes: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   published: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -318,8 +320,8 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  comments: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<QueryCommentsArgs, 'postSlug'>>;
-  getPostBySlug: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryGetPostBySlugArgs, 'slug'>>;
+  comments: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<QueryCommentsArgs, 'postId'>>;
+  getPostById: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryGetPostByIdArgs, 'id'>>;
   getUserById: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
   posts: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostsArgs, never>>;
 }>;
@@ -333,7 +335,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserVoteResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserVote'] = ResolversParentTypes['UserVote']> = ResolversObject<{
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  postSlug: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postId: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   vote: Resolver<ResolversTypes['VoteValue'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -355,14 +357,14 @@ export type AddCommentMutationVariables = Exact<{
 }>;
 
 
-export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } } };
+export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } } };
 
 export type AddPostMutationVariables = Exact<{
   input: AddPostInput;
 }>;
 
 
-export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postId: string }>, comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> } };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
@@ -372,37 +374,37 @@ export type AddUserMutationVariables = Exact<{
 export type AddUserMutation = { __typename?: 'Mutation', addUser?: Maybe<{ __typename?: 'User', id: string, username: string, name?: Maybe<string> }> };
 
 export type SetPostArchivedMutationVariables = Exact<{
-  slug: Scalars['String'];
+  id: Scalars['String'];
   archived: Scalars['Boolean'];
 }>;
 
 
-export type SetPostArchivedMutation = { __typename?: 'Mutation', setPostArchived?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type SetPostArchivedMutation = { __typename?: 'Mutation', setPostArchived?: Maybe<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postId: string }>, comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type VoteMutationVariables = Exact<{
   authorId: Scalars['String'];
-  postSlug: Scalars['String'];
+  postId: Scalars['String'];
   value: VoteValue;
 }>;
 
 
-export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type VoteMutation = { __typename?: 'Mutation', vote?: Maybe<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postId: string }>, comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type CommentsQueryVariables = Exact<{
-  postSlug: Scalars['String'];
+  postId: Scalars['String'];
   authorId?: Maybe<Scalars['String']>;
   cursor?: Maybe<Scalars['Date']>;
 }>;
 
 
-export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> };
+export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> };
 
-export type GetPostBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
+export type GetPostByIdQueryVariables = Exact<{
+  id: Scalars['String'];
 }>;
 
 
-export type GetPostBySlugQuery = { __typename?: 'Query', getPostBySlug?: Maybe<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type GetPostByIdQuery = { __typename?: 'Query', getPostById?: Maybe<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postId: string }>, comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -421,14 +423,14 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postSlug: string }>, comments: Array<{ __typename?: 'Comment', id: string, postSlug: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, slug: string, content: string, published: boolean, archived: boolean, category: string, score: number, numVotes: number, createdAt: any, views: number, type: PostType, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> }, myVote?: Maybe<{ __typename?: 'UserVote', userId: string, vote: VoteValue, id: string, postId: string }>, comments: Array<{ __typename?: 'Comment', id: string, postId: string, body: string, createdAt: any, author: { __typename?: 'User', id: string, username: string, name?: Maybe<string> } }> }> };
 
 
 export const AddCommentDocument = gql`
     mutation addComment($input: AddCommentInput!) {
   addComment(input: $input) {
     id
-    postSlug
+    postId
     author {
       id
       username
@@ -468,6 +470,7 @@ export type AddCommentMutationOptions = Apollo.BaseMutationOptions<AddCommentMut
 export const AddPostDocument = gql`
     mutation addPost($input: AddPostInput!) {
   addPost(input: $input) {
+    id
     title
     slug
     content
@@ -485,11 +488,11 @@ export const AddPostDocument = gql`
       userId
       vote
       id
-      postSlug
+      postId
     }
     comments {
       id
-      postSlug
+      postId
       author {
         id
         username
@@ -566,8 +569,9 @@ export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
 export type AddUserMutationResult = Apollo.MutationResult<AddUserMutation>;
 export type AddUserMutationOptions = Apollo.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
 export const SetPostArchivedDocument = gql`
-    mutation setPostArchived($slug: String!, $archived: Boolean!) {
-  setPostArchived(slug: $slug, archived: $archived) {
+    mutation setPostArchived($id: String!, $archived: Boolean!) {
+  setPostArchived(id: $id, archived: $archived) {
+    id
     title
     slug
     content
@@ -585,11 +589,11 @@ export const SetPostArchivedDocument = gql`
       userId
       vote
       id
-      postSlug
+      postId
     }
     comments {
       id
-      postSlug
+      postId
       author {
         id
         username
@@ -619,7 +623,7 @@ export type SetPostArchivedMutationFn = Apollo.MutationFunction<SetPostArchivedM
  * @example
  * const [setPostArchivedMutation, { data, loading, error }] = useSetPostArchivedMutation({
  *   variables: {
- *      slug: // value for 'slug'
+ *      id: // value for 'id'
  *      archived: // value for 'archived'
  *   },
  * });
@@ -632,8 +636,9 @@ export type SetPostArchivedMutationHookResult = ReturnType<typeof useSetPostArch
 export type SetPostArchivedMutationResult = Apollo.MutationResult<SetPostArchivedMutation>;
 export type SetPostArchivedMutationOptions = Apollo.BaseMutationOptions<SetPostArchivedMutation, SetPostArchivedMutationVariables>;
 export const VoteDocument = gql`
-    mutation vote($authorId: String!, $postSlug: String!, $value: VoteValue!) {
-  vote(authorId: $authorId, postSlug: $postSlug, value: $value) {
+    mutation vote($authorId: String!, $postId: String!, $value: VoteValue!) {
+  vote(authorId: $authorId, postId: $postId, value: $value) {
+    id
     title
     slug
     content
@@ -651,11 +656,11 @@ export const VoteDocument = gql`
       userId
       vote
       id
-      postSlug
+      postId
     }
     comments {
       id
-      postSlug
+      postId
       author {
         id
         username
@@ -686,7 +691,7 @@ export type VoteMutationFn = Apollo.MutationFunction<VoteMutation, VoteMutationV
  * const [voteMutation, { data, loading, error }] = useVoteMutation({
  *   variables: {
  *      authorId: // value for 'authorId'
- *      postSlug: // value for 'postSlug'
+ *      postId: // value for 'postId'
  *      value: // value for 'value'
  *   },
  * });
@@ -699,10 +704,10 @@ export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
 export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
 export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
 export const CommentsDocument = gql`
-    query comments($postSlug: String!, $authorId: String, $cursor: Date) {
-  comments(postSlug: $postSlug, authorId: $authorId, cursor: $cursor) {
+    query comments($postId: String!, $authorId: String, $cursor: Date) {
+  comments(postId: $postId, authorId: $authorId, cursor: $cursor) {
     id
-    postSlug
+    postId
     author {
       id
       username
@@ -726,7 +731,7 @@ export const CommentsDocument = gql`
  * @example
  * const { data, loading, error } = useCommentsQuery({
  *   variables: {
- *      postSlug: // value for 'postSlug'
+ *      postId: // value for 'postId'
  *      authorId: // value for 'authorId'
  *      cursor: // value for 'cursor'
  *   },
@@ -743,9 +748,10 @@ export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<C
 export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
 export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
 export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
-export const GetPostBySlugDocument = gql`
-    query getPostBySlug($slug: String!) {
-  getPostBySlug(slug: $slug) {
+export const GetPostByIdDocument = gql`
+    query getPostById($id: String!) {
+  getPostById(id: $id) {
+    id
     title
     slug
     content
@@ -763,11 +769,11 @@ export const GetPostBySlugDocument = gql`
       userId
       vote
       id
-      postSlug
+      postId
     }
     comments {
       id
-      postSlug
+      postId
       author {
         id
         username
@@ -784,32 +790,32 @@ export const GetPostBySlugDocument = gql`
     `;
 
 /**
- * __useGetPostBySlugQuery__
+ * __useGetPostByIdQuery__
  *
- * To run a query within a React component, call `useGetPostBySlugQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetPostByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetPostBySlugQuery({
+ * const { data, loading, error } = useGetPostByIdQuery({
  *   variables: {
- *      slug: // value for 'slug'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetPostBySlugQuery(baseOptions: Apollo.QueryHookOptions<GetPostBySlugQuery, GetPostBySlugQueryVariables>) {
+export function useGetPostByIdQuery(baseOptions: Apollo.QueryHookOptions<GetPostByIdQuery, GetPostByIdQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostBySlugQuery, GetPostBySlugQueryVariables>(GetPostBySlugDocument, options);
+        return Apollo.useQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(GetPostByIdDocument, options);
       }
-export function useGetPostBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostBySlugQuery, GetPostBySlugQueryVariables>) {
+export function useGetPostByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostByIdQuery, GetPostByIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostBySlugQuery, GetPostBySlugQueryVariables>(GetPostBySlugDocument, options);
+          return Apollo.useLazyQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(GetPostByIdDocument, options);
         }
-export type GetPostBySlugQueryHookResult = ReturnType<typeof useGetPostBySlugQuery>;
-export type GetPostBySlugLazyQueryHookResult = ReturnType<typeof useGetPostBySlugLazyQuery>;
-export type GetPostBySlugQueryResult = Apollo.QueryResult<GetPostBySlugQuery, GetPostBySlugQueryVariables>;
+export type GetPostByIdQueryHookResult = ReturnType<typeof useGetPostByIdQuery>;
+export type GetPostByIdLazyQueryHookResult = ReturnType<typeof useGetPostByIdLazyQuery>;
+export type GetPostByIdQueryResult = Apollo.QueryResult<GetPostByIdQuery, GetPostByIdQueryVariables>;
 export const GetUserByIdDocument = gql`
     query getUserById($id: String!) {
   getUserById(id: $id) {
@@ -857,6 +863,7 @@ export const PostsDocument = gql`
     createdAfter: $createdAfter
     cursor: $cursor
   ) {
+    id
     title
     slug
     content
@@ -874,11 +881,11 @@ export const PostsDocument = gql`
       userId
       vote
       id
-      postSlug
+      postId
     }
     comments {
       id
-      postSlug
+      postId
       author {
         id
         username

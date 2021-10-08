@@ -31,7 +31,7 @@
             "deprecationReason": null
           },
           {
-            "name": "postSlug",
+            "name": "postId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -273,7 +273,7 @@
             "deprecationReason": null
           },
           {
-            "name": "postSlug",
+            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -435,7 +435,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "slug",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -480,7 +480,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "postSlug",
+                "name": "postId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -629,6 +629,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Date",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -845,7 +861,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "postSlug",
+                "name": "postId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -882,11 +898,11 @@
             "deprecationReason": null
           },
           {
-            "name": "getPostBySlug",
+            "name": "getPostById",
             "description": null,
             "args": [
               {
-                "name": "slug",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -1152,7 +1168,7 @@
             "deprecationReason": null
           },
           {
-            "name": "postSlug",
+            "name": "postId",
             "description": null,
             "args": [],
             "type": {

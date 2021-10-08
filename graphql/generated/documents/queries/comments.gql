@@ -1,7 +1,7 @@
-query comments($postSlug: String!, $authorId: String, $cursor: Date){
-    comments(postSlug: $postSlug, authorId: $authorId, cursor: $cursor){
+query comments($postId: String!, $authorId: String, $cursor: Date){
+    comments(postId: $postId, authorId: $authorId, cursor: $cursor){
         id
-        postSlug
+        postId
         author{
             id
             username

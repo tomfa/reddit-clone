@@ -1,5 +1,6 @@
 mutation addPost($input: AddPostInput!){
     addPost(input: $input){
+        id
         title
         slug
         content
@@ -17,11 +18,11 @@ mutation addPost($input: AddPostInput!){
             userId
             vote
             id
-            postSlug
+            postId
         }
         comments{
             id
-            postSlug
+            postId
             author{
                 id
                 username

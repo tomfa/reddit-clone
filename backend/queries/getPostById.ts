@@ -1,13 +1,13 @@
 import { UserAuth } from "../../request.types";
 import {
   Post,
-  QueryGetPostBySlugArgs,
+  QueryGetPostByIdArgs,
 } from "../../graphql/generated/types";
 import db from "../db";
 
-export const getPostBySlug = async (
-  args: QueryGetPostBySlugArgs,
+export const getPostById = async (
+  args: QueryGetPostByIdArgs,
   user: UserAuth | null
 ): Promise<Post | null> => {
-  return db.getPostBySlug({...args, incrementViews: true }, user);
+  return db.getPostById({...args, incrementViews: true }, user);
 };

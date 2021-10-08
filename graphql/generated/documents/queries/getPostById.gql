@@ -1,5 +1,6 @@
-query getPostBySlug($slug: String!){
-    getPostBySlug(slug: $slug){
+query getPostById($id: String!){
+    getPostById(id: $id){
+        id
         title
         slug
         content
@@ -17,11 +18,11 @@ query getPostBySlug($slug: String!){
             userId
             vote
             id
-            postSlug
+            postId
         }
         comments{
             id
-            postSlug
+            postId
             author{
                 id
                 username

@@ -1,7 +1,7 @@
 mutation addComment($input: AddCommentInput!){
     addComment(input: $input){
         id
-        postSlug
+        postId
         author{
             id
             username

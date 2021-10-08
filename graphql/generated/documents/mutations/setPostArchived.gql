@@ -1,5 +1,6 @@
-mutation setPostArchived($slug: String!, $archived: Boolean!){
-    setPostArchived(slug: $slug, archived: $archived){
+mutation setPostArchived($id: String!, $archived: Boolean!){
+    setPostArchived(id: $id, archived: $archived){
+        id
         title
         slug
         content
@@ -17,11 +18,11 @@ mutation setPostArchived($slug: String!, $archived: Boolean!){
             userId
             vote
             id
-            postSlug
+            postId
         }
         comments{
             id
-            postSlug
+            postId
             author{
                 id
                 username

@@ -32,8 +32,8 @@ const PostList = ({ posts, loading }: { posts?: Post[], loading: boolean }) => {
 
   return (
     <List>
-      {posts.map((post, index) => (
-        <PostListItem key={post.slug} {...post} />
+      {posts.map((post) => (
+        <PostListItem key={post.id} {...post} />
       ))}
     </List>
   );

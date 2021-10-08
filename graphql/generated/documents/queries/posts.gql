@@ -1,5 +1,6 @@
 query posts($category: String, $sort: PostSort, $username: String, $order: SortOrder, $createdAfter: Date, $cursor: Date){
     posts(category: $category, sort: $sort, username: $username, order: $order, createdAfter: $createdAfter, cursor: $cursor){
+        id
         title
         slug
         content
@@ -17,11 +18,11 @@ query posts($category: String, $sort: PostSort, $username: String, $order: SortO
             userId
             vote
             id
-            postSlug
+            postId
         }
         comments{
             id
-            postSlug
+            postId
             author{
                 id
                 username

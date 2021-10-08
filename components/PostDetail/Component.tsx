@@ -8,7 +8,7 @@ import {
   AddCommentInput,
   useAddCommentMutation,
   useCommentsLazyQuery,
-  useGetPostBySlugLazyQuery,
+  useGetPostByIdLazyQuery,
   Comment,
   CommentsQuery,
 } from "../../graphql/generated/types";
@@ -18,27 +18,27 @@ import { getUpvotePercentage } from "../../utils/post.utils";
 import PostDetailCommentSection from "./CommentSection";
 
 const PostDetail = () => {
-  const slug = getUrlQueryString("slug");
+  const postId = getUrlQueryString("postId");
   const { user, isLoggedIn } = useUserData();
-  const [getPost, { data, loading }] = useGetPostBySlugLazyQuery();
+  const [getPost, { data, loading }] = useGetPostByIdLazyQuery();
   const [
     getComments,
     { data: commentsData, loading: commentsLoading, updateQuery },
   ] = useCommentsLazyQuery();
-  const post = data?.getPostBySlug;
+  const post = data?.getPostById;
   const comments = useMemo(() => commentsData?.comments || [], [commentsData]);
   const [addComment, { loading: addCommentLoading }] = useAddCommentMutation();
   useEffect(() => {
-    slug && getPost({ variables: { slug } });
-    slug && getComments({ variables: { postSlug: slug } });
-  }, [slug, getPost]);
+    postId && getPost({ variables: { id: postId } });
+    postId && getComments({ variables: { postId } });
+  }, [postId, getPost]);
 
   const onSubmitNewComment = useCallback(
     ({ content }: { content: string }) => {
-      if (!slug || !user) {
+      if (!postId || !user) {
         return;
       }
-      const input: AddCommentInput = { content, postSlug: slug };
+      const input: AddCommentInput = { content, postId };
       addComment({ variables: { input } }).then((result) => {
         const id = result.data?.addComment.id;
         const tempComment: Comment = {
@@ -46,7 +46,7 @@ const PostDetail = () => {
           createdAt: new Date(),
           id: id || Math.random().toString(),
           author: user,
-          postSlug: slug,
+          postId,
         };
         updateQuery &&
           updateQuery((query: CommentsQuery) => ({
@@ -54,10 +54,10 @@ const PostDetail = () => {
           }));
       });
     },
-    [slug, user, updateQuery]
+    [postId, user, updateQuery]
   );
 
-  if (loading || !slug)
+  if (loading || !postId)
     return (
       <Foreground>
         <LoadingIndicatorBox />
