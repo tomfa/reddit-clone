@@ -4,6 +4,7 @@ import Link from "next/link";
 import { headerItem } from "../shared/helpers";
 import NavLink from "../shared/NavLink";
 import {ROUTES} from "../../utils/routes.utils";
+import {config} from "../../lib/config";
 
 const Logo = styled(NavLink)`
   ${headerItem};
@@ -20,6 +21,6 @@ const Logo = styled(NavLink)`
   }
 `;
 
-const HeaderLogo = () => <Logo href={ROUTES.HOME()}>ACO</Logo>;
+const HeaderLogo = () => <Logo href={ROUTES.HOME()}>{config.shortTitle}</Logo>;
 
 export default HeaderLogo;
