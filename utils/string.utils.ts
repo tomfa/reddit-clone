@@ -1,3 +1,10 @@
+import makeSlug from "slugify";
+
 export const slugify = (val: string): string => {
-  return val.replace(" ", "-").toLowerCase();
+  return makeSlug(val, {
+    replacement: "-",
+    lower: true,
+    strict: true,
+    trim: true,
+  });
 };
