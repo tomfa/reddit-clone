@@ -1,7 +1,12 @@
-import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
 
 export const getRandomUserName = uniqueNamesGenerator({
-  dictionaries: [adjectives, colors, animals]
-})
+  dictionaries: [adjectives, colors, animals],
+});
 
-export const getDomainFromEmail = (email: string) => email.split('@')[1];
+export const getDomainFromEmail = (email: string) => email.split("@")[1];

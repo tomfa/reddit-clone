@@ -9,9 +9,7 @@ const PostDetailCommentSection = ({
   comments: Comment[];
   loading: boolean;
 }) => {
-  return (
-    <CommentList comments={comments} loading={loading} />
-  );
+  return <CommentList comments={comments} loading={loading} />;
 };
 
 export default PostDetailCommentSection;

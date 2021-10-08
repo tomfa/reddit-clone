@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import {transition} from "../shared/helpers";
+import { transition } from "../shared/helpers";
 
 const TextArea = styled.textarea`
   ${transition("border", "box-shadow")};
-  
+
   box-shadow: 0 0 0 1px var(--color-border);
   display: block;
   width: 100%;
   padding: 8px;
   background-color: var(--color-inputBackground);
   font-size: 15px;
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
   appearance: none;
   outline: none;
   resize: vertical;

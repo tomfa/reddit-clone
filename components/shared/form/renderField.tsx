@@ -5,7 +5,7 @@ import Error from "./Error";
 import SelectWrapper from "./SelectWrapper";
 import Input from "./Input";
 import RadioGroup from "./RadioGroup";
-import {FieldProps} from "react-final-form";
+import { FieldProps } from "react-final-form";
 
 const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
   switch (field.input.type) {

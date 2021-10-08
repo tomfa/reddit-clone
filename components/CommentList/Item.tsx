@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CommentComponent from "../Comment";
-import {Comment} from "../../graphql/generated/types";
+import { Comment } from "../../graphql/generated/types";
 
 const Item = styled.li`
   margin-bottom: 8px;

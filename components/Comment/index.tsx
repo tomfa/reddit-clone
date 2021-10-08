@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CommentDetailContainer from "./Detail/Component";
 import CommentContent from "./Content";
-import {Comment} from "../../graphql/generated/types";
+import { Comment } from "../../graphql/generated/types";
 
 const Wrapper = styled.div`
   border: 1px solid var(--color-border);
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const CommentComponent = ({ comment }: { comment: Comment}) => (
+const CommentComponent = ({ comment }: { comment: Comment }) => (
   <Wrapper>
     <CommentDetailContainer comment={comment} />
     <CommentContent>{comment.body}</CommentContent>

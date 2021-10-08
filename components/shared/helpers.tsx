@@ -42,12 +42,12 @@ export const headerItem = css`
   }
 `;
 
-export const link = (props: { underline?: boolean}) => css`
+export const link = (props: { underline?: boolean }) => css`
   ${transition("color")};
 
   text-underline-position: under;
   text-decoration: none;
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
 
   :hover {
     ${props.underline && "text-decoration: underline"};

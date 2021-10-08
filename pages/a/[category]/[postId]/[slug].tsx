@@ -5,7 +5,6 @@ import CategoryMenu from "../../../../components/CategoryMenu/Component";
 import PostDetail from "../../../../components/PostDetail/Component";
 
 const PostDetailPage: NextPage = () => {
-
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <CategoryMenu />

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CategoryMenuDropdown from "./Dropdown";
 import CategoryMenuCreatePostButton from "./CreatePostButton";
-import {getCurrentCategory, useUserData} from "../../lib/hooks";
+import { useCurrentCategory, useUserData } from "../../lib/hooks";
 
 const Menu = styled.nav`
   display: none;
@@ -16,16 +16,14 @@ const Menu = styled.nav`
 `;
 
 const CategoryMenu = () => {
-  const category = getCurrentCategory() || 'all';
+  const category = useCurrentCategory() || "all";
   const { isLoggedIn } = useUserData();
   return (
     <Menu>
-      <CategoryMenuDropdown
-        category={category}
-      />
-      {isLoggedIn && <CategoryMenuCreatePostButton/>}
+      <CategoryMenuDropdown category={category} />
+      {isLoggedIn && <CategoryMenuCreatePostButton />}
     </Menu>
-  )
+  );
 };
 
 export default CategoryMenu;

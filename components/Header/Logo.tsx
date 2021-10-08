@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { headerItem } from "../shared/helpers";
 import NavLink from "../shared/NavLink";
-import {ROUTES} from "../../utils/routes.utils";
-import {config} from "../../lib/config";
+import { ROUTES } from "../../utils/routes.utils";
+import { config } from "../../lib/config";
 
 const Logo = styled(NavLink)`
   ${headerItem};

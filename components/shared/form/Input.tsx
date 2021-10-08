@@ -3,7 +3,7 @@ import { transition } from "../helpers";
 
 const Input = styled.input<{ error: boolean }>`
   ${transition("border", "box-shadow")};
-  
+
   border: none;
   box-shadow: 0 0 0 1px var(--color-border);
 
@@ -13,7 +13,7 @@ const Input = styled.input<{ error: boolean }>`
   padding: 8px;
   background-color: var(--color-inputBackground);
   font-size: 15px;
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
   appearance: none;
   outline: none;
   resize: vertical;

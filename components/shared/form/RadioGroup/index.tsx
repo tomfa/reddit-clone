@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import RadioGroupOption from "./Option";
-import {FieldProps} from "react-final-form";
+import { FieldProps } from "react-final-form";
 
 const RadioGroupWrapper = styled.div`
   display: flex;

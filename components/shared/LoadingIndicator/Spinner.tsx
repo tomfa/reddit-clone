@@ -16,7 +16,7 @@ const LoadingIndicatorSpinner = styled.div`
   top: 50%;
   left: 50%;
   animation: ${spin} 1s infinite linear;
-  border: 0.3rem solid  var(--color-blue);
+  border: 0.3rem solid var(--color-blue);
   border-top-color: var(--color-blue);
   border-radius: 50%;
   border-left: 3px solid white;

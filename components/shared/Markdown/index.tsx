@@ -5,7 +5,7 @@ import breaks from "remark-breaks";
 import renderers from "./renderers";
 
 const StyledReactMarkdown = styled(ReactMarkdown)`
-  color:  var(--color-normalText);
+  color: var(--color-normalText);
   font-size: 15px;
   line-height: 1.5;
 
@@ -56,12 +56,13 @@ const allowed = [
 
 const Markdown = ({ children }: { children: string }) => (
   <StyledReactMarkdown
-    children={children}
     plugins={[breaks]}
     allowedElements={allowed}
     components={renderers}
     unwrapDisallowed
-  />
+  >
+    {children}
+  </StyledReactMarkdown>
 );
 
 export default Markdown;

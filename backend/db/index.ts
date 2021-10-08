@@ -14,7 +14,7 @@ import {
   User,
   VoteValue,
 } from "../../graphql/generated/types";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useCollection as getCollection } from "react-firebase-hooks/firestore";
 import { slugify } from "../../utils/string.utils";
 import { DBComment, DBPost, DBUser, DBVote } from "./types";
 import { COMMENT, POSTS, USERS, VOTES } from "./collections";
@@ -199,7 +199,7 @@ const addUser = async (
 const getPostsForUser = async (userId: string): Promise<Post[]> => {
   const ref = firestore.collection(USERS).doc(userId).collection(POSTS);
   const query = ref.orderBy("createdAt");
-  const [querySnapshot] = useCollection(query);
+  const [querySnapshot] = getCollection(query);
 
   // @ts-ignore
   const posts = querySnapshot?.docs.map((doc: unknown) => doc.data());
@@ -312,19 +312,17 @@ const getVotesForUser = async (args: {
 
   let query = firestore
     .collectionGroup(VOTES)
-    .where("userId", "==", args.userId)
-
+    .where("userId", "==", args.userId);
 
   if (args.filterPostIds.length === 1) {
-    query = query.where('postId', '==', args.filterPostIds[0])
+    query = query.where("postId", "==", args.filterPostIds[0]);
   } else if (args.filterPostIds.length && args.filterPostIds.length < 10) {
-    query = query.where('postId', 'in', args.filterPostIds)
+    query = query.where("postId", "in", args.filterPostIds);
   } else {
     // TODO: Find a way to only retrieve votes by filterPostsId ("IN" is max 10)
   }
 
   const result = await query.get();
-
 
   const votes = result.docs.map((d) => d.data()) as DBVote[];
   return args.filterPostIds.reduce(

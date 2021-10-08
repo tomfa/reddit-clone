@@ -10,14 +10,15 @@ type Props = {
   loading: boolean;
 };
 const CommentForm = ({ onAddComment, loading }: Props) => {
-  const { register, handleSubmit, setValue } = useForm<Omit<AddCommentInput, "postId">>();
+  const { register, handleSubmit, setValue } =
+    useForm<Omit<AddCommentInput, "postId">>();
 
   const onSubmit = useCallback(
     (input: Omit<AddCommentInput, "postId">) => {
       onAddComment(input);
       setValue("content", "");
     },
-    [onAddComment]
+    [onAddComment, setValue]
   );
 
   return (

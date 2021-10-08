@@ -4,7 +4,7 @@ import { smallFont } from "./helpers";
 
 const Wrapper = styled.div<{ comments: boolean }>`
   ${smallFont};
-  
+
   width: 100%;
 
   ${(props) => props.comments && "margin-top: 16px"};

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import SelectWrapper from "../shared/form/SelectWrapper";
 import { config } from "../../lib/config";
-import {useRouter} from "next/router";
-import {ROUTES} from "../../utils/routes.utils";
+import { useRouter } from "next/router";
+import { ROUTES } from "../../utils/routes.utils";
 
 const Dropdown = styled.select`
   border: none;
@@ -20,8 +20,9 @@ const CategoryMenuDropdown = ({ category }: { category: string }) => {
   const router = useRouter();
   const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategory = event.target.value;
-    const url = newCategory === "all" ? ROUTES.HOME() : ROUTES.CATEGORY(newCategory);
-    router.push(url)
+    const url =
+      newCategory === "all" ? ROUTES.HOME() : ROUTES.CATEGORY(newCategory);
+    router.push(url);
   };
 
   return (

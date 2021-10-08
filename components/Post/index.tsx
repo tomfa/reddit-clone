@@ -14,10 +14,7 @@ type Props = { post: Post; full: boolean };
 const PostContainer = ({ full, post }: Props) => (
   <Wrapper>
     <PostVoteContainer post={post} />
-    <PostContent
-      showFullPost={full}
-      post={post}
-    />
+    <PostContent showFullPost={full} post={post} />
   </Wrapper>
 );
 

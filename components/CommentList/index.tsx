@@ -9,25 +9,33 @@ const List = styled.ul`
 `;
 
 const loadingComment: Comment = {
-  id: '...',
+  id: "...",
   author: {
-    id: '...',
-    name: '...',
-    username: 'Loading...'
+    id: "...",
+    name: "...",
+    username: "Loading...",
   },
-  body: '...',
+  body: "...",
   createdAt: new Date(),
-  postId: '...'
-}
+  postId: "...",
+};
 
-const CommentList = ({ comments, loading }: { comments: Comment[], loading: boolean }) => {
+const CommentList = ({
+  comments,
+  loading,
+}: {
+  comments: Comment[];
+  loading: boolean;
+}) => {
   return (
     comments && (
       <List>
         {comments.map((comment) => (
           <CommentListItem key={comment.id} comment={comment} />
         ))}
-        {loading && <CommentListItem key={'loading'} comment={loadingComment} />}
+        {loading && (
+          <CommentListItem key={"loading"} comment={loadingComment} />
+        )}
       </List>
     )
   );

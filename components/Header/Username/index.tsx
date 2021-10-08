@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import HeaderNavLink from "../NavLink";
 import HeaderUsernameText from "./Text";
-import {ROUTES} from "../../../utils/routes.utils";
+import { ROUTES } from "../../../utils/routes.utils";
 
 const Wrapper = styled(HeaderNavLink)`
   flex-shrink: 1;

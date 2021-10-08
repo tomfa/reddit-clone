@@ -4,27 +4,21 @@ import PostList from "../../../components/PostList/Component";
 import Sidebar from "../../../components/Sidebar/Component";
 import CategoryMenu from "../../../components/CategoryMenu/Component";
 import { usePostsQuery } from "../../../graphql/generated/types";
-import { getCurrentCategory } from "../../../lib/hooks";
+import { useCurrentCategory } from "../../../lib/hooks";
 import LoadMoreButton from "../../../components/LoadMoreButton";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const PostListPage: NextPage = () => {
-  const category = getCurrentCategory();
+  const category = useCurrentCategory();
   const [hasLoadedAllPosts, setHasLoadedAllPosts] = useState(false);
-  const fetchVariables = useMemo(
-    () => ({ category}),
-    [category]
-  );
+  const fetchVariables = useMemo(() => ({ category }), [category]);
   const { data, loading, fetchMore } = usePostsQuery({
     variables: fetchVariables,
   });
-  const posts = useMemo(
-    () => data?.posts || [],
-    [category, data]
-  );
+  const posts = useMemo(() => data?.posts || [], [category, data]);
   useEffect(() => {
-    setHasLoadedAllPosts(false)
-  }, [category])
+    setHasLoadedAllPosts(false);
+  }, [category]);
 
   const onLoadPosts = useCallback(async () => {
     const oldestPost = posts

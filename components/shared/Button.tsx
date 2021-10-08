@@ -4,8 +4,8 @@ import { transition, wideFont } from "./helpers";
 const Button = styled.button<{ hidden?: boolean }>`
   ${transition("filter", "box-shadow")};
   ${wideFont};
-  
-  ${p =>p.hidden && 'display: none;'}
+
+  ${(p) => p.hidden && "display: none;"}
 
   border: none;
   border-radius: 3px;
@@ -24,7 +24,7 @@ const Button = styled.button<{ hidden?: boolean }>`
   }
 
   :focus {
-    box-shadow: 0 0 0 2px  var(--color-blue);
+    box-shadow: 0 0 0 2px var(--color-blue);
   }
 `;
 

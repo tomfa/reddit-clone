@@ -8,7 +8,6 @@ import { toUserAuth } from "../../utils/request.utils";
 import { getToken } from "next-auth/jwt";
 import typeDefs from "../../graphql/schema.graphql";
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,

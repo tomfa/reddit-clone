@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders } from "http";
-import {User} from "./graphql/generated/types";
+import { User } from "./graphql/generated/types";
 
 export type RequestContext = {
   auth: UserAuth | null;
@@ -8,6 +8,6 @@ export type RequestContext = {
   config: NodeJS.ProcessEnv;
 };
 
-export type UserAuth = Omit<User, 'createdAt'>
+export type UserAuth = Omit<User, "createdAt">;
 
 export type EmptyResolverArgs = Record<never, never>;

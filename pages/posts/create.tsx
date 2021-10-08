@@ -1,11 +1,11 @@
 import { Field, Form as FinalForm } from "react-final-form";
-import { OnChange } from 'react-final-form-listeners'
+import { OnChange } from "react-final-form-listeners";
 import Form from "../../components/shared/form/Form";
 import renderField from "../../components/shared/form/renderField";
 import SubmitButton from "../../components/shared/form/SubmitButton";
 import { config } from "../../lib/config";
 import { useRouter } from "next/router";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   PostsQuery,
   PostType,
@@ -13,7 +13,7 @@ import {
   usePostsLazyQuery,
 } from "../../graphql/generated/types";
 import { useUserData } from "../../lib/hooks";
-import {ROUTES} from "../../utils/routes.utils";
+import { ROUTES } from "../../utils/routes.utils";
 
 const postTypes = [
   {
@@ -33,26 +33,31 @@ export default function CreatePostForm() {
   const [fetchPosts, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const [postMutation, postResult] = useAddPostMutation();
   const [postType, setPostType] = useState<PostType>(PostType.Text);
-  const onSubmit = useCallback(async (post: {
-    content: string;
-    category: string;
-    type: PostType;
-    title: string;
-  }) => {
-    if (!user) {
-      return
-    }
-    const postMutationData = await postMutation({ variables: { input: { ...post, type: postType } } });
-    const newPost = postMutationData.data?.addPost;
-    if (newPost && updatePostsQuery) {
-      updatePostsQuery((query: PostsQuery) => {
-        return {
-          posts: [newPost].concat(query.posts),
-        };
+  const onSubmit = useCallback(
+    async (post: {
+      content: string;
+      category: string;
+      type: PostType;
+      title: string;
+    }) => {
+      if (!user) {
+        return;
+      }
+      const postMutationData = await postMutation({
+        variables: { input: { ...post, type: postType } },
       });
-    }
-    await router.push(ROUTES.HOME())
-  }, [user, router, updatePostsQuery, postMutation]);
+      const newPost = postMutationData.data?.addPost;
+      if (newPost && updatePostsQuery) {
+        updatePostsQuery((query: PostsQuery) => {
+          return {
+            posts: [newPost].concat(query.posts),
+          };
+        });
+      }
+      await router.push(ROUTES.HOME());
+    },
+    [user, router, updatePostsQuery, postMutation]
+  );
 
   useEffect(() => {
     if (!isLoggedIn && !isLoading) {
@@ -64,7 +69,7 @@ export default function CreatePostForm() {
     <FinalForm
       onSubmit={onSubmit}
       initialValues={{ type: PostType.Text, category: config.categories[0] }}
-      style={{ width: '100%'}}
+      style={{ width: "100%" }}
     >
       {({ handleSubmit }) => (
         <Form

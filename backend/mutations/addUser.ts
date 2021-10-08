@@ -1,11 +1,12 @@
 import {
   MutationAddPostArgs,
   MutationAddUserArgs,
-  Post, User
+  Post,
+  User,
 } from "../../graphql/generated/types";
 import { slugify } from "../../utils/string.utils";
 import { UserAuth } from "../../request.types";
-import {db} from "../db";
+import { db } from "../db";
 
 export const addUser = async (
   { input }: MutationAddUserArgs,

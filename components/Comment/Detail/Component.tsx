@@ -6,7 +6,7 @@ import DeleteButton from "../../shared/DeleteButton";
 import { Comment } from "../../../graphql/generated/types";
 import StyledLink from "../../shared/StyledLinkComponent";
 import { useUserData } from "../../../lib/hooks";
-import {ROUTES} from "../../../utils/routes.utils";
+import { ROUTES } from "../../../utils/routes.utils";
 
 const Wrapper = styled.div`
   display: flex;

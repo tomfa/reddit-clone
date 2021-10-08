@@ -12,13 +12,13 @@ import {
   Comment,
   CommentsQuery,
 } from "../../graphql/generated/types";
-import { getUrlQueryString, useUserData } from "../../lib/hooks";
+import { useUrlQueryString, useUserData } from "../../lib/hooks";
 import { Foreground } from "../Foreground";
 import { getUpvotePercentage } from "../../utils/post.utils";
 import PostDetailCommentSection from "./CommentSection";
 
 const PostDetail = () => {
-  const postId = getUrlQueryString("postId");
+  const postId = useUrlQueryString("postId");
   const { user, isLoggedIn } = useUserData();
   const [getPost, { data, loading }] = useGetPostByIdLazyQuery();
   const [

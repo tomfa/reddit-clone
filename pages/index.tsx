@@ -1,5 +1,5 @@
 import PostListPage from "./a/[category]/index";
 
-const Home = PostListPage
+const Home = PostListPage;
 
 export default Home;

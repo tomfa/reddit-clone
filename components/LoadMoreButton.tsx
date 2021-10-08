@@ -7,5 +7,5 @@ export const LoadMoreButton = styled(Button)`
   margin-bottom: 1rem;
   align-self: center;
   background-color: var(--color-mutedText);
-`
+`;
 export default LoadMoreButton;

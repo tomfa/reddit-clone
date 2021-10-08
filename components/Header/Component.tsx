@@ -5,7 +5,7 @@ import HeaderUsername from "./Username";
 import HeaderNavLink from "./NavLink";
 import { useUserData } from "../../lib/hooks";
 import { useRouter } from "next/router";
-import {ROUTES} from "../../utils/routes.utils";
+import { ROUTES } from "../../utils/routes.utils";
 
 const Wrapper = styled.header`
   position: sticky;

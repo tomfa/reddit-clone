@@ -1,27 +1,32 @@
 import { useMemo } from "react";
 import { useSession } from "next-auth/client";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export function useUserData() {
   const [session, isLoading] = useSession();
   const username = useMemo(() => session?.user?.username, [session]);
-  return { user: session?.user, username, isLoggedIn: !!session?.user, isLoading };
+  return {
+    user: session?.user,
+    username,
+    isLoggedIn: !!session?.user,
+    isLoading,
+  };
 }
 
-export const getUrlQueryString = (key: string, defaultValue?: string) => {
+export const useUrlQueryString = (key: string, defaultValue?: string) => {
   const router = useRouter();
   return useMemo(() => {
     const val = router.query[key];
     if (!val) {
-      return defaultValue
+      return defaultValue;
     }
-    if (typeof val === 'string') {
-      return val
+    if (typeof val === "string") {
+      return val;
     }
     return val[0];
-  }, [router.query, key])
-}
+  }, [router.query, key]);
+};
 
-export function getCurrentCategory() {
-  return getUrlQueryString('category')
+export function useCurrentCategory() {
+  return useUrlQueryString("category");
 }

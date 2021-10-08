@@ -20,12 +20,14 @@ const PostContent = ({ post, showFullPost }: Props) => {
   const previewOnly = post.type === PostType.Link || !showFullPost;
   return (
     <Wrapper>
-      <PostContentTitle post={post} full={showFullPost}/>
+      <PostContentTitle post={post} full={showFullPost} />
       {previewOnly && <PostContentPreview>{post.content}</PostContentPreview>}
-      {!previewOnly && <PostContentFullText>{post.content}</PostContentFullText>}
-      <PostContentDetail post={post}/>
+      {!previewOnly && (
+        <PostContentFullText>{post.content}</PostContentFullText>
+      )}
+      <PostContentDetail post={post} />
     </Wrapper>
-  )
+  );
 };
 
 export default PostContent;
