@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import HeaderNavLink from "../NavLink";
 import HeaderUsernameText from "./Text";
+import {ROUTES} from "../../../utils/routes.utils";
 
 const Wrapper = styled(HeaderNavLink)`
   flex-shrink: 1;
@@ -10,9 +11,9 @@ const Wrapper = styled(HeaderNavLink)`
   min-width: 0;
 `;
 
-const HeaderUsername = (props) => (
-  <Wrapper href={`/u/${props.username}`}>
-    <HeaderUsernameText>{props.username}</HeaderUsernameText>
+const HeaderUsername = ({ username }: { username: string }) => (
+  <Wrapper href={ROUTES.USER({ username })}>
+    <HeaderUsernameText>{username}</HeaderUsernameText>
   </Wrapper>
 );
 

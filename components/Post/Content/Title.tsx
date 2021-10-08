@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { overflow, link } from "../../shared/helpers";
 import {Post, PostType} from "../../../graphql/generated/types";
+import {ROUTES} from "../../../utils/routes.utils";
 
 const Wrapper = styled.div<{ full: boolean, archived: boolean }>`
   display: flex;
@@ -34,7 +35,7 @@ const renderTitle = ({post, full}: Props) => {
     case "TEXT":
       if (full) return <span>{post.title}</span>;
       return (
-        <Link href={`/a/${post.category}/${post.slug}`}>{post.title}</Link>
+        <Link href={ROUTES.POST(post)}>{post.title}</Link>
       );
 
     default:

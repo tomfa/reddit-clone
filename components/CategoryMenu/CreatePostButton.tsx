@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Button from "../shared/Button";
+import {ROUTES} from "../../utils/routes.utils";
 
 const CreatePostButton = styled(Button)`
   display: flex;
@@ -12,7 +13,7 @@ const CreatePostButton = styled(Button)`
 `;
 
 const CategoryMenuCreatePostButton = () => (
-  <Link href={"/posts/create"} passHref>
+  <Link href={ROUTES.ADD_POST()} passHref>
     <CreatePostButton as={'a'}>create post</CreatePostButton>
   </Link>
 );

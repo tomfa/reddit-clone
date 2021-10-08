@@ -16,6 +16,7 @@ import {
   usePostsLazyQuery,
 } from "../../graphql/generated/types";
 import { useUserData } from "../../lib/hooks";
+import {ROUTES} from "../../utils/routes.utils";
 
 const postTypes = [
   {
@@ -53,7 +54,7 @@ export default function CreatePostForm() {
         };
       });
     }
-    await router.push(`/`)
+    await router.push(ROUTES.HOME())
   }, [user, router, updatePostsQuery, postMutation]);
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function CreatePostForm() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push("/");
+      router.push(ROUTES.HOME());
     }
   }, [isLoggedIn, router]);
 

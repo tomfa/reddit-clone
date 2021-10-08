@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { headerItem } from "../shared/helpers";
 import NavLink from "../shared/NavLink";
+import {ROUTES} from "../../utils/routes.utils";
 
 const Logo = styled(NavLink)`
   ${headerItem};
@@ -19,6 +20,6 @@ const Logo = styled(NavLink)`
   }
 `;
 
-const HeaderLogo = () => <Logo href="/">ACO</Logo>;
+const HeaderLogo = () => <Logo href={ROUTES.HOME()}>ACO</Logo>;
 
 export default HeaderLogo;

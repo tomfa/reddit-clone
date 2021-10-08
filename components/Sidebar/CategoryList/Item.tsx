@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import NavLink from "../../shared/NavLink";
+import {ROUTES} from "../../../utils/routes.utils";
 
 const Item = styled(NavLink)<{ active: boolean }>`
   display: block;
@@ -19,7 +20,8 @@ const Item = styled(NavLink)<{ active: boolean }>`
 
 const SidebarCategoryListItem = ({ category, active }: { category: string,active: boolean }) => {
   const isAll = category === "all";
-  return <Item href={isAll ? "/" : `/a/${category}`} active={active}>{category}</Item>;
+  const url = isAll ? ROUTES.HOME() : ROUTES.CATEGORY(category);
+  return <Item href={url} active={active}>{category}</Item>;
 };
 
 export default SidebarCategoryListItem;

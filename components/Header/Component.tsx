@@ -5,6 +5,7 @@ import HeaderUsername from "./Username";
 import HeaderNavLink from "./NavLink";
 import { useUserData } from "../../lib/hooks";
 import { useRouter } from "next/router";
+import {ROUTES} from "../../utils/routes.utils";
 
 const Wrapper = styled.header`
   position: sticky;
@@ -47,20 +48,20 @@ const NavActions = styled.div`
 const Header = () => {
   const router = useRouter();
   const { username, isLoggedIn } = useUserData();
-  const logout = useCallback(() => router.push("/logout"), [router]);
+  const logout = useCallback(() => router.push(ROUTES.LOGOUT()), [router]);
   return (
     <Wrapper>
       <InnerWrapper>
         <HeaderLogo />
-        {isLoggedIn ? (
+        {isLoggedIn && username ? (
           <NavActions>
             <HeaderUsername username={username} />
             <HeaderNavLink onClick={logout}>log out</HeaderNavLink>
           </NavActions>
         ) : (
           <NavActions>
-            <HeaderNavLink href="/login">log in</HeaderNavLink>
-            <HeaderNavLink href="/signup">sign up</HeaderNavLink>
+            <HeaderNavLink href={ROUTES.LOGIN()}>log in</HeaderNavLink>
+            <HeaderNavLink href={ROUTES.LOGIN()}>sign up</HeaderNavLink>
           </NavActions>
         )}
       </InnerWrapper>
