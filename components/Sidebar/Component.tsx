@@ -20,7 +20,7 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = () => {
-  const category = getCurrentCategory();
+  const category = getCurrentCategory() || 'all';
   const { isLoggedIn } = useUserData();
   return (
     <Wrapper>

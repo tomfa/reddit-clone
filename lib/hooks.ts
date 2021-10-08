@@ -23,5 +23,5 @@ export const getUrlQueryString = (key: string, defaultValue?: string) => {
 }
 
 export function getCurrentCategory() {
-  return getUrlQueryString('category', 'all')
+  return getUrlQueryString('category')
 }

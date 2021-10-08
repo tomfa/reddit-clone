@@ -16,12 +16,12 @@ const Menu = styled.nav`
 `;
 
 const CategoryMenu = () => {
-  const category = getCurrentCategory();
+  const category = getCurrentCategory() || 'all';
   const { isLoggedIn } = useUserData();
   return (
     <Menu>
       <CategoryMenuDropdown
-        category={category || 'all'}
+        category={category}
       />
       {isLoggedIn && <CategoryMenuCreatePostButton/>}
     </Menu>

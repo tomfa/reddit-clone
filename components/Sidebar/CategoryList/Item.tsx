@@ -18,7 +18,7 @@ const Item = styled(NavLink)<{ active: boolean }>`
   }
 `;
 
-const SidebarCategoryListItem = ({ category, active }: { category: string,active: boolean }) => {
+const SidebarCategoryListItem = ({ category, active }: { category: string, active: boolean }) => {
   const isAll = category === "all";
   const url = isAll ? ROUTES.HOME() : ROUTES.CATEGORY(category);
   return <Item href={url} active={active}>{category}</Item>;

@@ -12,7 +12,7 @@ const PostListPage: NextPage = () => {
   const category = getCurrentCategory();
   const [hasLoadedAllPosts, setHasLoadedAllPosts] = useState(false);
   const fetchVariables = useMemo(
-    () => ({ category: (category !== "all" && category) || undefined }),
+    () => ({ category}),
     [category]
   );
   const { data, loading, fetchMore } = usePostsQuery({
