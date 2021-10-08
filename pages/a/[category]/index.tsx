@@ -5,18 +5,54 @@ import Sidebar from "../../../components/Sidebar/Component";
 import CategoryMenu from "../../../components/CategoryMenu/Component";
 import { usePostsQuery } from "../../../graphql/generated/types";
 import { getCurrentCategory } from "../../../lib/hooks";
+import LoadMoreButton from "../../../components/LoadMoreButton";
+import {useCallback, useEffect, useMemo, useState} from "react";
 
 const PostListPage: NextPage = () => {
   const category = getCurrentCategory();
-  const { data, loading } = usePostsQuery({
-    variables: { category: (category !== "all" && category) || undefined },
+  const [hasLoadedAllPosts, setHasLoadedAllPosts] = useState(false);
+  const fetchVariables = useMemo(
+    () => ({ category: (category !== "all" && category) || undefined }),
+    [category]
+  );
+  const { data, loading, fetchMore } = usePostsQuery({
+    variables: fetchVariables,
   });
+  const posts = useMemo(
+    () => data?.posts || [],
+    [category, data]
+  );
+  useEffect(() => {
+    setHasLoadedAllPosts(false)
+  }, [category])
+
+  const onLoadPosts = useCallback(async () => {
+    const oldestPost = posts
+      .map((p) => p.createdAt)
+      .reduce((prev, cur) => Math.min(...[prev, cur]), Date.now());
+    const result = await fetchMore({
+      variables: { cursor: new Date(oldestPost) },
+    });
+    if (result.data.posts.length === 0) {
+      setHasLoadedAllPosts(true);
+    }
+  }, [fetchMore, posts]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <CategoryMenu />
       <div className={styles.container}>
-        <PostList posts={data?.posts} loading={loading} />
+        <div
+          style={{ width: "100%", display: "flex", flexDirection: "column" }}
+        >
+          <PostList posts={posts} loading={loading} />
+          <LoadMoreButton
+            hidden={hasLoadedAllPosts || loading || !posts.length}
+            onClick={onLoadPosts}
+          >
+            Load more
+          </LoadMoreButton>
+        </div>
         <Sidebar />
       </div>
     </div>

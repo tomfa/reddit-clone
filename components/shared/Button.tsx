@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { transition, wideFont } from "./helpers";
 
-const Button = styled.button`
+const Button = styled.button<{ hidden?: boolean }>`
   ${transition("filter", "box-shadow")};
   ${wideFont};
+  
+  ${p =>p.hidden && 'display: none;'}
 
   border: none;
   border-radius: 3px;

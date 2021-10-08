@@ -10,7 +10,6 @@ const List = styled.ul`
   border: 1px solid var(--color-border);
   border-radius: 2px;
   width: 100%;
-  background-color: var(--color-foreground);
 
   @media (max-width: 768px) {
     border-top: none;
@@ -23,11 +22,11 @@ const List = styled.ul`
 const PostList = ({ posts, loading }: { posts?: Post[], loading: boolean }) => {
 
   if (loading) {
-    return <List><LoadingIndicatorBox/></List>
+    return <LoadingIndicatorBox/>
   }
 
   if (!posts || posts.length === 0) {
-    return <List><Empty comments={false} /></List>
+    return <Empty comments={false} />
   }
 
   return (
