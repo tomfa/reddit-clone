@@ -39,13 +39,12 @@ const PostListPage: NextPage = () => {
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
-          <PostList posts={posts} loading={loading} />
-          <LoadMoreButton
-            hidden={hasLoadedAllPosts || loading || !posts.length}
-            onClick={onLoadPosts}
-          >
-            Load more
-          </LoadMoreButton>
+          <PostList
+            posts={posts}
+            loading={loading}
+            fetchMore={onLoadPosts}
+            hasMorePosts={!hasLoadedAllPosts}
+          />
         </div>
         <Sidebar />
       </div>

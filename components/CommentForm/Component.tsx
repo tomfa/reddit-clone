@@ -26,7 +26,7 @@ const CommentForm = ({ onAddComment, loading }: Props) => {
       <TextArea
         placeholder="enter your comment"
         rows={2}
-        {...register("content")}
+        {...register("content", { required: true })}
       />
       <CommentFormSubmitButton loading={loading} />
     </StyledForm>

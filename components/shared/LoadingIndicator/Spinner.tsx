@@ -19,7 +19,7 @@ const LoadingIndicatorSpinner = styled.div`
   border: 0.3rem solid var(--color-blue);
   border-top-color: var(--color-blue);
   border-radius: 50%;
-  border-left: 3px solid white;
+  border-left: 3px solid transparent;
   width: 48px;
   height: 48px;
 `;

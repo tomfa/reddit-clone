@@ -4,6 +4,8 @@ import PostListItem from "./Item";
 import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
 import { Post, usePostsQuery } from "../../graphql/generated/types";
+import InfiniteScroll from "react-infinite-scroll-component";
+import NoMoreResults from "../NoMoreResults";
 
 const List = styled.ul`
   list-style: none;
@@ -19,7 +21,17 @@ const List = styled.ul`
   }
 `;
 
-const PostList = ({ posts, loading }: { posts?: Post[]; loading: boolean }) => {
+const PostList = ({
+  posts,
+  loading,
+  fetchMore,
+  hasMorePosts,
+}: {
+  posts?: Post[];
+  loading: boolean;
+  fetchMore: () => void;
+  hasMorePosts: boolean;
+}) => {
   if (loading) {
     return <LoadingIndicatorBox />;
   }
@@ -29,11 +41,19 @@ const PostList = ({ posts, loading }: { posts?: Post[]; loading: boolean }) => {
   }
 
   return (
-    <List>
-      {posts.map((post) => (
-        <PostListItem key={post.id} {...post} />
-      ))}
-    </List>
+    <InfiniteScroll
+      dataLength={posts.length}
+      next={fetchMore}
+      hasMore={hasMorePosts}
+      loader={<LoadingIndicatorBox />}
+      endMessage={<NoMoreResults>No more posts</NoMoreResults>}
+    >
+      <List>
+        {posts.map((post) => (
+          <PostListItem key={post.id} {...post} />
+        ))}
+      </List>
+    </InfiniteScroll>
   );
 };
 
