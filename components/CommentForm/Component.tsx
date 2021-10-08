@@ -1,37 +1,34 @@
-import React from "react";
-import CommentFormTextArea from "./TextArea";
+import React, { useCallback } from "react";
 import CommentFormSubmitButton from "./SubmitButton";
 import { StyledForm } from "./StyledForm.styles";
-import { Form } from "react-final-form";
-import { AddCommentInput, PostType } from "../../graphql/generated/types";
+import { AddCommentInput } from "../../graphql/generated/types";
+import { useForm } from "react-hook-form";
+import TextArea from "./TextArea";
 
 type Props = {
   onAddComment: (input: Pick<AddCommentInput, "content">) => void;
   loading: boolean;
 };
 const CommentForm = ({ onAddComment, loading }: Props) => {
-  // TODO: Replace this form library
+  const { register, handleSubmit, setValue } = useForm<Omit<AddCommentInput, "postId">>();
+
+  const onSubmit = useCallback(
+    (input: Omit<AddCommentInput, "postId">) => {
+      onAddComment(input);
+      setValue("content", "");
+    },
+    [onAddComment]
+  );
+
   return (
-    <Form onSubmit={onAddComment}>
-      {({ handleSubmit, form }) => (
-        <StyledForm
-          onSubmit={(
-            e: React.SyntheticEvent
-          ) => {
-            handleSubmit(e);
-            form.reset();
-          }}
-        >
-          <CommentFormTextArea name="content" onSubmit={(
-            e: React.SyntheticEvent
-          ) => {
-            handleSubmit(e);
-            form.reset();
-          }} />
-          <CommentFormSubmitButton loading={loading} />
-        </StyledForm>
-      )}
-    </Form>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <TextArea
+        placeholder="enter your comment"
+        rows={2}
+        {...register("content")}
+      />
+      <CommentFormSubmitButton loading={loading} />
+    </StyledForm>
   );
 };
 

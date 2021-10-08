@@ -1,14 +1,24 @@
-import React, { useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Field } from "react-final-form";
-import Input from "../shared/form/Input";
+import {transition} from "../shared/helpers";
 
-const TextArea = styled(Input)`
+const TextArea = styled.textarea`
+  ${transition("border", "box-shadow")};
+  
+  box-shadow: 0 0 0 1px var(--color-border);
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background-color: var(--color-inputBackground);
+  font-size: 15px;
+  color:  var(--color-normalText);
+  appearance: none;
+  outline: none;
+  resize: vertical;
   margin: 0;
   border: none;
   border-bottom: 1px solid var(--color-border);
   border-radius: 0;
-  resize: none;
 
   :hover,
   :focus {
@@ -18,32 +28,4 @@ const TextArea = styled(Input)`
   }
 `;
 
-type Props = { onSubmit: () => void; name: string };
-const CommentFormTextArea = (props: Props) => {
-  const onKeyDown = useCallback(
-    (e) => {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        props.onSubmit();
-      }
-    },
-    [props.onSubmit]
-  );
-
-  const renderField = useCallback(
-    (field) => (
-      <TextArea
-        as="textarea"
-        {...field.input}
-        placeholder="enter your comment"
-        rows="2"
-        onKeyDown={onKeyDown}
-      />
-    ),
-    [onKeyDown]
-  );
-
-  return <Field name={props.name} component={renderField} />;
-};
-
-export default CommentFormTextArea;
+export default TextArea;
