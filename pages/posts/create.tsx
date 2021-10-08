@@ -55,14 +55,6 @@ export default function CreatePostForm() {
   }, [user, router, updatePostsQuery, postMutation]);
 
   useEffect(() => {
-    if (!updatePostsQuery) {
-      // TODO: This is just a hack so we're able to update it...
-      //  Not sure why updatePostsQuery shoudl be undefined
-      fetchPosts();
-    }
-  }, [fetchPosts, updatePostsQuery]);
-
-  useEffect(() => {
     if (!isLoggedIn && !isLoading) {
       router.push(ROUTES.HOME());
     }
