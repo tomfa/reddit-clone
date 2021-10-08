@@ -12,7 +12,7 @@ const List = styled.ul`
   list-style: none;
   border: 1px solid var(--color-border);
   border-radius: 2px;
-  overflow: hidden;
+  width: 100%;
 
   @media (max-width: 768px) {
     border-top: none;
@@ -28,18 +28,25 @@ const PostList = ({
   loading,
   fetchMore = () => {},
   hasMorePosts = false,
+  hideFilters,
 }: {
   header?: string;
   posts?: Post[];
   loading: boolean;
   fetchMore?: () => void;
   hasMorePosts: boolean;
+  hideFilters?: boolean;
 }) => {
   const isEmpty = !posts || !posts.length;
 
+  // TODO: Get the post fetching in here, please.
+  // Add week/day/month/year/alltime to Listfilter time dropdown
+  // Get the filtering to work
+  // Extract the list headers own component?
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <ListFilter header={header} />
+      <ListFilter header={header} hideFilters={hideFilters} />
       <InfiniteScroll
         dataLength={posts?.length || 0}
         next={fetchMore}
@@ -47,7 +54,8 @@ const PostList = ({
         loader={<LoadingIndicatorBox />}
         endMessage={<NoMoreResults>No more posts</NoMoreResults>}
       >
-        {isEmpty && <Empty />}
+        {loading && isEmpty && <LoadingIndicatorBox />}
+        {!loading && isEmpty && <Empty />}
         {!isEmpty && (
           <List>
             {posts.map((post) => (

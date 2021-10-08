@@ -2,6 +2,8 @@ import styled from "styled-components";
 import PostVoteButton from "./Button";
 
 const PostVoteUpvote = styled(PostVoteButton)<{ hasVoted: boolean }>`
+  padding-top: 0.5rem;
+
   --iconColor: ${(props) =>
     props.hasVoted ? "var(--color-blue)" : "var(--color-vote)"};
 

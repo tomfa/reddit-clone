@@ -33,6 +33,7 @@ const UserDetailPage: NextPage = () => {
           loading={loading}
           fetchMore={onLoadPosts}
           hasMorePosts={!hasLoadedAllPosts}
+          hideFilters
         />
       </div>
     </div>

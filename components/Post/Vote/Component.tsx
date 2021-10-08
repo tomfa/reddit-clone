@@ -17,13 +17,19 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30px;
-  padding: 4px;
+  justify-content: center;
+  min-width: 2.5rem;
   font-size: 12px;
   line-height: 25px;
   font-weight: 500;
   text-align: center;
   color: var(--color-text);
+`;
+
+const CenteredSpan = styled.span`
+  display: block;
+  width: 100%;
+  text-align: center;
 `;
 
 type Props = { post: Post };
@@ -74,7 +80,7 @@ const PostVote = ({ post }: Props) => {
           [submitVote]
         )}
       />
-      <span>{post.score}</span>
+      <CenteredSpan>{post.score}</CenteredSpan>
       <PostVoteDownvote
         canVote={votingEnabled}
         hasVoted={voteValue === VoteValue.Negative}

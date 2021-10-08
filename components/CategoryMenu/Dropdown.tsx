@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import SelectWrapper from "../shared/form/SelectWrapper";
 import { config } from "../../lib/config";
 import { useRouter } from "next/router";
 import { ROUTES } from "../../utils/routes.utils";
 
-const Dropdown = styled.select`
+const DropdownElement = styled.select`
   border: none;
   border-radius: 0;
   width: 100%;
@@ -16,26 +16,55 @@ const Dropdown = styled.select`
   appearance: none;
 `;
 
-const CategoryMenuDropdown = ({ category }: { category: string }) => {
-  const router = useRouter();
-  const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCategory = event.target.value;
-    const url =
-      newCategory === "all" ? ROUTES.HOME() : ROUTES.CATEGORY(newCategory);
-    router.push(url);
-  };
-
+function Dropdown<T = string>({
+  value,
+  options,
+  onValueChange,
+  className,
+}: {
+  value: T;
+  options: Array<{ value: T; label: string }>;
+  onValueChange: (value: T) => void;
+  className?: string;
+}) {
+  const selectedOption = useMemo(
+    () => options.find((o) => o.value === value),
+    []
+  );
+  const [selectedStringValue, setSelectedStringValue] = useState(
+    selectedOption?.label
+  );
+  useEffect(() => {
+    setSelectedStringValue(selectedOption?.label);
+  }, [selectedOption]);
+  const onChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const newOptionSelected = options.find(
+        (o) => o.label === event.target.value
+      );
+      if (!newOptionSelected) {
+        return;
+      }
+      setSelectedStringValue(newOptionSelected.label);
+      onValueChange(newOptionSelected.value);
+    },
+    [onValueChange]
+  );
   return (
     <SelectWrapper flex>
-      <Dropdown value={category} onChange={handleOnChange}>
-        {["all", ...config.categories].map((category, index) => (
-          <option key={index} value={category}>
-            {category}
+      <DropdownElement
+        value={selectedStringValue}
+        onChange={onChange}
+        className={className}
+      >
+        {options.map(({ value, label }) => (
+          <option key={label} value={label}>
+            {label}
           </option>
         ))}
-      </Dropdown>
+      </DropdownElement>
     </SelectWrapper>
   );
-};
+}
 
-export default CategoryMenuDropdown;
+export default Dropdown;

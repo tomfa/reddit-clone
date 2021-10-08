@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CategoryMenuDropdown from "./Dropdown";
+import CategoryMenuDropdown from "./CategoryLinkDropdown";
 import CategoryMenuCreatePostButton from "./CreatePostButton";
 import { useCurrentCategory, useUserData } from "../../lib/hooks";
 

@@ -16,7 +16,7 @@ const SidebarCategoryList = ({
 }) => (
   <CategoryList>
     <SidebarCategoryListHeader />
-    {config.categories.map((category, index) => (
+    {["all", ...config.categories].map((category, index) => (
       <SidebarCategoryListItem
         key={index}
         category={category}
