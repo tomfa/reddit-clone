@@ -16,7 +16,7 @@ const Wrapper = styled.div<{ full: boolean; archived: boolean }>`
     line-height: 21px;
     font-weight: 500;
     text-decoration: none;
-    color: var(--color-normalText);
+    color: var(--color-text);
     ${(props) => props.full && "white-space: unset"};
     ${(props) => props.archived && "text-decoration: line-through;"};
   }

@@ -11,7 +11,7 @@ const TextArea = styled.textarea`
   padding: 8px;
   background-color: var(--color-inputBackground);
   font-size: 15px;
-  color: var(--color-normalText);
+  color: var(--color-text);
   appearance: none;
   outline: none;
   resize: vertical;

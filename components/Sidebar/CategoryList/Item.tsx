@@ -8,7 +8,7 @@ const Item = styled(NavLink)<{ active: boolean }>`
   padding: 12px;
   font-size: 15px;
   text-decoration: none;
-  color: ${(p) => (p.active ? "var(--color-blue)" : "var(--color-normalText)")};
+  color: ${(p) => (p.active ? "var(--color-blue)" : "var(--color-text)")};
 
   ::after {
     left: -1px;

@@ -5,7 +5,7 @@ import breaks from "remark-breaks";
 import renderers from "./renderers";
 
 const StyledReactMarkdown = styled(ReactMarkdown)`
-  color: var(--color-normalText);
+  color: var(--color-text);
   font-size: 15px;
   line-height: 1.5;
 

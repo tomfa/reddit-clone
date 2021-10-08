@@ -11,9 +11,25 @@ const Wrapper = styled(HeaderNavLink)`
   min-width: 0;
 `;
 
+const LargeOnly = styled.span`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const SmallOnly = styled.span`
+  display: none;
+  @media (max-width: 768px) {
+    display: unset;
+  }
+`;
+
 const HeaderUsername = ({ username }: { username: string }) => (
   <Wrapper href={ROUTES.USER({ username })}>
-    <HeaderUsernameText>{username}</HeaderUsernameText>
+    <HeaderUsernameText>
+      <LargeOnly>{username}</LargeOnly>
+      <SmallOnly>Profile</SmallOnly>
+    </HeaderUsernameText>
   </Wrapper>
 );
 

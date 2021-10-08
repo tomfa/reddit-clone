@@ -10,7 +10,7 @@ const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   font-size: 13px;
-  color: var(--color-normalText);
+  color: var(--color-text);
   margin-left: auto;
 `;
 

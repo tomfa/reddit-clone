@@ -9,7 +9,7 @@ const Wrapper = styled.aside`
   flex: 1;
   flex-direction: column;
   flex-basis: 240px;
-  margin-left: 24px;
+  margin-left: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 2px;
   background-color: var(--color-foreground);

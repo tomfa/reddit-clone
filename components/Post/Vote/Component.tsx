@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   line-height: 25px;
   font-weight: 500;
   text-align: center;
-  color: var(--color-normalText);
+  color: var(--color-text);
 `;
 
 type Props = { post: Post };

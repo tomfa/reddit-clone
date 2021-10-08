@@ -10,11 +10,12 @@ import { ROUTES } from "../../../utils/routes.utils";
 const Wrapper = styled.div`
   font-size: 13px;
   margin-top: auto;
+  display: block;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  width: 100%;
 
   & > * {
+    display: inline-block;
     margin-right: 4px;
   }
 

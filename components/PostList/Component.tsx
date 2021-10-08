@@ -6,12 +6,13 @@ import Empty from "../shared/Empty";
 import { Post, usePostsQuery } from "../../graphql/generated/types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NoMoreResults from "../NoMoreResults";
+import ListFilter from "../ListFilter";
 
 const List = styled.ul`
   list-style: none;
   border: 1px solid var(--color-border);
   border-radius: 2px;
-  width: 100%;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     border-top: none;
@@ -22,38 +23,40 @@ const List = styled.ul`
 `;
 
 const PostList = ({
+  header,
   posts,
   loading,
-  fetchMore,
-  hasMorePosts,
+  fetchMore = () => {},
+  hasMorePosts = false,
 }: {
+  header?: string;
   posts?: Post[];
   loading: boolean;
-  fetchMore: () => void;
+  fetchMore?: () => void;
   hasMorePosts: boolean;
 }) => {
-  if (loading) {
-    return <LoadingIndicatorBox />;
-  }
-
-  if (!posts || posts.length === 0) {
-    return <Empty comments={false} />;
-  }
+  const isEmpty = !posts || !posts.length;
 
   return (
-    <InfiniteScroll
-      dataLength={posts.length}
-      next={fetchMore}
-      hasMore={hasMorePosts}
-      loader={<LoadingIndicatorBox />}
-      endMessage={<NoMoreResults>No more posts</NoMoreResults>}
-    >
-      <List>
-        {posts.map((post) => (
-          <PostListItem key={post.id} {...post} />
-        ))}
-      </List>
-    </InfiniteScroll>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <ListFilter header={header} />
+      <InfiniteScroll
+        dataLength={posts?.length || 0}
+        next={fetchMore}
+        hasMore={hasMorePosts}
+        loader={<LoadingIndicatorBox />}
+        endMessage={<NoMoreResults>No more posts</NoMoreResults>}
+      >
+        {isEmpty && <Empty />}
+        {!isEmpty && (
+          <List>
+            {posts.map((post) => (
+              <PostListItem key={post.id} {...post} />
+            ))}
+          </List>
+        )}
+      </InfiniteScroll>
+    </div>
   );
 };
 

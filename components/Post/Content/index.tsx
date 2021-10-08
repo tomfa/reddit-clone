@@ -8,7 +8,6 @@ import { Post, PostType } from "../../../graphql/generated/types";
 
 const Wrapper = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
   border-left: 1px solid var(--color-border);
   padding: 8px;

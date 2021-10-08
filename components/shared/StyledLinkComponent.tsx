@@ -7,7 +7,7 @@ const StyledLinkComponent = styled(Link)`
   ${link};
 
   font-weight: 500;
-  color: var(--color-normalText);
+  color: var(--color-text);
 `;
 
 export default StyledLinkComponent;

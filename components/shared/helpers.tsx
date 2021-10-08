@@ -47,7 +47,7 @@ export const link = (props: { underline?: boolean }) => css`
 
   text-underline-position: under;
   text-decoration: none;
-  color: var(--color-normalText);
+  color: var(--color-text);
 
   :hover {
     ${props.underline && "text-decoration: underline"};

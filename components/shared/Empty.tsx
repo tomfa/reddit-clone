@@ -23,7 +23,7 @@ const Wrapper = styled.div<{ comments: boolean }>`
   }
 `;
 
-const Empty = ({ comments }: { comments: boolean }) => {
+const Empty = ({ comments = false }: { comments?: boolean }) => {
   const message = comments ? "no comments" : "there's nothing here...";
   return <Wrapper comments={comments}>{message}</Wrapper>;
 };

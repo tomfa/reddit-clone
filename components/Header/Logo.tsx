@@ -12,7 +12,7 @@ const Logo = styled(NavLink)`
   margin-right: auto;
   font-size: 24px;
   font-weight: 500;
-  color: var(--color-normalText);
+  color: var(--color-text);
   text-decoration: none;
 
   @media (max-width: 425px) {

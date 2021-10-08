@@ -12,7 +12,7 @@ const Dropdown = styled.select`
   padding: 8px 16px;
   background-color: var(--color-foreground);
   font-size: 15px;
-  color: var(--color-normalText);
+  color: var(--color-text);
   appearance: none;
 `;
 
