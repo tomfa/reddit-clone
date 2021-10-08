@@ -162,13 +162,19 @@ const addUser = async (
   }
 ): Promise<User> => {
   const id = uuid();
-  // TODO: Check that email and doesn't conflict?
-  const uName = user.username || user.email;
+  const defaultUserName = user.email && user.email.split('@')[0]
+  const uName = user.username || defaultUserName;
 
   const userDoc = firestore.doc(`${USERS}/${id}`);
-  const usernameDoc = firestore.doc(`usernames/${uName}`);
 
   // TODO: I don't understand why we create a username doc
+  const usernameDoc = firestore.doc(`usernames/${uName}`);
+  const usernameTaken = await usernameDoc.get().then(d => d.exists)
+
+  if (usernameTaken) {
+    throw new Error(`Username ${uName} already exists`)
+  }
+
   // Commit both docs together as a batch write.
   const batch = firestore.batch();
   const data: DBUser = {
