@@ -29,7 +29,7 @@ const postTypes = [
 export default function CreatePostForm() {
   const router = useRouter();
   const { user } = useUserData();
-  const { isLoggedIn } = useUserData();
+  const { isLoggedIn, isLoading } = useUserData();
   const [fetchPosts, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const [postMutation, postResult] = useAddPostMutation();
   const [postType, setPostType] = useState<PostType>(PostType.Text);
@@ -63,10 +63,10 @@ export default function CreatePostForm() {
   }, [fetchPosts, updatePostsQuery]);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isLoading) {
       router.push(ROUTES.HOME());
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn, isLoading, router]);
 
   return (
     <FinalForm
