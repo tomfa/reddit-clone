@@ -2,7 +2,6 @@ import Button from "./shared/Button";
 import styled from "styled-components";
 import { IoEllipse as NewIcon, IoFlame as FireIcon } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { useCurrentCategory } from "../lib/hooks";
 import { PostSort } from "../graphql/generated/types";
 import Dropdown from "./CategoryMenu/Dropdown";
 import { getTimeFilterOptions } from "../utils/post.utils";
@@ -90,59 +89,64 @@ type Props = {
   header?: string;
   hideFilters?: boolean;
   defaultSort?: PostSort;
-  onChange: (sort: PostSort) => void;
+  onChange?: (filter: { sort: PostSort; createdAfter?: Date }) => void;
 };
 export const ListFilter = ({
   defaultSort = PostSort.Recent,
-  ...props
+  header,
+  onChange,
+  hideFilters,
 }: Props) => {
   const timeOptions = getTimeFilterOptions();
-  const category = useCurrentCategory();
-  const [selectedFilter, setSelectedFilter] = useState(defaultSort);
-  const [selectedTime, setSelectedTime] = useState<Date | undefined>(
+  const [sort, setSort] = useState(defaultSort);
+  const [createdAfter, setCreatedAfter] = useState<Date | undefined>(
     timeOptions[0]?.value
   );
-  const header = props.header || `/a/${category || "all"}`;
-
   useEffect(() => {
-    props.onChange && props.onChange(selectedFilter);
-  }, [selectedFilter]);
+    if (!onChange) {
+      return;
+    }
+    if (sort === PostSort.Recent) {
+      return onChange({ sort, createdAfter: undefined });
+    }
+    onChange({ sort, createdAfter });
+  }, [sort, createdAfter]);
 
-  const displayTimeSelection = selectedFilter === PostSort.Popular;
+  const displayTimeSelection = sort === PostSort.Popular;
 
   return (
     <FilterWrapper>
-      <ListHeader>{header}</ListHeader>
-      {!props.hideFilters && (
+      {header && <ListHeader>{header}</ListHeader>}
+      {!hideFilters && (
         <div style={{ display: "flex" }}>
           <FilterSelectButton
-            active={selectedFilter === PostSort.Recent}
-            onClick={() => setSelectedFilter(PostSort.Recent)}
+            active={sort === PostSort.Recent}
+            onClick={() => setSort(PostSort.Recent)}
           >
             <NewIcon
               size={15}
               title={"Newest first"}
-              color={selectedFilter === PostSort.Recent ? "orange" : ""}
+              color={sort === PostSort.Recent ? "orange" : ""}
             />
             <FilterLabel>New</FilterLabel>
           </FilterSelectButton>
           <FilterSelectButton
-            active={selectedFilter === PostSort.Popular}
-            onClick={() => setSelectedFilter(PostSort.Popular)}
+            active={sort === PostSort.Popular}
+            onClick={() => setSort(PostSort.Popular)}
           >
             <FireIcon
               size={15}
               title={"Popular"}
-              color={selectedFilter === PostSort.Popular ? "red" : ""}
+              color={sort === PostSort.Popular ? "red" : ""}
             />
             <FilterLabel>Hot</FilterLabel>
           </FilterSelectButton>
           {displayTimeSelection && (
             <TimeDropdown
-              value={selectedTime}
+              value={createdAfter}
               options={timeOptions}
               /* @ts-ignore */
-              onValueChange={setSelectedTime}
+              onValueChange={setCreatedAfter}
             />
           )}
         </div>

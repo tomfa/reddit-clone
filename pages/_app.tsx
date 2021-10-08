@@ -38,9 +38,13 @@ const cache = new InMemoryCache({
     Query: {
       fields: {
         posts: {
-          keyArgs: ["category", "userName", "sort", "order"] as Array<
-            keyof QueryPostsArgs
-          >,
+          keyArgs: [
+            "category",
+            "userName",
+            "sort",
+            "order",
+            "createdAfter",
+          ] as Array<keyof QueryPostsArgs>,
           merge(existing: Post[] = [], incoming: Post[]) {
             return [...existing, ...incoming];
           },

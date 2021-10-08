@@ -3,34 +3,20 @@ import styles from "../../../styles/Home.module.css";
 import PostList from "../../../components/PostList/Component";
 import Sidebar from "../../../components/Sidebar/Component";
 import CategoryMenu from "../../../components/CategoryMenu/Component";
-import { usePostsQuery } from "../../../graphql/generated/types";
 import { useCurrentCategory } from "../../../lib/hooks";
-import LoadMoreButton from "../../../components/LoadMoreButton";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import ListFilter from "../../../components/ListFilter";
+import React, { useState } from "react";
+import {
+  PostSort,
+  PostsQueryVariables,
+} from "../../../graphql/generated/types";
 
 const PostListPage: NextPage = () => {
   const category = useCurrentCategory();
-  const [hasLoadedAllPosts, setHasLoadedAllPosts] = useState(false);
-  const fetchVariables = useMemo(() => ({ category }), [category]);
-  const { data, loading, fetchMore } = usePostsQuery({
-    variables: fetchVariables,
+  const [queryVariables, setQueryVariables] = useState<PostsQueryVariables>({
+    category: undefined,
+    sort: PostSort.Recent,
   });
-  const posts = useMemo(() => data?.posts || [], [category, data]);
-  useEffect(() => {
-    setHasLoadedAllPosts(false);
-  }, [category]);
-
-  const onLoadPosts = useCallback(async () => {
-    const oldestPost = posts
-      .map((p) => p.createdAt)
-      .reduce((prev, cur) => Math.min(...[prev, cur]), Date.now());
-    const result = await fetchMore({
-      variables: { cursor: new Date(oldestPost) },
-    });
-    if (result.data.posts.length === 0) {
-      setHasLoadedAllPosts(true);
-    }
-  }, [fetchMore, posts]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -39,12 +25,22 @@ const PostListPage: NextPage = () => {
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
-          <PostList
-            posts={posts}
-            loading={loading}
-            fetchMore={onLoadPosts}
-            hasMorePosts={!hasLoadedAllPosts}
+          <ListFilter
+            header={`/a/${category || "all"}`}
+            onChange={(args) => {
+              const newQueryFilter = { ...queryVariables, ...args };
+              const hasChanged =
+                JSON.stringify(newQueryFilter) !==
+                JSON.stringify(queryVariables);
+              if (hasChanged) {
+                console.log("from", queryVariables, "to", args);
+                return setQueryVariables(newQueryFilter);
+              } else {
+                console.log("nochange");
+              }
+            }}
           />
+          <PostList queryVariables={queryVariables} />
         </div>
         <Sidebar />
       </div>
