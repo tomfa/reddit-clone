@@ -21,6 +21,8 @@ import { COMMENT, POSTS, USERS, VOTES } from "./collections";
 import { uuid } from "uuidv4";
 import { getNumericVoteValue } from "../../graphql/vote.utils";
 import { UserAuth } from "../../request.types";
+import {config} from "../../lib/config";
+import {getDomainFromEmail} from "../../utils/user.utils";
 
 const increment = firebase.firestore.FieldValue.increment(1);
 const add = (num: number) => firebase.firestore.FieldValue.increment(num);
@@ -108,6 +110,11 @@ const getOrCreateUser = async (
   const existingUser = await getUserByEmail(user.email);
   if (existingUser) {
     return existingUser;
+  }
+  const domain = getDomainFromEmail(user.email);
+  const isAllowedSignup = !config.auth.allowSignupFromDomains || config.auth.allowSignupFromDomains.includes(domain);
+  if (!isAllowedSignup) {
+    throw new Error(`User signup is not allowed from domain ${domain}`)
   }
   return addUser(user);
 };
