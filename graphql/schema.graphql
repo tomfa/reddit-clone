@@ -53,8 +53,8 @@ type Post {
   category: String!
   score: Int!
   numVotes: Int!
+  numComments: Int!
   myVote: UserVote
-  comments: [Comment!]!
   createdAt: Date!
   views: Int!
   type: PostType!

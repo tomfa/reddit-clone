@@ -14,22 +14,12 @@ mutation setPostArchived($id: String!, $archived: Boolean!){
         category
         score
         numVotes
+        numComments
         myVote{
             userId
             vote
             id
             postId
-        }
-        comments{
-            id
-            postId
-            author{
-                id
-                username
-                name
-            }
-            body
-            createdAt
         }
         createdAt
         views

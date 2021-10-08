@@ -14,22 +14,12 @@ mutation vote($authorId: String!, $postId: String!, $value: VoteValue!){
         category
         score
         numVotes
+        numComments
         myVote{
             userId
             vote
             id
             postId
-        }
-        comments{
-            id
-            postId
-            author{
-                id
-                username
-                name
-            }
-            body
-            createdAt
         }
         createdAt
         views

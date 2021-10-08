@@ -135,29 +135,39 @@ const addComment = async (
   auth: UserAuth
 ): Promise<Comment> => {
   const commentId = uuid();
-  const post = await getPostById({ id: input.postId }, null);
-  if (!post) {
-    throw new Error(`Can not find post with slug ${input.postId}`);
-  }
-  const commentRef = firestore
+  const postRef = firestore
     .collection(USERS)
     .doc(auth.id)
     .collection(POSTS)
-    .doc(post.id)
-    .collection(COMMENT)
-    .doc(commentId);
+    .doc(input.postId);
 
-  const data: DBComment = {
-    postId: post.id,
-    id: commentId,
-    author: auth,
-    body: input.content,
-    createdAt: serverTimestamp(),
-  };
+  const commentRef = postRef.collection(COMMENT).doc(commentId);
 
-  await commentRef.set(data);
+  const comment: DBComment = await firestore.runTransaction(
+    async (transaction) => {
+      const post = await transaction.get(postRef);
+      if (!post.exists) {
+        throw "Document does not exist!";
+      }
 
-  return { ...data, createdAt: new Date() };
+      const data: DBComment = {
+        postId: post.id,
+        id: commentId,
+        author: auth,
+        body: input.content,
+        createdAt: serverTimestamp(),
+      };
+
+      transaction.update(postRef, {
+        numComments: add(1),
+      });
+      transaction.set(commentRef, data);
+
+      return data;
+    }
+  );
+
+  return { ...comment, createdAt: new Date() };
 };
 
 const addUser = async (
@@ -225,9 +235,9 @@ const addPost = async (
     slug,
     author,
     score: 0,
-    comments: [],
     views: 0,
     numVotes: 0,
+    numComments: 0,
     createdAt: serverTimestamp(),
     archived: false,
   };

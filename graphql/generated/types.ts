@@ -95,11 +95,11 @@ export type Post = {
   archived: FieldWrapper<Scalars["Boolean"]>;
   author: FieldWrapper<User>;
   category: FieldWrapper<Scalars["String"]>;
-  comments: Array<FieldWrapper<Comment>>;
   content: FieldWrapper<Scalars["String"]>;
   createdAt: FieldWrapper<Scalars["Date"]>;
   id: FieldWrapper<Scalars["String"]>;
   myVote?: Maybe<FieldWrapper<UserVote>>;
+  numComments: FieldWrapper<Scalars["Int"]>;
   numVotes: FieldWrapper<Scalars["Int"]>;
   published: FieldWrapper<Scalars["Boolean"]>;
   score: FieldWrapper<Scalars["Int"]>;
@@ -382,11 +382,11 @@ export type PostResolvers<
   archived: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   author: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   category: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  comments: Resolver<Array<ResolversTypes["Comment"]>, ParentType, ContextType>;
   content: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   createdAt: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
   id: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   myVote: Resolver<Maybe<ResolversTypes["UserVote"]>, ParentType, ContextType>;
+  numComments: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   numVotes: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   published: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   score: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -496,6 +496,7 @@ export type AddPostMutation = {
     category: string;
     score: number;
     numVotes: number;
+    numComments: number;
     createdAt: any;
     views: number;
     type: PostType;
@@ -511,19 +512,6 @@ export type AddPostMutation = {
       vote: VoteValue;
       id: string;
       postId: string;
-    }>;
-    comments: Array<{
-      __typename?: "Comment";
-      id: string;
-      postId: string;
-      body: string;
-      createdAt: any;
-      author: {
-        __typename?: "User";
-        id: string;
-        username: string;
-        name?: Maybe<string>;
-      };
     }>;
   };
 };
@@ -560,6 +548,7 @@ export type SetPostArchivedMutation = {
     category: string;
     score: number;
     numVotes: number;
+    numComments: number;
     createdAt: any;
     views: number;
     type: PostType;
@@ -575,19 +564,6 @@ export type SetPostArchivedMutation = {
       vote: VoteValue;
       id: string;
       postId: string;
-    }>;
-    comments: Array<{
-      __typename?: "Comment";
-      id: string;
-      postId: string;
-      body: string;
-      createdAt: any;
-      author: {
-        __typename?: "User";
-        id: string;
-        username: string;
-        name?: Maybe<string>;
-      };
     }>;
   }>;
 };
@@ -611,6 +587,7 @@ export type VoteMutation = {
     category: string;
     score: number;
     numVotes: number;
+    numComments: number;
     createdAt: any;
     views: number;
     type: PostType;
@@ -626,19 +603,6 @@ export type VoteMutation = {
       vote: VoteValue;
       id: string;
       postId: string;
-    }>;
-    comments: Array<{
-      __typename?: "Comment";
-      id: string;
-      postId: string;
-      body: string;
-      createdAt: any;
-      author: {
-        __typename?: "User";
-        id: string;
-        username: string;
-        name?: Maybe<string>;
-      };
     }>;
   }>;
 };
@@ -683,6 +647,7 @@ export type GetPostByIdQuery = {
     category: string;
     score: number;
     numVotes: number;
+    numComments: number;
     createdAt: any;
     views: number;
     type: PostType;
@@ -698,19 +663,6 @@ export type GetPostByIdQuery = {
       vote: VoteValue;
       id: string;
       postId: string;
-    }>;
-    comments: Array<{
-      __typename?: "Comment";
-      id: string;
-      postId: string;
-      body: string;
-      createdAt: any;
-      author: {
-        __typename?: "User";
-        id: string;
-        username: string;
-        name?: Maybe<string>;
-      };
     }>;
   }>;
 };
@@ -751,6 +703,7 @@ export type PostsQuery = {
     category: string;
     score: number;
     numVotes: number;
+    numComments: number;
     createdAt: any;
     views: number;
     type: PostType;
@@ -766,19 +719,6 @@ export type PostsQuery = {
       vote: VoteValue;
       id: string;
       postId: string;
-    }>;
-    comments: Array<{
-      __typename?: "Comment";
-      id: string;
-      postId: string;
-      body: string;
-      createdAt: any;
-      author: {
-        __typename?: "User";
-        id: string;
-        username: string;
-        name?: Maybe<string>;
-      };
     }>;
   }>;
 };
@@ -858,22 +798,12 @@ export const AddPostDocument = gql`
       category
       score
       numVotes
+      numComments
       myVote {
         userId
         vote
         id
         postId
-      }
-      comments {
-        id
-        postId
-        author {
-          id
-          username
-          name
-        }
-        body
-        createdAt
       }
       createdAt
       views
@@ -987,22 +917,12 @@ export const SetPostArchivedDocument = gql`
       category
       score
       numVotes
+      numComments
       myVote {
         userId
         vote
         id
         postId
-      }
-      comments {
-        id
-        postId
-        author {
-          id
-          username
-          name
-        }
-        body
-        createdAt
       }
       createdAt
       views
@@ -1071,22 +991,12 @@ export const VoteDocument = gql`
       category
       score
       numVotes
+      numComments
       myVote {
         userId
         vote
         id
         postId
-      }
-      comments {
-        id
-        postId
-        author {
-          id
-          username
-          name
-        }
-        body
-        createdAt
       }
       createdAt
       views
@@ -1213,22 +1123,12 @@ export const GetPostByIdDocument = gql`
       category
       score
       numVotes
+      numComments
       myVote {
         userId
         vote
         id
         postId
-      }
-      comments {
-        id
-        postId
-        author {
-          id
-          username
-          name
-        }
-        body
-        createdAt
       }
       createdAt
       views
@@ -1374,22 +1274,12 @@ export const PostsDocument = gql`
       category
       score
       numVotes
+      numComments
       myVote {
         userId
         vote
         id
         postId
-      }
-      comments {
-        id
-        postId
-        author {
-          id
-          username
-          name
-        }
-        body
-        createdAt
       }
       createdAt
       views

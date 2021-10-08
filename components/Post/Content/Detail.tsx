@@ -32,10 +32,11 @@ const PostContentDetail = ({ post }: { post: Post }) => {
     <Wrapper>
       <Link href={ROUTES.POST(post)} passHref>
         <a>
-          {post.comments.length} comment
-          {post.comments.length !== 1 ? "s" : null}
+          {post.numComments} comment
+          {post.numComments !== 1 ? "s" : null}
         </a>
       </Link>
+      <span>in</span>
       <StyledLink href={ROUTES.CATEGORY(post.category)} passHref>
         <a>/a/{post.category}</a>
       </StyledLink>
