@@ -362,6 +362,7 @@ const getComments = async ({
   }
 
   if (cursor) {
+    query = query.orderBy("createdAt", "desc");
     query = query.startAfter(cursor);
   }
 

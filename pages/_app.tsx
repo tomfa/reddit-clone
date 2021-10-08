@@ -15,7 +15,11 @@ import Header from "../components/Header/Component";
 import { withScalars } from "apollo-link-scalars";
 import { schema } from "../graphql/schema";
 import { parseValue, serialize } from "../graphql/date.scalar";
-import { Post, QueryPostsArgs } from "../graphql/generated/types";
+import {
+  Post,
+  QueryCommentsArgs,
+  QueryPostsArgs,
+} from "../graphql/generated/types";
 
 const typesMap = {
   Date: {
@@ -37,6 +41,12 @@ const cache = new InMemoryCache({
           keyArgs: ["category", "userName", "sort", "order"] as Array<
             keyof QueryPostsArgs
           >,
+          merge(existing: Post[] = [], incoming: Post[]) {
+            return [...existing, ...incoming];
+          },
+        },
+        comments: {
+          keyArgs: ["postId", "authorId"] as Array<keyof QueryCommentsArgs>,
           merge(existing: Post[] = [], incoming: Post[]) {
             return [...existing, ...incoming];
           },

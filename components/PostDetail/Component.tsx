@@ -23,7 +23,12 @@ const PostDetail = () => {
   const [getPost, { data, loading }] = useGetPostByIdLazyQuery();
   const [
     getComments,
-    { data: commentsData, loading: commentsLoading, updateQuery },
+    {
+      data: commentsData,
+      loading: commentsLoading,
+      updateQuery,
+      fetchMore: fetchMoreComments,
+    },
   ] = useCommentsLazyQuery();
   const post = data?.getPostById;
   const comments = useMemo(() => commentsData?.comments || [], [commentsData]);
@@ -49,13 +54,25 @@ const PostDetail = () => {
           postId,
         };
         updateQuery &&
-          updateQuery((query: CommentsQuery) => ({
-            comments: query.comments.concat([tempComment]),
+          updateQuery(() => ({
+            comments: [tempComment],
           }));
       });
     },
     [postId, user, updateQuery]
   );
+
+  const getMoreComments = useCallback(() => {
+    const oldestComment =
+      comments &&
+      comments
+        .map((p) => p.createdAt)
+        .reduce((prev, cur) => Math.min(...[prev, cur]), Date.now());
+    fetchMoreComments &&
+      fetchMoreComments({
+        variables: { postId, cursor: new Date(oldestComment) },
+      });
+  }, [fetchMoreComments, comments]);
 
   if (loading || !postId)
     return (
@@ -83,6 +100,7 @@ const PostDetail = () => {
       <PostDetailCommentSection
         comments={comments}
         loading={commentsLoading || addCommentLoading}
+        fetchMore={getMoreComments}
       />
     </div>
   );
