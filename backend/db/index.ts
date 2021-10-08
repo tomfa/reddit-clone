@@ -357,12 +357,13 @@ const getComments = async ({
     .where("postId", "==", postId)
     .limit(limit);
 
+  query = query.orderBy("createdAt", "desc");
+
   if (filter.authorId) {
     query = query.where("author.id", "==", filter.authorId);
   }
 
   if (cursor) {
-    query = query.orderBy("createdAt", "desc");
     query = query.startAfter(cursor);
   }
 

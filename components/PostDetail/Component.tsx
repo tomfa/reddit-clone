@@ -98,6 +98,7 @@ const PostDetail = () => {
         />
       )}
       <PostDetailCommentSection
+        numTotalComments={post.numComments}
         comments={comments}
         loading={commentsLoading || addCommentLoading}
         fetchMore={getMoreComments}
