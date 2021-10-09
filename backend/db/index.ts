@@ -223,15 +223,24 @@ const addPost = async (
     slug,
     author,
     meta: getDateMeta(new Date()),
-    score: 0,
-    numVotes: 0,
+    score: 1,
+    numVotes: 1,
     numComments: 0,
     createdAt: serverTimestamp(),
     archived: false,
   };
 
+  const myVote: DBVote = {
+    id: uuid(),
+    postId: id,
+    userId: author.id,
+    vote: VoteValue.Positive,
+  };
+
   await ref.set(data);
-  return { ...data, createdAt: new Date() };
+  const voteRef = ref.collection(VOTES).doc(author.id);
+  await voteRef.set(myVote);
+  return { ...data, createdAt: new Date(), myVote };
 };
 
 const vote = async (
