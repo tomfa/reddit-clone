@@ -43,17 +43,8 @@ const getUserById = async ({
   return { ...user, name: user.name || null };
 };
 
-const increasePostViewCount = async ({ post }: { post: Post }) => {
-  await firestore
-    .collection(USERS)
-    .doc(post.author.id)
-    .collection(POSTS)
-    .doc(post.id)
-    .update({ views: increment });
-};
-
 const getPostById = async (
-  { id, incrementViews }: QueryGetPostByIdArgs & { incrementViews?: boolean },
+  { id }: QueryGetPostByIdArgs,
   auth: UserAuth | null
 ): Promise<Post | null> => {
   let query = await firestore
@@ -67,21 +58,13 @@ const getPostById = async (
   }
   const post = query.docs[0].data() as DBPost;
 
-  const incementPromise = incrementViews
-    ? increasePostViewCount({ post })
-    : Promise.resolve();
-
-  const [votesForUser, _] = await Promise.all([
-    getVotesForUser({
-      userId: auth?.id,
-      filterPostIds: [id],
-    }),
-    incementPromise,
-  ]);
+  const votes = await getVotesForUser({
+    userId: auth?.id,
+    filterPostIds: [id],
+  });
   return {
     ...post,
-    views: post.views + 1,
-    myVote: votesForUser[id],
+    myVote: votes[id],
   };
 };
 
@@ -241,7 +224,6 @@ const addPost = async (
     author,
     meta: getDateMeta(new Date()),
     score: 0,
-    views: 0,
     numVotes: 0,
     numComments: 0,
     createdAt: serverTimestamp(),
@@ -331,7 +313,7 @@ const getVotesForUser = async (args: {
     .where("userId", "==", args.userId);
 
   if (args.filterPostIds.length === 1) {
-    query = query.where("postId", "==", args.filterPostIds[0]);
+    query = query.where("postId", "==", args.filterPostIds[0]).limit(1);
   } else if (args.filterPostIds.length && args.filterPostIds.length < 10) {
     query = query.where("postId", "in", args.filterPostIds);
   } else {

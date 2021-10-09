@@ -22,7 +22,6 @@ mutation addPost($input: AddPostInput!){
             postId
         }
         createdAt
-        views
         type
     }
 }

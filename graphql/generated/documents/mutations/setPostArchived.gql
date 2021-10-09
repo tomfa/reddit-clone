@@ -22,7 +22,6 @@ mutation setPostArchived($id: String!, $archived: Boolean!){
             postId
         }
         createdAt
-        views
         type
     }
 }

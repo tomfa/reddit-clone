@@ -22,7 +22,6 @@ query getPostById($id: String!){
             postId
         }
         createdAt
-        views
         type
     }
 }

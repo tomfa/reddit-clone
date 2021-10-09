@@ -26,7 +26,6 @@ export const toPostCursor = (post?: Post): PostCursor | undefined =>
   post && {
     createdAt: post.createdAt,
     id: post.id,
-    views: post.views,
     numComments: post.numComments,
     numVotes: post.numVotes,
     score: post.score,

@@ -22,7 +22,6 @@ mutation vote($authorId: String!, $postId: String!, $value: VoteValue!){
             postId
         }
         createdAt
-        views
         type
     }
 }

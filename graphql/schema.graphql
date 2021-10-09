@@ -67,7 +67,6 @@ type Post {
   numComments: Int!
   myVote: UserVote
   createdAt: Date!
-  views: Int!
   type: PostType!
 }
 
@@ -76,7 +75,6 @@ input PostCursor {
   numComments: Int!
   numVotes: Int!
   createdAt: Date!
-  views: Int!
   score: Int!
 }
 

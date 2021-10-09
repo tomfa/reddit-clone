@@ -22,7 +22,6 @@ query posts($category: String, $sort: PostSort, $username: String, $order: SortO
             postId
         }
         createdAt
-        views
         type
     }
 }

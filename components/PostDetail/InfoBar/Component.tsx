@@ -46,8 +46,6 @@ const PostDetailInfoBar = ({ post }: Props) => {
 
   return (
     <Wrapper round={!isLoggedIn}>
-      <span>{post.views} views</span>
-      <span>&nbsp;|&nbsp;</span>
       <span>{upvotePercentage.toFixed(0)}% upvoted</span>
       {canUpdate && (
         <DeleteButton

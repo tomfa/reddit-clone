@@ -112,7 +112,6 @@ export type Post = {
   slug: FieldWrapper<Scalars["String"]>;
   title: FieldWrapper<Scalars["String"]>;
   type: FieldWrapper<PostType>;
-  views: FieldWrapper<Scalars["Int"]>;
 };
 
 export type PostCursor = {
@@ -121,7 +120,6 @@ export type PostCursor = {
   numComments: Scalars["Int"];
   numVotes: Scalars["Int"];
   score: Scalars["Int"];
-  views: Scalars["Int"];
 };
 
 export type PostDisplayData = {
@@ -422,7 +420,6 @@ export type PostResolvers<
   slug: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   title: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   type: Resolver<ResolversTypes["PostType"], ParentType, ContextType>;
-  views: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -537,7 +534,6 @@ export type AddPostMutation = {
     numVotes: number;
     numComments: number;
     createdAt: any;
-    views: number;
     type: PostType;
     author: {
       __typename?: "User";
@@ -589,7 +585,6 @@ export type SetPostArchivedMutation = {
     numVotes: number;
     numComments: number;
     createdAt: any;
-    views: number;
     type: PostType;
     author: {
       __typename?: "User";
@@ -628,7 +623,6 @@ export type VoteMutation = {
     numVotes: number;
     numComments: number;
     createdAt: any;
-    views: number;
     type: PostType;
     author: {
       __typename?: "User";
@@ -688,7 +682,6 @@ export type GetPostByIdQuery = {
     numVotes: number;
     numComments: number;
     createdAt: any;
-    views: number;
     type: PostType;
     author: {
       __typename?: "User";
@@ -746,7 +739,6 @@ export type PostsQuery = {
     numVotes: number;
     numComments: number;
     createdAt: any;
-    views: number;
     type: PostType;
     author: {
       __typename?: "User";
@@ -850,7 +842,6 @@ export const AddPostDocument = gql`
         postId
       }
       createdAt
-      views
       type
     }
   }
@@ -969,7 +960,6 @@ export const SetPostArchivedDocument = gql`
         postId
       }
       createdAt
-      views
       type
     }
   }
@@ -1043,7 +1033,6 @@ export const VoteDocument = gql`
         postId
       }
       createdAt
-      views
       type
     }
   }
@@ -1178,7 +1167,6 @@ export const GetPostByIdDocument = gql`
         postId
       }
       createdAt
-      views
       type
     }
   }
@@ -1333,7 +1321,6 @@ export const PostsDocument = gql`
         postId
       }
       createdAt
-      views
       type
     }
   }
