@@ -57,7 +57,7 @@ export default function CreatePostForm() {
       }
       await router.push(ROUTES.HOME());
     },
-    [user, router, updatePostsQuery, postMutation]
+    [user, router, updatePostsQuery, postMutation, postType]
   );
 
   useEffect(() => {
