@@ -23,6 +23,7 @@ import { getNumericVoteValue } from "../../graphql/vote.utils";
 import { UserAuth } from "../../request.types";
 import { config } from "../../lib/config";
 import { getDomainFromEmail } from "../../utils/user.utils";
+import { getDateMeta } from "../../utils/date.utils";
 
 const increment = firebase.firestore.FieldValue.increment(1);
 const add = (num: number) => firebase.firestore.FieldValue.increment(num);
@@ -234,6 +235,7 @@ const addPost = async (
     published: true,
     slug,
     author,
+    meta: getDateMeta(new Date()),
     score: 0,
     views: 0,
     numVotes: 0,
@@ -381,33 +383,45 @@ const getPosts = async ({
   limit?: number;
   userId?: string;
 }): Promise<Post[]> => {
-  let query = firestore
-    .collectionGroup(POSTS)
-    .where("published", "==", true)
-    .limit(limit);
+  let query;
+  if (filter.sort === PostSort.Popular) {
+    query = firestore
+      .collectionGroup(POSTS)
+      .orderBy("score", order || "desc")
+      .orderBy("createdAt", "desc");
+  } else {
+    query = firestore
+      .collectionGroup(POSTS)
+      .orderBy("createdAt", order || "desc");
+  }
 
-  const sortBy = filter.sort || PostSort.Recent;
-  const sortField = sortBy === PostSort.Recent ? "createdAt" : "score";
-
-  query = query.orderBy(sortField, order || "desc");
-
+  if (filter.year) {
+    query = query.where("meta.year", "==", filter.year);
+  }
+  if (filter.month) {
+    query = query.where("meta.month", "==", filter.month);
+  }
+  if (filter.week) {
+    query = query.where("meta.week", "==", filter.week);
+  }
   if (filter.category) {
     query = query.where("category", "==", filter.category);
   }
-
   if (filter.username) {
     query = query.where("author.username", "==", filter.username);
   }
 
-  if (filter.createdAfter) {
-    query = query.where("createdAt", ">", filter.createdAfter);
+  if (cursor && filter.sort === PostSort.Recent) {
+    query = query.startAfter(cursor.createdAt);
+  }
+  if (cursor && filter.sort === PostSort.Popular) {
+    query = query.startAfter(cursor.score, cursor.createdAt);
   }
 
-  if (cursor) {
-    query = query.startAfter(cursor);
-  }
-
-  const data = await query.get().then((d) => d.docs);
+  const data = await query
+    .limit(limit)
+    .get()
+    .then((d) => d.docs);
   const posts = data.map((p) => p.data()) as DBPost[];
   const votesForUser = await getVotesForUser({
     userId,

@@ -43,7 +43,9 @@ const cache = new InMemoryCache({
             "userName",
             "sort",
             "order",
-            "createdAfter",
+            "year",
+            "month",
+            "week",
           ] as Array<keyof QueryPostsArgs>,
           merge(existing: Post[] = [], incoming: Post[]) {
             return [...existing, ...incoming];

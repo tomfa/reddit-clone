@@ -5,12 +5,14 @@ import LoadingIndicatorBox from "../shared/LoadingIndicator/Box";
 import Empty from "../shared/Empty";
 import {
   Post,
+  PostsQuery,
   PostsQueryVariables,
   usePostsQuery,
 } from "../../graphql/generated/types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NoMoreResults from "../NoMoreResults";
 import ListFilter from "../ListFilter";
+import { toPostCursor } from "../../utils/request.utils";
 
 const List = styled.ul`
   list-style: none;
@@ -44,13 +46,12 @@ const PostList = ({ queryVariables = {} }: Props) => {
   }, [queryVariables]);
 
   const fetchMore = useCallback(async () => {
-    const oldestPost = (data?.posts || [])
-      .map((p) => p.createdAt)
-      .reduce((prev, cur) => Math.min(...[prev, cur]), Date.now());
-    const result = await fetchMorePosts({
-      variables: { ...queryVariables, cursor: new Date(oldestPost) },
+    const lastPost = posts[posts.length - 1];
+    const cursor = toPostCursor(lastPost);
+    const { data } = await fetchMorePosts({
+      variables: { ...queryVariables, cursor },
     });
-    if (result.data.posts.length === 0) {
+    if ((data as unknown as PostsQuery)?.posts.length === 0) {
       setHasMorePosts(false);
     }
   }, [fetchMorePosts, posts, queryVariables]);

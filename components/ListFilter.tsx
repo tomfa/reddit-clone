@@ -2,9 +2,9 @@ import Button from "./shared/Button";
 import styled from "styled-components";
 import { IoEllipse as NewIcon, IoFlame as FireIcon } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { PostSort } from "../graphql/generated/types";
+import { PostSort, QueryPostsArgs } from "../graphql/generated/types";
 import Dropdown from "./CategoryMenu/Dropdown";
-import { getTimeFilterOptions } from "../utils/post.utils";
+import { EMPTY_TIME_FILTER, getTimeFilterOptions } from "../utils/post.utils";
 
 const FilterWrapper = styled.nav`
   display: flex;
@@ -89,7 +89,9 @@ type Props = {
   header?: string;
   hideFilters?: boolean;
   defaultSort?: PostSort;
-  onChange?: (filter: { sort: PostSort; createdAfter?: Date }) => void;
+  onChange?: (
+    filter: Pick<QueryPostsArgs, "year" | "month" | "week" | "sort">
+  ) => void;
 };
 export const ListFilter = ({
   defaultSort = PostSort.Recent,
@@ -99,18 +101,16 @@ export const ListFilter = ({
 }: Props) => {
   const timeOptions = getTimeFilterOptions();
   const [sort, setSort] = useState(defaultSort);
-  const [createdAfter, setCreatedAfter] = useState<Date | undefined>(
-    timeOptions[0]?.value
-  );
+  const [timeFilter, setTimeFilter] = useState(timeOptions[0]?.value);
   useEffect(() => {
     if (!onChange) {
       return;
     }
     if (sort === PostSort.Recent) {
-      return onChange({ sort, createdAfter: undefined });
+      return onChange({ sort, ...EMPTY_TIME_FILTER });
     }
-    onChange({ sort, createdAfter });
-  }, [sort, createdAfter]);
+    onChange({ sort, ...timeFilter });
+  }, [sort, timeFilter]);
 
   const displayTimeSelection = sort === PostSort.Popular;
 
@@ -143,10 +143,10 @@ export const ListFilter = ({
           </FilterSelectButton>
           {displayTimeSelection && (
             <TimeDropdown
-              value={createdAfter}
+              value={timeFilter}
               options={timeOptions}
-              /* @ts-ignore */
-              onValueChange={setCreatedAfter}
+              /* @ts-ignore because styled components generics is ugly */
+              onValueChange={setTimeFilter}
             />
           )}
         </div>

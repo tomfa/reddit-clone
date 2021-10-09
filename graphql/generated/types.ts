@@ -58,6 +58,12 @@ export type Comment = {
   postId: FieldWrapper<Scalars["String"]>;
 };
 
+export type CommentCursor = {
+  createdAt: Scalars["Date"];
+  id: Scalars["String"];
+  postId: Scalars["String"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   addComment: FieldWrapper<Comment>;
@@ -109,6 +115,15 @@ export type Post = {
   views: FieldWrapper<Scalars["Int"]>;
 };
 
+export type PostCursor = {
+  createdAt: Scalars["Date"];
+  id: Scalars["String"];
+  numComments: Scalars["Int"];
+  numVotes: Scalars["Int"];
+  score: Scalars["Int"];
+  views: Scalars["Int"];
+};
+
 export enum PostSort {
   Popular = "POPULAR",
   Recent = "RECENT",
@@ -129,7 +144,7 @@ export type Query = {
 
 export type QueryCommentsArgs = {
   authorId?: Maybe<Scalars["String"]>;
-  cursor?: Maybe<Scalars["Date"]>;
+  cursor?: Maybe<CommentCursor>;
   postId: Scalars["String"];
 };
 
@@ -143,11 +158,13 @@ export type QueryGetUserByIdArgs = {
 
 export type QueryPostsArgs = {
   category?: Maybe<Scalars["String"]>;
-  createdAfter?: Maybe<Scalars["Date"]>;
-  cursor?: Maybe<Scalars["Date"]>;
+  cursor?: Maybe<PostCursor>;
+  month?: Maybe<Scalars["Int"]>;
   order?: Maybe<SortOrder>;
   sort?: Maybe<PostSort>;
   username?: Maybe<Scalars["String"]>;
+  week?: Maybe<Scalars["Int"]>;
+  year?: Maybe<Scalars["Int"]>;
 };
 
 export enum SortOrder {
@@ -291,10 +308,12 @@ export type ResolversTypes = ResolversObject<{
   AddUserInput: AddUserInput;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   Comment: ResolverTypeWrapper<Comment>;
+  CommentCursor: CommentCursor;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
+  PostCursor: PostCursor;
   PostSort: PostSort;
   PostType: PostType;
   Query: ResolverTypeWrapper<{}>;
@@ -312,10 +331,12 @@ export type ResolversParentTypes = ResolversObject<{
   AddUserInput: AddUserInput;
   Boolean: Scalars["Boolean"];
   Comment: Comment;
+  CommentCursor: CommentCursor;
   Date: Scalars["Date"];
   Int: Scalars["Int"];
   Mutation: {};
   Post: Post;
+  PostCursor: PostCursor;
   Query: {};
   String: Scalars["String"];
   User: User;
@@ -610,7 +631,7 @@ export type VoteMutation = {
 export type CommentsQueryVariables = Exact<{
   postId: Scalars["String"];
   authorId?: Maybe<Scalars["String"]>;
-  cursor?: Maybe<Scalars["Date"]>;
+  cursor?: Maybe<CommentCursor>;
 }>;
 
 export type CommentsQuery = {
@@ -686,8 +707,10 @@ export type PostsQueryVariables = Exact<{
   sort?: Maybe<PostSort>;
   username?: Maybe<Scalars["String"]>;
   order?: Maybe<SortOrder>;
-  createdAfter?: Maybe<Scalars["Date"]>;
-  cursor?: Maybe<Scalars["Date"]>;
+  year?: Maybe<Scalars["Int"]>;
+  month?: Maybe<Scalars["Int"]>;
+  week?: Maybe<Scalars["Int"]>;
+  cursor?: Maybe<PostCursor>;
 }>;
 
 export type PostsQuery = {
@@ -1044,7 +1067,7 @@ export type VoteMutationOptions = Apollo.BaseMutationOptions<
   VoteMutationVariables
 >;
 export const CommentsDocument = gql`
-  query comments($postId: String!, $authorId: String, $cursor: Date) {
+  query comments($postId: String!, $authorId: String, $cursor: CommentCursor) {
     comments(postId: $postId, authorId: $authorId, cursor: $cursor) {
       id
       postId
@@ -1249,15 +1272,19 @@ export const PostsDocument = gql`
     $sort: PostSort
     $username: String
     $order: SortOrder
-    $createdAfter: Date
-    $cursor: Date
+    $year: Int
+    $month: Int
+    $week: Int
+    $cursor: PostCursor
   ) {
     posts(
       category: $category
       sort: $sort
       username: $username
       order: $order
-      createdAfter: $createdAfter
+      year: $year
+      month: $month
+      week: $week
       cursor: $cursor
     ) {
       id
@@ -1304,7 +1331,9 @@ export const PostsDocument = gql`
  *      sort: // value for 'sort'
  *      username: // value for 'username'
  *      order: // value for 'order'
- *      createdAfter: // value for 'createdAfter'
+ *      year: // value for 'year'
+ *      month: // value for 'month'
+ *      week: // value for 'week'
  *      cursor: // value for 'cursor'
  *   },
  * });

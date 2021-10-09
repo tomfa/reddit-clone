@@ -42,6 +42,12 @@ type Comment {
   createdAt: Date!
 }
 
+input CommentCursor {
+  id: String!
+  postId: String!
+  createdAt: Date!
+}
+
 type Post {
   id: String!
   title: String!
@@ -58,6 +64,15 @@ type Post {
   createdAt: Date!
   views: Int!
   type: PostType!
+}
+
+input PostCursor {
+  id: String!
+  numComments: Int!
+  numVotes: Int!
+  createdAt: Date!
+  views: Int!
+  score: Int!
 }
 
 input AddPostInput {
@@ -87,10 +102,16 @@ type Query {
     sort: PostSort
     username: String
     order: SortOrder
-    createdAfter: Date
-    cursor: Date
+    year: Int
+    month: Int
+    week: Int
+    cursor: PostCursor
   ): [Post!]!
-  comments(postId: String!, authorId: String, cursor: Date): [Comment!]!
+  comments(
+    postId: String!
+    authorId: String
+    cursor: CommentCursor
+  ): [Comment!]!
 }
 
 type Mutation {

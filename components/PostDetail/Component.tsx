@@ -11,11 +11,13 @@ import {
   useGetPostByIdLazyQuery,
   Comment,
   CommentsQuery,
+  CommentCursor,
 } from "../../graphql/generated/types";
 import { useUrlQueryString, useUserData } from "../../lib/hooks";
 import { Foreground } from "../Foreground";
 import { getUpvotePercentage } from "../../utils/post.utils";
 import PostDetailCommentSection from "./CommentSection";
+import { toCommentCursor } from "../../utils/request.utils";
 
 const PostDetail = () => {
   const postId = useUrlQueryString("postId");
@@ -63,14 +65,11 @@ const PostDetail = () => {
   );
 
   const getMoreComments = useCallback(() => {
-    const oldestComment =
-      comments &&
-      comments
-        .map((p) => p.createdAt)
-        .reduce((prev, cur) => Math.min(...[prev, cur]), Date.now());
+    const lastComment = comments[comments.length - 1];
+    const cursor = toCommentCursor(lastComment);
     fetchMoreComments &&
       fetchMoreComments({
-        variables: { postId, cursor: new Date(oldestComment) },
+        variables: { postId, cursor },
       });
   }, [fetchMoreComments, comments]);
 

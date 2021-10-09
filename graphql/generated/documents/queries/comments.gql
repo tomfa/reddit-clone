@@ -1,4 +1,4 @@
-query comments($postId: String!, $authorId: String, $cursor: Date){
+query comments($postId: String!, $authorId: String, $cursor: CommentCursor){
     comments(postId: $postId, authorId: $authorId, cursor: $cursor){
         id
         postId

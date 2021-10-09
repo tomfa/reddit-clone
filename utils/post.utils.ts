@@ -1,4 +1,5 @@
-import { Post } from "../graphql/generated/types";
+import { Post, QueryPostsArgs } from "../graphql/generated/types";
+import { getDateMeta } from "./date.utils";
 
 export const getUpvotePercentage = ({ numVotes, score }: Post): number => {
   if (numVotes === 0) {
@@ -9,16 +10,24 @@ export const getUpvotePercentage = ({ numVotes, score }: Post): number => {
   return 100 * upvotesFraction;
 };
 
-export const getTimeFilterOptions = () => {
+export const EMPTY_TIME_FILTER = { year: null, month: null, week: null };
+export const getTimeFilterOptions = (): Array<{
+  value: Pick<QueryPostsArgs, "year" | "month" | "week">;
+  label: string;
+}> => {
   const now = new Date();
-  const lastWeek = new Date(now.getTime() - 7 * 24 * 3600 * 1000);
-  const lastMonth = new Date(now.getTime() - 31 * 24 * 3600 * 1000);
-  const lastYear = new Date(now.getTime() - 365 * 24 * 3600 * 1000);
-  const allTime = undefined;
+  const meta = getDateMeta(now);
+
   return [
-    { value: lastWeek, label: "This week" },
-    { value: lastMonth, label: "This month" },
-    { value: lastYear, label: "This year" },
-    { value: allTime, label: "All" },
+    {
+      value: { ...EMPTY_TIME_FILTER, year: meta.year, week: meta.week },
+      label: "This week",
+    },
+    {
+      value: { ...EMPTY_TIME_FILTER, year: meta.year, month: meta.month },
+      label: "This month",
+    },
+    { value: { ...EMPTY_TIME_FILTER, year: meta.year }, label: "This year" },
+    { value: EMPTY_TIME_FILTER, label: "All" },
   ];
 };

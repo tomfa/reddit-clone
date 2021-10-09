@@ -27,16 +27,13 @@ const PostListPage: NextPage = () => {
         >
           <ListFilter
             header={`/a/${category || "all"}`}
-            onChange={(args) => {
-              const newQueryFilter = { ...queryVariables, ...args };
+            onChange={(filter) => {
+              const newQueryFilter = { ...queryVariables, ...filter };
               const hasChanged =
                 JSON.stringify(newQueryFilter) !==
                 JSON.stringify(queryVariables);
               if (hasChanged) {
-                console.log("from", queryVariables, "to", args);
                 return setQueryVariables(newQueryFilter);
-              } else {
-                console.log("nochange");
               }
             }}
           />
