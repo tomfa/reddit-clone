@@ -19,6 +19,7 @@ export const getTimeFilterOptions = (): Array<{
   const meta = getDateMeta(now);
 
   return [
+    { value: EMPTY_TIME_FILTER, label: "All time" },
     {
       value: { ...EMPTY_TIME_FILTER, year: meta.year, week: meta.week },
       label: "This week",
@@ -28,6 +29,5 @@ export const getTimeFilterOptions = (): Array<{
       label: "This month",
     },
     { value: { ...EMPTY_TIME_FILTER, year: meta.year }, label: "This year" },
-    { value: EMPTY_TIME_FILTER, label: "All" },
   ];
 };
