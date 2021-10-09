@@ -14,6 +14,7 @@ import {
 } from "../../graphql/generated/types";
 import { useCurrentCategory, useUserData } from "../../lib/hooks";
 import { ROUTES } from "../../utils/routes.utils";
+import toast from "react-hot-toast";
 
 const postTypes = [
   {
@@ -48,6 +49,7 @@ export default function CreatePostForm() {
         variables: { input: { ...post, type: postType } },
       });
       const newPost = postMutationData.data?.addPost;
+      toast.success("Post created!");
       if (newPost && updatePostsQuery) {
         updatePostsQuery((query: PostsQuery) => {
           return {

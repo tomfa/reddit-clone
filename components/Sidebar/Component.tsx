@@ -25,7 +25,7 @@ const Wrapper = styled.aside`
 
 const Sidebar = (props: Partial<SideBarMenuProps>) => {
   const { isLoggedIn } = useUserData();
-  const defaultSelected = useCurrentCategory() || "all";
+  const defaultSelected = ROUTES.CATEGORY(useCurrentCategory() || "all");
   const defaultOptions = useMemo(
     () =>
       ["all", ...config.categories].map((value) => ({

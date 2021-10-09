@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SideBarListItem from "./SideBarListItem";
 import SideBarListHeader from "./Header";
+import { useRouter } from "next/router";
 
 const SideBarListWrapper = styled.nav`
   display: flex;
@@ -20,7 +21,7 @@ const SideBarMenu = ({ selected, options, header }: SideBarMenuProps) => {
       {options.map(({ value, label }) => (
         <SideBarListItem
           key={value}
-          active={selected === value}
+          active={selected == value}
           url={value}
           label={label}
         />
