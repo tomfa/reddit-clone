@@ -1,5 +1,5 @@
-query posts($category: String, $sort: PostSort, $username: String, $order: SortOrder, $year: Int, $month: Int, $week: Int, $cursor: PostCursor){
-    posts(category: $category, sort: $sort, username: $username, order: $order, year: $year, month: $month, week: $week, cursor: $cursor){
+query posts($category: String, $sort: PostSort, $username: String, $archived: Boolean, $order: SortOrder, $year: Int, $month: Int, $week: Int, $cursor: PostCursor){
+    posts(category: $category, sort: $sort, username: $username, archived: $archived, order: $order, year: $year, month: $month, week: $week, cursor: $cursor){
         id
         title
         slug

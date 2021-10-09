@@ -17,6 +17,7 @@ const PostListPage: NextPage = () => {
   const [queryVariables, setQueryVariables] = useState<PostsQueryVariables>({
     category,
     sort: PostSort.Recent,
+    archived: false,
   });
 
   useEffect(

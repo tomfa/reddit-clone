@@ -161,6 +161,7 @@ export type QueryGetUserByIdArgs = {
 };
 
 export type QueryPostsArgs = {
+  archived?: Maybe<Scalars["Boolean"]>;
   category?: Maybe<Scalars["String"]>;
   cursor?: Maybe<PostCursor>;
   month?: Maybe<Scalars["Int"]>;
@@ -717,6 +718,7 @@ export type PostsQueryVariables = Exact<{
   category?: Maybe<Scalars["String"]>;
   sort?: Maybe<PostSort>;
   username?: Maybe<Scalars["String"]>;
+  archived?: Maybe<Scalars["Boolean"]>;
   order?: Maybe<SortOrder>;
   year?: Maybe<Scalars["Int"]>;
   month?: Maybe<Scalars["Int"]>;
@@ -1283,6 +1285,7 @@ export const PostsDocument = gql`
     $category: String
     $sort: PostSort
     $username: String
+    $archived: Boolean
     $order: SortOrder
     $year: Int
     $month: Int
@@ -1293,6 +1296,7 @@ export const PostsDocument = gql`
       category: $category
       sort: $sort
       username: $username
+      archived: $archived
       order: $order
       year: $year
       month: $month
@@ -1341,6 +1345,7 @@ export const PostsDocument = gql`
  *      category: // value for 'category'
  *      sort: // value for 'sort'
  *      username: // value for 'username'
+ *      archived: // value for 'archived'
  *      order: // value for 'order'
  *      year: // value for 'year'
  *      month: // value for 'month'

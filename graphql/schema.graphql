@@ -104,6 +104,7 @@ type Query {
     category: String
     sort: PostSort
     username: String
+    archived: Boolean
     order: SortOrder
     year: Int
     month: Int

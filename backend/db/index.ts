@@ -390,6 +390,9 @@ const getPosts = async ({
       .orderBy("createdAt", order || "desc");
   }
 
+  if (filter.archived != null) {
+    query = query.where("archived", "==", filter.archived);
+  }
   if (filter.year) {
     query = query.where("meta.year", "==", filter.year);
   }
