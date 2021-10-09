@@ -120,15 +120,15 @@ const getOrCreateUser = async (
 };
 
 const setPostArchived = async (post: Post, archived: boolean) => {
-  const commentRef = firestore
+  const postRef = firestore
     .collection(USERS)
     .doc(post.author.id)
     .collection(POSTS)
     .doc(post.id);
 
-  await commentRef.update({ archived });
+  await postRef.update({ archived });
 
-  return { ...post, archived: true };
+  return { ...post, archived };
 };
 
 const addComment = async (
