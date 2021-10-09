@@ -7,5 +7,6 @@ export const ROUTES = {
   USER: (user: Pick<User, "username">) => `/u/${user.username}`,
   LOGIN: () => `/login`,
   LOGOUT: () => `/logout`,
-  ADD_POST: () => `/posts/create`,
+  ADD_POST: (category?: string) =>
+    category ? `/posts/create?category=${category}` : "/posts/create",
 };

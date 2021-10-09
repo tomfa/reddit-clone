@@ -21,7 +21,7 @@ const CategoryMenu = () => {
   return (
     <Menu>
       <CategoryMenuDropdown category={category} />
-      {isLoggedIn && <CategoryMenuCreatePostButton />}
+      {isLoggedIn && <CategoryMenuCreatePostButton category={category} />}
     </Menu>
   );
 };

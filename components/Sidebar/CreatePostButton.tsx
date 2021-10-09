@@ -11,8 +11,8 @@ const CreatePostButton = styled(Button)`
   text-align: center;
 `;
 
-const SidebarCreatePostButton = () => (
-  <Link href={ROUTES.ADD_POST()} passHref={true}>
+const SidebarCreatePostButton = ({ category }: { category?: string }) => (
+  <Link href={ROUTES.ADD_POST(category)} passHref={true}>
     <CreatePostButton as={"a"}>create post</CreatePostButton>
   </Link>
 );

@@ -12,7 +12,7 @@ import {
   useAddPostMutation,
   usePostsLazyQuery,
 } from "../../graphql/generated/types";
-import { useUserData } from "../../lib/hooks";
+import { useCurrentCategory, useUserData } from "../../lib/hooks";
 import { ROUTES } from "../../utils/routes.utils";
 
 const postTypes = [
@@ -27,6 +27,7 @@ const postTypes = [
 ];
 
 export default function CreatePostForm() {
+  const category = useCurrentCategory() || config.categories[0];
   const router = useRouter();
   const { user } = useUserData();
   const { isLoggedIn, isLoading } = useUserData();
@@ -68,7 +69,7 @@ export default function CreatePostForm() {
   return (
     <FinalForm
       onSubmit={onSubmit}
-      initialValues={{ type: PostType.Text, category: config.categories[0] }}
+      initialValues={{ type: PostType.Text, category }}
       style={{ width: "100%" }}
     >
       {({ handleSubmit }) => (

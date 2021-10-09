@@ -12,8 +12,8 @@ const CreatePostButton = styled(Button)`
   text-decoration: none;
 `;
 
-const CategoryMenuCreatePostButton = () => (
-  <Link href={ROUTES.ADD_POST()} passHref>
+const CategoryMenuCreatePostButton = ({ category }: { category?: string }) => (
+  <Link href={ROUTES.ADD_POST(category)} passHref>
     <CreatePostButton as={"a"}>create post</CreatePostButton>
   </Link>
 );

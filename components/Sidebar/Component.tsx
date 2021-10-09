@@ -20,12 +20,12 @@ const Wrapper = styled.aside`
 `;
 
 const Sidebar = () => {
-  const category = useCurrentCategory() || "all";
+  const category = useCurrentCategory();
   const { isLoggedIn } = useUserData();
   return (
     <Wrapper>
-      {isLoggedIn && <SidebarCreatePostButton />}
-      <SidebarCategoryList activeCategory={category} />
+      {isLoggedIn && <SidebarCreatePostButton category={category} />}
+      <SidebarCategoryList activeCategory={category || "all"} />
     </Wrapper>
   );
 };
