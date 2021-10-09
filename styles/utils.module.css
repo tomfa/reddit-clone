@@ -11,18 +11,17 @@
 .wideFlexColumn {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   width: 100%;
 }
 
 .wideFlexRow {
   display: flex;
   flex-direction: row;
-  width: 100%;
   align-items: flex-start;
 }
 
 .wide {
-  width: 100%;
 }
 
 .mutedText {

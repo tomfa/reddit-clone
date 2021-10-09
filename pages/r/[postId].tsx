@@ -8,7 +8,7 @@ const PostDetailPage: NextPage = () => {
   return (
     <div className={styles.wideFlexColumn}>
       <MobileMenu />
-      <div className={styles.container}>
+      <div className={styles.wideFlexRow}>
         <PostDetail />
         <Sidebar />
       </div>

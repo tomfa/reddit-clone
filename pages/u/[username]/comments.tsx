@@ -13,17 +13,16 @@ import PostList from "../../../components/PostList/Component";
 const UserCommentsPage: NextPage = () => {
   const router = useRouter();
   const username = useUrlQueryString("username");
-  const currentUrl = ROUTES.USER_COMMENTS({ username: username || "" });
   const options = [
     { value: ROUTES.USER({ username: username || "" }), label: "posts" },
-    { value: currentUrl, label: "comments" },
+    { value: router.asPath, label: "comments" },
   ];
 
   return (
     <div className={styles.wideFlexColumn}>
       <MobileMenu
         options={options}
-        selected={currentUrl}
+        selected={router.asPath}
         onSelect={(url) => router.push(url)}
       />
       <div className={styles.wideFlexRow}>
@@ -31,7 +30,7 @@ const UserCommentsPage: NextPage = () => {
           <ListFilter header={`/u/${username}`} hideFilters />
           <PostDetailCommentSection queryVariables={{ username }} />
         </div>
-        <Sidebar options={options} selected={currentUrl} header={username} />
+        <Sidebar options={options} selected={router.asPath} header={username} />
       </div>
     </div>
   );

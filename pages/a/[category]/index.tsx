@@ -27,7 +27,7 @@ const PostListPage: NextPage = () => {
   return (
     <div className={styles.wideFlexColumn}>
       <MobileMenu />
-      <div className={styles.container}>
+      <div className={styles.wideFlexRow}>
         <div className={styles.wideFlexColumn}>
           <ListFilter
             header={`/a/${category || "all"}`}

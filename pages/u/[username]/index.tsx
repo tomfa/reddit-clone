@@ -12,12 +12,11 @@ import Sidebar from "../../../components/Sidebar/Component";
 const UserDetailPage: NextPage = () => {
   const username = useUrlQueryString("username");
   const router = useRouter();
-  const currentUrl = ROUTES.USER({ username: username || "" });
   const options = [
-    { value: currentUrl, label: "Posts" },
+    { value: router.asPath, label: "posts" },
     {
       value: ROUTES.USER_COMMENTS({ username: username || "" }),
-      label: "Comments",
+      label: "comments",
     },
   ];
 
@@ -25,7 +24,7 @@ const UserDetailPage: NextPage = () => {
     <div className={styles.wideFlexColumn}>
       <MobileMenu
         options={options}
-        selected={currentUrl}
+        selected={router.asPath}
         onSelect={(url) => router.push(url)}
       />
       <div className={styles.wideFlexRow}>
@@ -33,7 +32,7 @@ const UserDetailPage: NextPage = () => {
           <ListFilter header={`/u/${username}`} hideFilters />
           <PostList queryVariables={{ username }} />
         </div>
-        <Sidebar options={options} selected={currentUrl} header={username} />
+        <Sidebar options={options} selected={router.asPath} header={username} />
       </div>
     </div>
   );
