@@ -19,7 +19,7 @@ export const toCommentCursor = (comment?: Comment): CommentCursor | undefined =>
   comment && {
     createdAt: comment.createdAt,
     id: comment.id,
-    postId: comment.postId,
+    postId: comment.post.id,
   };
 
 export const toPostCursor = (post?: Post): PostCursor | undefined =>

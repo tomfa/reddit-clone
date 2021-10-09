@@ -34,9 +34,14 @@ type UserVote {
   postId: String!
 }
 
+type PostDisplayData {
+  id: String!
+  title: String!
+}
+
 type Comment {
   id: String!
-  postId: String!
+  post: PostDisplayData!
   author: User!
   body: String!
   createdAt: Date!

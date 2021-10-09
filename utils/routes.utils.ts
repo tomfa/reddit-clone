@@ -3,6 +3,7 @@ import { Post, User } from "../graphql/generated/types";
 export const ROUTES = {
   HOME: () => "/",
   POST: (post: Post) => `/a/${post.category}/${post.id}/${post.slug}`,
+  POST_REDIRECT: (post: Pick<Post, "id">) => `/r/${post.id}`,
   CATEGORY: (category: string) => (category === "all" ? "/" : `/a/${category}`),
   USER: (user: Pick<User, "username">) => `/u/${user.username}`,
   USER_COMMENTS: (user: Pick<User, "username">) =>

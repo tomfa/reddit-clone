@@ -24,3 +24,7 @@
 .wide {
   width: 100%;
 }
+
+.mutedText {
+  color: var(--color-mutedText);
+}

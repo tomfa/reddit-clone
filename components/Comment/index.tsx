@@ -17,9 +17,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const CommentComponent = ({ comment }: { comment: Comment }) => (
+type Props = {
+  comment: Comment;
+  displayPostInfo: boolean;
+};
+const CommentComponent = ({ comment, displayPostInfo }: Props) => (
   <Wrapper>
-    <CommentDetailContainer comment={comment} />
+    <CommentDetailContainer
+      comment={comment}
+      displayPostInfo={displayPostInfo}
+    />
     <CommentContent>{comment.body}</CommentContent>
   </Wrapper>
 );

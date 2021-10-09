@@ -146,13 +146,17 @@ const addComment = async (
 
   const comment: DBComment = await firestore.runTransaction(
     async (transaction) => {
-      const post = await transaction.get(postRef);
-      if (!post.exists) {
+      const postQuery = await transaction.get(postRef);
+      if (!postQuery.exists) {
         throw "Document does not exist!";
       }
+      const post = postQuery.data() as Post;
 
       const data: DBComment = {
-        postId: post.id,
+        post: {
+          id: post.id,
+          title: post.title,
+        },
         id: commentId,
         author: auth,
         body: input.content,
@@ -358,7 +362,7 @@ const getComments = async ({
   query = query.orderBy("createdAt", "desc");
 
   if (filter.postId) {
-    query = query.where("postId", "==", filter.postId);
+    query = query.where("post.id", "==", filter.postId);
   }
   if (filter.username) {
     query = query.where("author.username", "==", filter.username);

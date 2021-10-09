@@ -56,7 +56,13 @@ const PostDetailCommentSection = ({ queryVariables, numComments }: Props) => {
     >
       {loading && isEmpty && <LoadingIndicatorBox />}
       {!loading && isEmpty && <Empty comments />}
-      {!isEmpty && <CommentList comments={comments} loading={loading} />}
+      {!isEmpty && (
+        <CommentList
+          comments={comments}
+          loading={loading}
+          displayPostLink={!queryVariables["postId"]}
+        />
+      )}
     </InfiniteScroll>
   );
 };

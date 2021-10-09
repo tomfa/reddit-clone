@@ -55,7 +55,7 @@ export type Comment = {
   body: FieldWrapper<Scalars["String"]>;
   createdAt: FieldWrapper<Scalars["Date"]>;
   id: FieldWrapper<Scalars["String"]>;
-  postId: FieldWrapper<Scalars["String"]>;
+  post: FieldWrapper<PostDisplayData>;
 };
 
 export type CommentCursor = {
@@ -122,6 +122,12 @@ export type PostCursor = {
   numVotes: Scalars["Int"];
   score: Scalars["Int"];
   views: Scalars["Int"];
+};
+
+export type PostDisplayData = {
+  __typename?: "PostDisplayData";
+  id: FieldWrapper<Scalars["String"]>;
+  title: FieldWrapper<Scalars["String"]>;
 };
 
 export enum PostSort {
@@ -314,6 +320,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   PostCursor: PostCursor;
+  PostDisplayData: ResolverTypeWrapper<PostDisplayData>;
   PostSort: PostSort;
   PostType: PostType;
   Query: ResolverTypeWrapper<{}>;
@@ -337,6 +344,7 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Post: Post;
   PostCursor: PostCursor;
+  PostDisplayData: PostDisplayData;
   Query: {};
   String: Scalars["String"];
   User: User;
@@ -351,7 +359,7 @@ export type CommentResolvers<
   body: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   createdAt: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
   id: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  postId: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  post: Resolver<ResolversTypes["PostDisplayData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -418,6 +426,15 @@ export type PostResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PostDisplayDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PostDisplayData"] = ResolversParentTypes["PostDisplayData"]
+> = ResolversObject<{
+  id: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  title: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
@@ -474,6 +491,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Date: GraphQLScalarType;
   Mutation: MutationResolvers<ContextType>;
   Post: PostResolvers<ContextType>;
+  PostDisplayData: PostDisplayDataResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
   User: UserResolvers<ContextType>;
   UserVote: UserVoteResolvers<ContextType>;
@@ -488,9 +506,9 @@ export type AddCommentMutation = {
   addComment: {
     __typename?: "Comment";
     id: string;
-    postId: string;
     body: string;
     createdAt: any;
+    post: { __typename?: "PostDisplayData"; id: string; title: string };
     author: {
       __typename?: "User";
       id: string;
@@ -639,9 +657,9 @@ export type CommentsQuery = {
   comments: Array<{
     __typename?: "Comment";
     id: string;
-    postId: string;
     body: string;
     createdAt: any;
+    post: { __typename?: "PostDisplayData"; id: string; title: string };
     author: {
       __typename?: "User";
       id: string;
@@ -750,7 +768,10 @@ export const AddCommentDocument = gql`
   mutation addComment($input: AddCommentInput!) {
     addComment(input: $input) {
       id
-      postId
+      post {
+        id
+        title
+      }
       author {
         id
         username
@@ -1070,7 +1091,10 @@ export const CommentsDocument = gql`
   query comments($postId: String, $username: String, $cursor: CommentCursor) {
     comments(postId: $postId, username: $username, cursor: $cursor) {
       id
-      postId
+      post {
+        id
+        title
+      }
       author {
         id
         username

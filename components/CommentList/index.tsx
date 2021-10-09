@@ -18,21 +18,30 @@ const loadingComment: Comment = {
   },
   body: "...",
   createdAt: new Date(),
-  postId: "...",
+  post: {
+    id: "...",
+    title: "...",
+  },
 };
 
 const CommentList = ({
   comments,
   loading,
+  displayPostLink = false,
 }: {
   comments: Comment[];
   loading: boolean;
+  displayPostLink: boolean;
 }) => {
   return (
     <List>
       {comments &&
         comments.map((comment) => (
-          <CommentComponent key={comment.id} comment={comment} />
+          <CommentComponent
+            key={comment.id}
+            comment={comment}
+            displayPostInfo={displayPostLink}
+          />
         ))}
       {!comments ||
         (loading && (
