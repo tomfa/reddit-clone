@@ -38,7 +38,7 @@ const PostVote = ({ post, full }: Props) => {
   const [_, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const { user, isLoggedIn } = useUserData();
   const voteValue = useMemo(() => post.myVote?.vote, [post.myVote]);
-  const isByUser = post.author.id !== user?.id;
+  const isByUser = post.author.id === user?.id;
   const submitVote = useCallback(
     (newVote: VoteValue) => {
       const value = newVote === voteValue ? VoteValue.Neutral : newVote;

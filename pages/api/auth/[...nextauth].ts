@@ -37,9 +37,10 @@ export default NextAuth({
         });
         token.id = user.id;
         token.username = user.username;
+        token.name = user.name;
       }
       if (!token.username) {
-        token.username = token.email;
+        token.username = token.name || token.email;
       }
 
       return token;

@@ -166,7 +166,7 @@ const addUser = async (
   }
 ): Promise<User> => {
   const id = uuid();
-  const defaultUserName = user.email && user.email.split("@")[0];
+  const defaultUserName = user.name || user.email?.split("@")[0];
   const uName = user.username || defaultUserName;
 
   const userDoc = firestore.doc(`${USERS}/${id}`);
