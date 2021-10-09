@@ -411,11 +411,12 @@ const getPosts = async ({
     query = query.where("author.username", "==", filter.username);
   }
 
-  if (cursor && filter.sort === PostSort.Recent) {
-    query = query.startAfter(cursor.createdAt);
-  }
-  if (cursor && filter.sort === PostSort.Popular) {
-    query = query.startAfter(cursor.score, cursor.createdAt);
+  if (cursor) {
+    if (filter.sort === PostSort.Popular) {
+      query = query.startAfter(cursor.score, cursor.createdAt);
+    } else {
+      query = query.startAfter(cursor.createdAt);
+    }
   }
 
   const data = await query
