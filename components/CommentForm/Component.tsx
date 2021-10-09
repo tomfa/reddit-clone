@@ -4,6 +4,7 @@ import { StyledForm } from "./StyledForm.styles";
 import { AddCommentInput } from "../../graphql/generated/types";
 import { useForm } from "react-hook-form";
 import TextArea from "./TextArea";
+import style from "./Component.module.css";
 
 type Props = {
   onAddComment: (input: Pick<AddCommentInput, "content">) => void;
@@ -22,7 +23,7 @@ const CommentForm = ({ onAddComment, loading }: Props) => {
   );
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} className={style.wrapper}>
       <TextArea
         placeholder="enter your comment"
         rows={2}

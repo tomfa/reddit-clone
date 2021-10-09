@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import styles from "../../../styles/Home.module.css";
+import styles from "../../../styles/utils.module.css";
 import PostList from "../../../components/PostList/Component";
 import Sidebar from "../../../components/Sidebar/Component";
-import CategoryMenu from "../../../components/CategoryMenu/Component";
+import MobileMenu from "../../../components/MobileMenu/MobileMenu";
 import { useCurrentCategory } from "../../../lib/hooks";
 import ListFilter from "../../../components/ListFilter";
 import React, { useEffect, useState } from "react";
@@ -25,12 +25,10 @@ const PostListPage: NextPage = () => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <CategoryMenu />
+    <div className={styles.wideFlexColumn}>
+      <MobileMenu />
       <div className={styles.container}>
-        <div
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <div className={styles.wideFlexColumn}>
           <ListFilter
             header={`/a/${category || "all"}`}
             onChange={(filter) => {

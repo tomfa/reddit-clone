@@ -6,7 +6,6 @@ import { transition } from "../shared/helpers";
 export const StyledForm = styled(Form)`
   ${transition("border", "box-shadow")};
 
-  margin-top: -1px;
   border: 1px solid var(--color-border);
   border-radius: 0 0 2px 2px;
   max-width: none;

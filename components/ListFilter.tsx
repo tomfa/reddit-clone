@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IoEllipse as NewIcon, IoFlame as FireIcon } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { PostSort, QueryPostsArgs } from "../graphql/generated/types";
-import Dropdown from "./CategoryMenu/Dropdown";
+import Dropdown from "./MobileMenu/Dropdown";
 import { EMPTY_TIME_FILTER, getTimeFilterOptions } from "../utils/post.utils";
 
 const FilterWrapper = styled.nav`
@@ -72,8 +72,8 @@ const TimeDropdown = styled(Dropdown)`
   }
 `;
 
-const ListHeader = styled.h1`
-  display: none;
+const ListHeader = styled.h1<{ alwaysDisplay?: boolean }>`
+  display: ${(p) => (p.alwaysDisplay ? "block" : "none")};
   font-size: 1rem;
   margin: 0;
   text-transform: lowercase;
@@ -116,7 +116,7 @@ export const ListFilter = ({
 
   return (
     <FilterWrapper>
-      {header && <ListHeader>{header}</ListHeader>}
+      {header && <ListHeader alwaysDisplay={hideFilters}>{header}</ListHeader>}
       {!hideFilters && (
         <div style={{ display: "flex" }}>
           <FilterSelectButton

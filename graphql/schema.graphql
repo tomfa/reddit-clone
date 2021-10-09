@@ -108,8 +108,8 @@ type Query {
     cursor: PostCursor
   ): [Post!]!
   comments(
-    postId: String!
-    authorId: String
+    postId: String
+    username: String
     cursor: CommentCursor
   ): [Comment!]!
 }

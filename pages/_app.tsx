@@ -40,7 +40,7 @@ const cache = new InMemoryCache({
         posts: {
           keyArgs: [
             "category",
-            "userName",
+            "username",
             "sort",
             "order",
             "year",

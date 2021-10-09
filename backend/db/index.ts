@@ -347,29 +347,29 @@ const getVotesForUser = async (args: {
 };
 
 const getComments = async ({
-  postId,
   cursor,
   limit = 20,
   ...filter
 }: QueryCommentsArgs & {
   limit?: number;
 }): Promise<Comment[]> => {
-  let query = firestore
-    .collectionGroup(COMMENT)
-    .where("postId", "==", postId)
-    .limit(limit);
+  let query = firestore.collectionGroup(COMMENT).limit(limit);
 
   query = query.orderBy("createdAt", "desc");
 
-  if (filter.authorId) {
-    query = query.where("author.id", "==", filter.authorId);
+  if (filter.postId) {
+    query = query.where("postId", "==", filter.postId);
   }
-
+  if (filter.username) {
+    query = query.where("author.username", "==", filter.username);
+  }
   if (cursor) {
     query = query.startAfter(cursor);
   }
-
-  const data = await query.get().then((d) => d.docs);
+  const data = await query
+    .limit(limit)
+    .get()
+    .then((d) => d.docs);
   return data.map((p) => p.data()) as DBComment[];
 };
 

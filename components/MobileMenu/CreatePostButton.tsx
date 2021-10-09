@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Button from "../shared/Button";
 import { ROUTES } from "../../utils/routes.utils";
+import { useCurrentCategory } from "../../lib/hooks";
 
 const CreatePostButton = styled(Button)`
   display: flex;
@@ -12,10 +13,13 @@ const CreatePostButton = styled(Button)`
   text-decoration: none;
 `;
 
-const CategoryMenuCreatePostButton = ({ category }: { category?: string }) => (
-  <Link href={ROUTES.ADD_POST(category)} passHref>
-    <CreatePostButton as={"a"}>create post</CreatePostButton>
-  </Link>
-);
+const CategoryMenuCreatePostButton = () => {
+  const category = useCurrentCategory();
+  return (
+    <Link href={ROUTES.ADD_POST(category)} passHref>
+      <CreatePostButton as={"a"}>create post</CreatePostButton>
+    </Link>
+  );
+};
 
 export default CategoryMenuCreatePostButton;

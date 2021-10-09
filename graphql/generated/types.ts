@@ -143,9 +143,9 @@ export type Query = {
 };
 
 export type QueryCommentsArgs = {
-  authorId?: Maybe<Scalars["String"]>;
   cursor?: Maybe<CommentCursor>;
-  postId: Scalars["String"];
+  postId?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
 };
 
 export type QueryGetPostByIdArgs = {
@@ -426,7 +426,7 @@ export type QueryResolvers<
     Array<ResolversTypes["Comment"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryCommentsArgs, "postId">
+    RequireFields<QueryCommentsArgs, never>
   >;
   getPostById: Resolver<
     Maybe<ResolversTypes["Post"]>,
@@ -629,8 +629,8 @@ export type VoteMutation = {
 };
 
 export type CommentsQueryVariables = Exact<{
-  postId: Scalars["String"];
-  authorId?: Maybe<Scalars["String"]>;
+  postId?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
   cursor?: Maybe<CommentCursor>;
 }>;
 
@@ -1067,8 +1067,8 @@ export type VoteMutationOptions = Apollo.BaseMutationOptions<
   VoteMutationVariables
 >;
 export const CommentsDocument = gql`
-  query comments($postId: String!, $authorId: String, $cursor: CommentCursor) {
-    comments(postId: $postId, authorId: $authorId, cursor: $cursor) {
+  query comments($postId: String, $username: String, $cursor: CommentCursor) {
+    comments(postId: $postId, username: $username, cursor: $cursor) {
       id
       postId
       author {
@@ -1095,13 +1095,13 @@ export const CommentsDocument = gql`
  * const { data, loading, error } = useCommentsQuery({
  *   variables: {
  *      postId: // value for 'postId'
- *      authorId: // value for 'authorId'
+ *      username: // value for 'username'
  *      cursor: // value for 'cursor'
  *   },
  * });
  */
 export function useCommentsQuery(
-  baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>
+  baseOptions?: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(

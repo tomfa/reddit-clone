@@ -3,7 +3,7 @@ import styled from "styled-components";
 import NavLink from "../../shared/NavLink";
 import { ROUTES } from "../../../utils/routes.utils";
 
-const Item = styled(NavLink)<{ active: boolean }>`
+const LinkComponent = styled(NavLink)<{ active: boolean }>`
   display: block;
   padding: 12px;
   font-size: 15px;
@@ -18,20 +18,20 @@ const Item = styled(NavLink)<{ active: boolean }>`
   }
 `;
 
-const SidebarCategoryListItem = ({
-  category,
+const SideBarListItem = ({
+  url,
+  label,
   active,
 }: {
-  category: string;
+  url: string;
+  label: string;
   active: boolean;
 }) => {
-  const isAll = category === "all";
-  const url = isAll ? ROUTES.HOME() : ROUTES.CATEGORY(category);
   return (
-    <Item href={url} active={active}>
-      {category}
-    </Item>
+    <LinkComponent href={url} active={active}>
+      {label}
+    </LinkComponent>
   );
 };
 
-export default SidebarCategoryListItem;
+export default SideBarListItem;

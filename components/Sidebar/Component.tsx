@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import SidebarCreatePostButton from "./CreatePostButton";
-import SidebarCategoryList from "./CategoryList";
+import SideBarMenu, { SideBarMenuProps } from "./SideBarMenu";
 import { useCurrentCategory, useUserData } from "../../lib/hooks";
+import { MobileMenuProps } from "../MobileMenu/MobileMenu";
+import { useRouter } from "next/router";
+import { ROUTES } from "../../utils/routes.utils";
+import { config } from "../../lib/config";
 
 const Wrapper = styled.aside`
   display: flex;
@@ -19,13 +23,26 @@ const Wrapper = styled.aside`
   }
 `;
 
-const Sidebar = () => {
-  const category = useCurrentCategory();
+const Sidebar = (props: Partial<SideBarMenuProps>) => {
   const { isLoggedIn } = useUserData();
+  const defaultSelected = useCurrentCategory() || "all";
+  const defaultOptions = useMemo(
+    () =>
+      ["all", ...config.categories].map((value) => ({
+        value: ROUTES.CATEGORY(value),
+        label: value,
+      })),
+    [config.categories]
+  );
+
   return (
     <Wrapper>
-      {isLoggedIn && <SidebarCreatePostButton category={category} />}
-      <SidebarCategoryList activeCategory={category || "all"} />
+      {isLoggedIn && <SidebarCreatePostButton />}
+      <SideBarMenu
+        selected={props.selected || defaultSelected}
+        options={props.options || defaultOptions}
+        header={props.header || "categories"}
+      />
     </Wrapper>
   );
 };

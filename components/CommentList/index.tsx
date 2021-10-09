@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import CommentListItem from "./Item";
 import { Comment } from "../../graphql/generated/types";
+import CommentComponent from "../Comment";
 
 const List = styled.ul`
-  margin-top: 16px;
+  margin-top: 0;
   list-style: none;
+  width: 100%;
 `;
 
 const loadingComment: Comment = {
@@ -28,16 +29,16 @@ const CommentList = ({
   loading: boolean;
 }) => {
   return (
-    comments && (
-      <List>
-        {comments.map((comment) => (
-          <CommentListItem key={comment.id} comment={comment} />
+    <List>
+      {comments &&
+        comments.map((comment) => (
+          <CommentComponent key={comment.id} comment={comment} />
         ))}
-        {loading && (
-          <CommentListItem key={"loading"} comment={loadingComment} />
-        )}
-      </List>
-    )
+      {!comments ||
+        (loading && (
+          <CommentComponent key={"loading"} comment={loadingComment} />
+        ))}
+    </List>
   );
 };
 
