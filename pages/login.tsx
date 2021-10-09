@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import auth from "next-auth/client";
-import { Loader } from "../components/Loader";
 import { ROUTES } from "../utils/routes.utils";
+import LoadingIndicatorBox from "../components/shared/LoadingIndicator/Box";
 
 export default function LoginPage() {
   const [session, loading] = auth.useSession();
@@ -19,5 +19,5 @@ export default function LoginPage() {
     }
   }, [router, session, loading]);
 
-  return <Loader show={true} />;
+  return <LoadingIndicatorBox />;
 }
