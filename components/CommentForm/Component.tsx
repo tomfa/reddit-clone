@@ -1,25 +1,32 @@
 import React, { useCallback } from "react";
 import CommentFormSubmitButton from "./SubmitButton";
 import { StyledForm } from "./StyledForm.styles";
-import { AddCommentInput } from "../../graphql/generated/types";
+import {
+  AddCommentInput,
+  Post,
+  useAddCommentMutation,
+} from "../../graphql/generated/types";
 import { useForm } from "react-hook-form";
 import TextArea from "./TextArea";
 import style from "./Component.module.css";
+import { useUserData } from "../../lib/hooks";
 
-type Props = {
-  onAddComment: (input: Pick<AddCommentInput, "content">) => void;
-  loading: boolean;
-};
-const CommentForm = ({ onAddComment, loading }: Props) => {
+const CommentForm = ({ post }: { post: Post }) => {
+  const { user } = useUserData();
+  const [addComment, { loading }] = useAddCommentMutation();
   const { register, handleSubmit, setValue } =
     useForm<Omit<AddCommentInput, "postId">>();
 
   const onSubmit = useCallback(
-    (input: Omit<AddCommentInput, "postId">) => {
-      onAddComment(input);
+    async (args: Omit<AddCommentInput, "postId">) => {
+      if (!post || !user) {
+        return;
+      }
+      const input: AddCommentInput = { ...args, postId: post.id };
+      await addComment({ variables: { input } });
       setValue("content", "");
     },
-    [onAddComment, setValue]
+    [post, user, setValue]
   );
 
   return (
