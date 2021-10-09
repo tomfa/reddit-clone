@@ -121,7 +121,7 @@ const addComment = async (
   const commentId = uuid();
   const postRef = firestore
     .collection(USERS)
-    .doc(auth.id)
+    .doc(input.authorId)
     .collection(POSTS)
     .doc(input.postId);
 

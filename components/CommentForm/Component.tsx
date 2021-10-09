@@ -18,11 +18,15 @@ const CommentForm = ({ post }: { post: Post }) => {
     useForm<Omit<AddCommentInput, "postId">>();
 
   const onSubmit = useCallback(
-    async (args: Omit<AddCommentInput, "postId">) => {
+    async (args: Omit<AddCommentInput, "postId" | "authorId">) => {
       if (!post || !user) {
         return;
       }
-      const input: AddCommentInput = { ...args, postId: post.id };
+      const input: AddCommentInput = {
+        ...args,
+        postId: post.id,
+        authorId: post.author.id,
+      };
       await addComment({ variables: { input } });
       setValue("content", "");
     },

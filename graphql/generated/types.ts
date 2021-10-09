@@ -31,6 +31,7 @@ export type Scalars = {
 };
 
 export type AddCommentInput = {
+  authorId: Scalars["String"];
   content: Scalars["String"];
   postId: Scalars["String"];
 };

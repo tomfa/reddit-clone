@@ -1,9 +1,4 @@
-import {
-  Comment,
-  MutationAddCommentArgs,
-  MutationAddPostArgs,
-  Post,
-} from "../../graphql/generated/types";
+import { Comment, MutationAddCommentArgs } from "../../graphql/generated/types";
 import { UserAuth } from "../../request.types";
 import { db } from "../db";
 

@@ -94,6 +94,7 @@ input AddUserInput {
 
 input AddCommentInput {
   postId: String!
+  authorId: String!
   content: String!
 }
 
