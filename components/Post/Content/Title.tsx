@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { overflow, link } from "../../shared/helpers";
+import { link, overflow } from "../../shared/helpers";
 import { Post, PostType } from "../../../graphql/generated/types";
 import { ROUTES } from "../../../utils/routes.utils";
 
@@ -28,25 +28,33 @@ const Wrapper = styled.div<{ full: boolean; archived: boolean }>`
   }
 `;
 
-const renderTitle = ({ post, full }: Props) => {
-  switch (post.type) {
-    case "LINK":
-      return <a href={post.content}>{post.title}</a>;
-
-    case "TEXT":
-      if (full) return <span>{post.title}</span>;
-      return <Link href={ROUTES.POST(post)}>{post.title}</Link>;
-
-    default:
-      break;
+const getPostLink = ({ post, full }: Props) => {
+  if (post.type === PostType.Link) {
+    if (post.content.startsWith("http")) {
+      return post.content;
+    }
+    return `https://${post.content}`;
+  }
+  if (!full) {
+    return ROUTES.POST(post);
   }
 };
 
+const getPostTitle = (post: Post) => {
+  if (!post.archived) {
+    return post.title;
+  }
+  return post.title + " (archived)";
+};
+
 type Props = { post: Post; full: boolean };
-const PostContentTitle = (props: Props) => {
+const PostContentTitle = ({ post, full }: Props) => {
+  const href = getPostLink({ post, full });
+  const title = getPostTitle(post);
   return (
-    <Wrapper full={props.full} archived={props.post.archived}>
-      {renderTitle(props)}
+    <Wrapper full={full} archived={post.archived}>
+      {href && <Link href={href}>{title}</Link>}
+      {!href && <span>{title}</span>}
     </Wrapper>
   );
 };

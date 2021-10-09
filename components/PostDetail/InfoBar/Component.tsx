@@ -31,7 +31,6 @@ type Props = {
 };
 const PostDetailInfoBar = ({ post }: Props) => {
   const { user, isLoggedIn } = useUserData();
-  const [fetchPosts, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const [setPostArchived, { loading }] = useSetPostArchivedMutation();
   const canUpdate = user?.id === post.author.id;
   const upvotePercentage = useMemo(() => getUpvotePercentage(post), [post]);
@@ -43,17 +42,7 @@ const PostDetailInfoBar = ({ post }: Props) => {
     setPostArchived({
       variables: { id: post.id, archived: !post.archived },
     });
-    updatePostsQuery &&
-      updatePostsQuery((query: PostsQuery) => {
-        const updatedPost = { ...post, archived: !post.archived };
-        const newPosts = query.posts.map((p) =>
-          p.id !== post.id ? p : updatedPost
-        );
-        return {
-          posts: newPosts,
-        };
-      });
-  }, [post, loading, updatePostsQuery, setPostArchived]);
+  }, [post, loading, setPostArchived]);
 
   return (
     <Wrapper round={!isLoggedIn}>

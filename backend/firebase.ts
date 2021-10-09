@@ -12,7 +12,6 @@ if (!firebase.apps.length) {
     }),
     databaseURL: config.firebase.databaseUrl,
   });
-  console.log("initialize");
 }
 
 export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
