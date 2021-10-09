@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 type Props = {
   comment: Comment;
-  displayPostInfo: boolean;
+  displayPostInfo?: boolean;
 };
 const CommentDetail = ({ comment, displayPostInfo }: Props) => {
   return (

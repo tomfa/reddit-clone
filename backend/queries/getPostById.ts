@@ -6,5 +6,5 @@ export const getPostById = async (
   args: QueryGetPostByIdArgs,
   user: UserAuth | null
 ): Promise<Post | null> => {
-  return db.getPostById({ ...args, incrementViews: true }, user);
+  return db.getPostById(args, user);
 };
