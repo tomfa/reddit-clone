@@ -117,6 +117,7 @@ export default function CreatePostForm() {
               name="content"
               label="url"
               type="url"
+              placeholder="www.example.com"
               component={renderField}
             />
           )}
@@ -125,6 +126,9 @@ export default function CreatePostForm() {
               name="content"
               label="text"
               type="textarea"
+              placeholder={
+                "You can use simple markdown here\n\n# Header\n_italic_\n**bold**\n[link](https://bbc.com)"
+              }
               component={renderField}
             />
           )}

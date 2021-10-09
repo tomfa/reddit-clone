@@ -43,7 +43,7 @@ const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
             as="textarea"
             rows="6"
             error={field.meta.touched && !!field.meta.error}
-            placeholder={field.label}
+            placeholder={field.placeholder}
           />
         </InputWrapper>
       );
@@ -59,7 +59,7 @@ const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
             {...field.input}
             error={field.meta.touched && !!field.meta.error}
             type={field.type}
-            placeholder={field.label}
+            placeholder={field.placeholder}
             autoComplete="off"
           />
         </InputWrapper>

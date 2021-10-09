@@ -17,6 +17,11 @@ const StyledReactMarkdown = styled(ReactMarkdown)`
     margin-bottom: 0.5em;
   }
 
+  ol,
+  ul {
+    padding-left: 1.2rem;
+  }
+
   code {
     font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
       monospace;
@@ -34,24 +39,28 @@ const StyledReactMarkdown = styled(ReactMarkdown)`
 `;
 
 const allowed = [
-  "text",
-  "paragraph",
-  "emphasis",
+  "p",
+  "em",
+  "strong",
+  "span",
   "strong",
   "delete",
-  "heading",
-  "link",
+  "a",
   "code",
   "table",
-  "tableHead",
-  "tableBody",
-  "tableRow",
-  "tableCell",
-  "html",
-  "thematicBreak",
-  "list",
-  "listItem",
+  "thead",
+  "tbody",
+  "tr",
+  "td",
+  "th",
+  "hr",
+  "ul",
+  "ol",
+  "li",
   "inlineCode",
+  "h1",
+  "h2",
+  "h3",
 ];
 
 const Markdown = ({ children }: { children: string }) => (
