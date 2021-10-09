@@ -1,6 +1,6 @@
 export const config = {
   graphqlAPIUrl: "/api/graphql",
-  shortTitle: process.env.NEXT_PUBLIC_SHORT_TITLE || "Raidit",
+  shortTitle: process.env.NEXT_PUBLIC_SHORT_TITLE || "raidit",
   auth: {
     allowSignupFromDomains: process.env.ALLOWED_SIGNUP_DOMAINS
       ? process.env.ALLOWED_SIGNUP_DOMAINS.split(",").map((s) => s.trim())
