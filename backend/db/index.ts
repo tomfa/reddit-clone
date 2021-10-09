@@ -364,7 +364,7 @@ const getComments = async ({
     query = query.where("author.username", "==", filter.username);
   }
   if (cursor) {
-    query = query.startAfter(cursor);
+    query = query.startAfter(cursor.createdAt);
   }
   const data = await query
     .limit(limit)
