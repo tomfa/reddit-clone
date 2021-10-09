@@ -5,18 +5,24 @@ import Sidebar from "../../../components/Sidebar/Component";
 import CategoryMenu from "../../../components/CategoryMenu/Component";
 import { useCurrentCategory } from "../../../lib/hooks";
 import ListFilter from "../../../components/ListFilter";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PostSort,
   PostsQueryVariables,
 } from "../../../graphql/generated/types";
+import { shallowEqual } from "../../../utils/object.utils";
 
 const PostListPage: NextPage = () => {
   const category = useCurrentCategory();
   const [queryVariables, setQueryVariables] = useState<PostsQueryVariables>({
-    category: undefined,
+    category,
     sort: PostSort.Recent,
   });
+
+  useEffect(
+    () => setQueryVariables((prev) => ({ ...prev, category })),
+    [category]
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -29,12 +35,10 @@ const PostListPage: NextPage = () => {
             header={`/a/${category || "all"}`}
             onChange={(filter) => {
               const newQueryFilter = { ...queryVariables, ...filter };
-              const hasChanged =
-                JSON.stringify(newQueryFilter) !==
-                JSON.stringify(queryVariables);
-              if (hasChanged) {
-                return setQueryVariables(newQueryFilter);
+              if (shallowEqual(newQueryFilter, queryVariables)) {
+                return;
               }
+              return setQueryVariables(newQueryFilter);
             }}
           />
           <PostList queryVariables={queryVariables} />
