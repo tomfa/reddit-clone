@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 type Props = { post: Post; full: boolean };
 const PostContainer = ({ full, post }: Props) => (
   <Wrapper>
-    <PostVoteContainer post={post} />
+    <PostVoteContainer post={post} full={full} />
     <PostContent showFullPost={full} post={post} />
   </Wrapper>
 );

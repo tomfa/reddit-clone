@@ -5,7 +5,6 @@ import PostVoteDownvote from "./Downvote";
 import {
   Post,
   PostsQuery,
-  useGetPostByIdLazyQuery,
   usePostsLazyQuery,
   useVoteMutation,
   VoteValue,
@@ -13,11 +12,12 @@ import {
 import { useUserData } from "../../../lib/hooks";
 import { getNumericVoteValue } from "../../../graphql/vote.utils";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ alignCenter: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: ${(p) => (p.alignCenter && `center`) || "flex-start"};
+  margin-top: ${(p) => (p.alignCenter && `0`) || "0.3rem"};
   min-width: 2.5rem;
   font-size: 12px;
   line-height: 25px;
@@ -32,8 +32,8 @@ const CenteredSpan = styled.span`
   text-align: center;
 `;
 
-type Props = { post: Post };
-const PostVote = ({ post }: Props) => {
+type Props = { post: Post; full: boolean };
+const PostVote = ({ post, full }: Props) => {
   const [voteMutation, voteResult] = useVoteMutation();
   const [_, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const { user, isLoggedIn } = useUserData();
@@ -71,7 +71,7 @@ const PostVote = ({ post }: Props) => {
   const votingEnabled = !isByUser && isLoggedIn && !voteResult.loading;
 
   return (
-    <Wrapper>
+    <Wrapper alignCenter={!full}>
       <PostVoteUpvote
         canVote={votingEnabled}
         hasVoted={voteValue === VoteValue.Positive}
