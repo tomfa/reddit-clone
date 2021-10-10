@@ -10,10 +10,13 @@ import { useForm } from "react-hook-form";
 import TextArea from "./TextArea";
 import style from "./Component.module.css";
 import { useUserData } from "../../lib/hooks";
+import { addCommentCacheUpdate } from "../../utils/cache.utils";
 
 const CommentForm = ({ post }: { post: Post }) => {
   const { user } = useUserData();
-  const [addComment, { loading }] = useAddCommentMutation();
+  const [addComment, { loading }] = useAddCommentMutation({
+    update: addCommentCacheUpdate,
+  });
   const { register, handleSubmit, setValue } =
     useForm<Omit<AddCommentInput, "postId">>();
 
