@@ -7,7 +7,7 @@ import Input from "./Input";
 import RadioGroup from "./RadioGroup";
 import { FieldProps } from "react-final-form";
 
-const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
+const VariableField = (field) => {
   switch (field.input.type) {
     case "select":
       return (
@@ -67,7 +67,7 @@ const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
   }
 };
 
-const renderField = (field: FieldProps<HTMLInputElement, any>) => {
+const renderField = (field) => {
   return <VariableField {...field} />;
 };
 

@@ -33,7 +33,7 @@ const CommentForm = ({ post }: { post: Post }) => {
       await addComment({ variables: { input } });
       setValue("content", "");
     },
-    [post, user, setValue]
+    [post, user, setValue, addComment]
   );
 
   return (

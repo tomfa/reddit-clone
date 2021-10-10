@@ -38,7 +38,7 @@ const MobileMenu = (props: Partial<MobileMenuProps>) => {
   const defaultOptions = useMemo(
     () =>
       ["all", ...config.categories].map((value) => ({ value, label: value })),
-    [config.categories]
+    []
   );
 
   return (

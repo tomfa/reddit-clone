@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, unused-imports/no-unused-vars */
+/* eslint-disable no-param-reassign */
 import NextAuth, { Account, Profile, Session, User } from "next-auth";
 import Providers from "next-auth/providers";
 import { db } from "../../../backend/db";

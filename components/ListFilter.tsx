@@ -110,7 +110,7 @@ export const ListFilter = ({
       return onChange({ sort });
     }
     onChange({ sort, ...timeFilter });
-  }, [sort, timeFilter]);
+  }, [sort, timeFilter, onChange]);
 
   const displayTimeSelection = sort === PostSort.Popular;
 

@@ -32,7 +32,7 @@ const Sidebar = (props: Partial<SideBarMenuProps>) => {
         value: ROUTES.CATEGORY(value),
         label: value,
       })),
-    [config.categories]
+    []
   );
 
   return (

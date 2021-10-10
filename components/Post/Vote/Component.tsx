@@ -33,7 +33,7 @@ type Props = { post: Post; full: boolean };
 const PostVote = ({ post, full }: Props) => {
   const [voteMutation, voteResult] = useVoteMutation();
   const { user, isLoggedIn } = useUserData();
-  const voteValue = useMemo(() => post.myVote?.vote, [post.myVote]);
+  const voteValue = post.myVote?.vote;
   const isByUser = post.author.id === user?.id;
   const submitVote = useCallback(
     (newVote: VoteValue) => {
@@ -46,7 +46,7 @@ const PostVote = ({ post, full }: Props) => {
         },
       });
     },
-    [voteMutation, post]
+    [voteMutation, post, voteValue]
   );
 
   const votingEnabled = !isByUser && isLoggedIn && !voteResult.loading;

@@ -29,7 +29,7 @@ function Dropdown<T = string>({
 }) {
   const selectedOption = useMemo(
     () => options.find((o) => o.value === value),
-    []
+    [options]
   );
   const [selectedStringValue, setSelectedStringValue] = useState(
     selectedOption?.label

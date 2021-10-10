@@ -24,7 +24,7 @@ export const useUrlQueryString = (key: string, defaultValue?: string) => {
       return val;
     }
     return val[0];
-  }, [router.query, key]);
+  }, [router.query, key, defaultValue]);
 };
 
 export function useCurrentCategory() {

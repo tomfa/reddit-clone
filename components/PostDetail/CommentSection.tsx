@@ -41,7 +41,7 @@ const PostDetailCommentSection = ({ queryVariables, numComments }: Props) => {
     if ((data as unknown as CommentsQuery)?.comments.length === 0) {
       setHasMore(false);
     }
-  }, [fetchMore, comments]);
+  }, [fetchMore, comments, queryVariables]);
 
   const isEmpty = !comments || !comments.length;
 
