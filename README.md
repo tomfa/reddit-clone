@@ -1,9 +1,11 @@
+# Reddit clone
+
 This is a [Next.js](https://nextjs.org/) based reddit clone, using Google
 authentication through [NextAuth](https://next-auth.js.org/). Webapp talks to
 NextJS API using [Apollo GraphQL](https://www.apollographql.com/), and data is
 stored in [Firestore](https://firebase.google.com/docs/firestore).
 
-Demo: [reddit-clone-tomfa.vercel.app](https://reddit-clone-tomfa.vercel.app/)
+> Demo: [reddit-clone-tomfa.vercel.app](https://reddit-clone-tomfa.vercel.app/)
 
 #### Thoughts on tech choice
 
@@ -65,6 +67,7 @@ _When seeing errors like the one above, click the link to enable database or cre
 2. In the guide, populate environment variables from your `.env.local`.
 3. After having set up a Vercel app with a domain, go back to step 3 in the previous
    section and add new domains to Authorised JavaScript origins and redirect urls.
+4. In Vercel, set the domain of the app to `NEXTAUTH_URL` env var.
 
 ## Development
 
