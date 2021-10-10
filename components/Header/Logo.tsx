@@ -21,6 +21,6 @@ const Logo = styled(NavLink)`
   }
 `;
 
-const HeaderLogo = () => <Logo href={ROUTES.HOME()}>{config.shortTitle}</Logo>;
+const HeaderLogo = () => <Logo href={ROUTES.HOME()}>{config.title}</Logo>;
 
 export default HeaderLogo;

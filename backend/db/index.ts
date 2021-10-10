@@ -1,4 +1,4 @@
-import { firestore, serverTimestamp } from "../firebase";
+import { firestore, serverTimestamp } from "./firebase";
 import * as firebase from "firebase-admin";
 import {
   AddCommentInput,
