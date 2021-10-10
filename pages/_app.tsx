@@ -47,14 +47,20 @@ const cache = new InMemoryCache({
             "month",
             "week",
           ] as Array<keyof QueryPostsArgs>,
-          merge(existing: Post[] = [], incoming: Post[]) {
-            return [...existing, ...incoming];
+          merge(existing: Post[] = [], incoming: Post[], { args }) {
+            if (args?.cursor) {
+              return [...existing, ...incoming];
+            }
+            return [...incoming, ...existing];
           },
         },
         comments: {
           keyArgs: ["postId", "authorId"] as Array<keyof QueryCommentsArgs>,
-          merge(existing: Post[] = [], incoming: Post[]) {
-            return [...existing, ...incoming];
+          merge(existing: Post[] = [], incoming: Post[], { args }) {
+            if (args?.cursor) {
+              return [...existing, ...incoming];
+            }
+            return [...incoming, ...existing];
           },
         },
       },

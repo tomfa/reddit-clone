@@ -7,14 +7,19 @@ import { config } from "../../lib/config";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  AddPostMutation,
+  PostsDocument,
+  PostSort,
   PostsQuery,
   PostType,
+  QueryPostsArgs,
   useAddPostMutation,
-  usePostsLazyQuery,
 } from "../../graphql/generated/types";
 import { useCurrentCategory, useUserData } from "../../lib/hooks";
 import { ROUTES } from "../../utils/routes.utils";
 import toast from "react-hot-toast";
+import { FetchResult } from "@apollo/client";
+import { addPostCacheUpdate } from "../../utils/cache.utils";
 
 const postTypes = [
   {
@@ -32,8 +37,9 @@ export default function CreatePostForm() {
   const router = useRouter();
   const { user } = useUserData();
   const { isLoggedIn, isLoading } = useUserData();
-  const [fetchPosts, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
-  const [postMutation, postResult] = useAddPostMutation();
+  const [postMutation, postResult] = useAddPostMutation({
+    update: addPostCacheUpdate,
+  });
   const [postType, setPostType] = useState<PostType>(PostType.Text);
   const onSubmit = useCallback(
     async (post: {
@@ -45,21 +51,13 @@ export default function CreatePostForm() {
       if (!user) {
         return;
       }
-      const postMutationData = await postMutation({
+      toast.success("Post created!");
+      await postMutation({
         variables: { input: { ...post, type: postType } },
       });
-      const newPost = postMutationData.data?.addPost;
-      toast.success("Post created!");
-      if (newPost && updatePostsQuery) {
-        updatePostsQuery((query: PostsQuery) => {
-          return {
-            posts: [newPost].concat(query.posts),
-          };
-        });
-      }
-      await router.push(ROUTES.HOME());
+      router.push(ROUTES.HOME());
     },
-    [user, router, updatePostsQuery, postMutation, postType]
+    [user, router, postMutation, postType]
   );
 
   useEffect(() => {

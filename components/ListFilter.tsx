@@ -107,7 +107,7 @@ export const ListFilter = ({
       return;
     }
     if (sort === PostSort.Recent) {
-      return onChange({ sort, ...EMPTY_TIME_FILTER });
+      return onChange({ sort });
     }
     onChange({ sort, ...timeFilter });
   }, [sort, timeFilter]);
