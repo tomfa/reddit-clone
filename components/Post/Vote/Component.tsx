@@ -1,16 +1,13 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import PostVoteUpvote from "./Upvote";
 import PostVoteDownvote from "./Downvote";
 import {
   Post,
-  PostsQuery,
-  usePostsLazyQuery,
   useVoteMutation,
   VoteValue,
 } from "../../../graphql/generated/types";
 import { useUserData } from "../../../lib/hooks";
-import { getNumericVoteValue } from "../../../graphql/vote.utils";
 
 const Wrapper = styled.div<{ alignCenter: boolean }>`
   display: flex;
@@ -35,19 +32,12 @@ const CenteredSpan = styled.span`
 type Props = { post: Post; full: boolean };
 const PostVote = ({ post, full }: Props) => {
   const [voteMutation, voteResult] = useVoteMutation();
-  const [_, { updateQuery: updatePostsQuery }] = usePostsLazyQuery();
   const { user, isLoggedIn } = useUserData();
   const voteValue = useMemo(() => post.myVote?.vote, [post.myVote]);
   const isByUser = post.author.id === user?.id;
   const submitVote = useCallback(
     (newVote: VoteValue) => {
       const value = newVote === voteValue ? VoteValue.Neutral : newVote;
-      const numVotes = voteValue ? post.numVotes : post.numVotes + 1;
-      const scoreDiff = voteValue
-        ? getNumericVoteValue(voteValue) - getNumericVoteValue(newVote)
-        : getNumericVoteValue(newVote);
-      const score = post.score + scoreDiff;
-      const updatedPost: Post = { ...post, numVotes, score };
       voteMutation({
         variables: {
           postId: post.id,
@@ -55,15 +45,6 @@ const PostVote = ({ post, full }: Props) => {
           value,
         },
       });
-      updatePostsQuery &&
-        updatePostsQuery((query: PostsQuery) => {
-          const newPosts = query.posts.map((p) =>
-            p.id !== post.id ? p : updatedPost
-          );
-          return {
-            posts: newPosts,
-          };
-        });
     },
     [voteMutation, post]
   );
