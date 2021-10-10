@@ -66,6 +66,7 @@ const App = (props: AppProps) => {
   const client = new ApolloClient({
     link,
     cache,
+    connectToDevTools: __DEV__,
   });
 
   return (
