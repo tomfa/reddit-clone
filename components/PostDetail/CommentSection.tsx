@@ -11,6 +11,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { toCommentCursor } from "../../utils/request.utils";
 import style from "../../styles/utils.module.css";
 import Empty from "../shared/Empty";
+import { handleApolloError } from "../../utils/toast.utils";
 
 type Props = { queryVariables: CommentsQueryVariables; numComments?: number };
 const PostDetailCommentSection = ({ queryVariables, numComments }: Props) => {
@@ -19,13 +20,20 @@ const PostDetailCommentSection = ({ queryVariables, numComments }: Props) => {
     data: commentsData,
     loading,
     fetchMore,
+    error,
   } = useCommentsQuery({ variables: queryVariables });
   const comments = useMemo(() => commentsData?.comments || [], [commentsData]);
+
   useEffect(() => {
     if (hasMore && numComments && numComments <= comments.length) {
       setHasMore(false);
     }
   }, [hasMore, numComments, comments, setHasMore]);
+
+  useEffect(() => {
+    handleApolloError(error);
+  }, [error]);
+
   const getMoreComments = useCallback(async () => {
     const lastComment = comments[comments.length - 1];
     const cursor = toCommentCursor(lastComment);

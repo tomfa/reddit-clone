@@ -13,16 +13,21 @@ import { useUrlQueryString, useUserData } from "../../lib/hooks";
 import { Foreground } from "../Foreground";
 import PostDetailCommentSection from "./CommentSection";
 import style from "../../styles/utils.module.css";
+import { handleApolloError } from "../../utils/toast.utils";
 
 const PostDetail = () => {
   const postId = useUrlQueryString("postId");
   const { isLoggedIn } = useUserData();
-  const [getPost, { data, loading }] = useGetPostByIdLazyQuery();
+  const [getPost, { data, loading, error }] = useGetPostByIdLazyQuery();
   const post = data?.getPostById;
 
   useEffect(() => {
     postId && getPost({ variables: { id: postId } });
   }, [postId, getPost]);
+
+  useEffect(() => {
+    handleApolloError(error);
+  }, [error]);
 
   if (loading || !postId)
     return (
