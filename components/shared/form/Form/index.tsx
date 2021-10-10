@@ -22,10 +22,10 @@ type Props = {
   loading?: boolean;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
 };
-const Form: React.FC<Props> = ({ className, wide, ...props }) => (
+const Form: React.FC<Props> = ({ className, wide, loading, ...props }) => (
   <FormWrapper className={className} wide={wide}>
     <StyledForm {...props} />
-    {props.loading && <LoadingIndicatorSpinner />}
+    {loading && <LoadingIndicatorSpinner />}
   </FormWrapper>
 );
 
