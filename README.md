@@ -3,6 +3,8 @@ authentication through [NextAuth](https://next-auth.js.org/). Webapp talks to
 NextJS API using [Apollo GraphQL](https://www.apollographql.com/), and data is
 stored in [Firestore](https://firebase.google.com/docs/firestore).
 
+Demo: [reddit-clone-tomfa.vercel.app](https://reddit-clone-tomfa.vercel.app/)
+
 #### Thoughts on tech choice
 
 If you want a **different database**, you can quite easily replace Firebase completely, as it's isolated to a small part
