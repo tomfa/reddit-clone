@@ -383,6 +383,7 @@ const getPosts = async ({
     query = firestore
       .collectionGroup(POSTS)
       .orderBy("score", order || "desc")
+      .orderBy("numComments", order || "desc")
       .orderBy("createdAt", "desc");
   } else {
     query = firestore
@@ -411,7 +412,11 @@ const getPosts = async ({
 
   if (cursor) {
     if (filter.sort === PostSort.Popular) {
-      query = query.startAfter(cursor.score, cursor.createdAt);
+      query = query.startAfter(
+        cursor.score,
+        cursor.numComments,
+        cursor.createdAt
+      );
     } else {
       query = query.startAfter(cursor.createdAt);
     }
