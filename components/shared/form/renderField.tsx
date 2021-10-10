@@ -41,7 +41,7 @@ const VariableField = (field: FieldProps<HTMLInputElement, any>) => {
           <Input
             {...field.input}
             as="textarea"
-            rows="6"
+            rows="12"
             error={field.meta.touched && !!field.meta.error}
             placeholder={field.placeholder}
           />

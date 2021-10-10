@@ -127,7 +127,15 @@ export default function CreatePostForm() {
               label="text"
               type="textarea"
               placeholder={
-                "You can use simple markdown here\n\n# Header\n_italic_\n**bold**\n[link](https://bbc.com)"
+                "You can use normal text or simple markdown here\n\n" +
+                "_italic_\n" +
+                "**bold**\n" +
+                "~deleted~\n" +
+                "[link](https://bbc.com)\n" +
+                "\n# Header\n" +
+                "\n| name | age |\n" +
+                "| ---- | --- |\n" +
+                "| jane | 28  |\n"
               }
               component={renderField}
             />

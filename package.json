@@ -40,6 +40,7 @@
     "react-markdown": "^7.0.1",
     "react-transition-group": "^4.4.2",
     "remark-breaks": "^3.0.1",
+    "remark-gfm": "^3.0.0",
     "sass": "^1.42.1",
     "slugify": "^1.6.1",
     "styled-components": "^5.3.1",

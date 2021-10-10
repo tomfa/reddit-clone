@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
+import gfm from "remark-gfm";
 import renderers from "./renderers";
 
 const StyledReactMarkdown = styled(ReactMarkdown)`
@@ -20,6 +21,35 @@ const StyledReactMarkdown = styled(ReactMarkdown)`
   ol,
   ul {
     padding-left: 1.2rem;
+  }
+
+  table {
+    border: 1px solid black;
+  }
+  td,
+  th {
+    padding: 0 0.3rem;
+    border-left: 1px solid black;
+  }
+  tr {
+    border-bottom: 1px solid black;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 1rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   code {
@@ -41,6 +71,7 @@ const StyledReactMarkdown = styled(ReactMarkdown)`
 const allowed = [
   "p",
   "em",
+  "br",
   "strong",
   "span",
   "strong",
@@ -61,12 +92,13 @@ const allowed = [
   "h1",
   "h2",
   "h3",
+  "del",
 ];
 
 const Markdown = ({ children }: { children: string }) => (
   <StyledReactMarkdown
-    plugins={[breaks]}
     allowedElements={allowed}
+    plugins={[breaks, gfm]}
     components={renderers}
     unwrapDisallowed
   >
