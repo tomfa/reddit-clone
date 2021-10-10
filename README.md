@@ -47,13 +47,22 @@ frontend by adding Firestore security rules. This would require a larger rewrite
    _Replace "http://localhost:3000" with your domain when deploying the app to
    new domains._
 
+**Note: When running the first time, the app will display errors about disabled
+services or missing indexes.** The errors will link you to the related places
+in Firebase for enabling these services or creating indexes.
+
+![](https://user-images.githubusercontent.com/1502702/136714653-ecdc9c0b-3eb0-4dd8-9b85-8bbba3a6c6ed.png)
+
+_When seeing errors like the one above, click the link to enable database or create indexes._
+
 ### Deploying to Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftomfa%2Freddit-clone&env=NEXTAUTH_URL,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,FIREBASE_PROJECT_ID,FIREBASE_CLIENT_EMAIL,FIREBASE_PRIVATE_KEY,JWT_SECRET&project-name=reddit&repo-name=reddit-clone)
 
-Click the button above to copy and deploy to Vercel.
-
-Populate environment variables from your `.env.local`
+1. Click the button above to copy and deploy to Vercel.
+2. In the guide, populate environment variables from your `.env.local`.
+3. After having set up a Vercel app with a domain, go back to step 3 in the previous
+   section and add new domains to Authorised JavaScript origins and redirect urls.
 
 ## Development
 
