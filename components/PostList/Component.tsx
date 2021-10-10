@@ -13,6 +13,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NoMoreResults from "../NoMoreResults";
 import ListFilter from "../ListFilter";
 import { toPostCursor } from "../../utils/request.utils";
+import { toast } from "react-hot-toast";
+import { getLongestUrl } from "../../utils/string.utils";
+import Button from "../shared/Button";
 
 const List = styled.ul`
   list-style: none;
@@ -36,11 +39,56 @@ const PostList = ({ queryVariables = {} }: Props) => {
   const {
     data,
     loading,
+    error,
     fetchMore: fetchMorePosts,
   } = usePostsQuery({
     variables: queryVariables,
   });
   const posts = useMemo(() => data?.posts || [], [data?.posts]);
+
+  useEffect(() => {
+    if (!error?.message) {
+      return;
+    }
+    const errorUrl = getLongestUrl(error.message);
+    console.log(errorUrl);
+    error &&
+      toast.error(
+        (t) => (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              wordBreak: "break-word",
+            }}
+          >
+            {error.message}{" "}
+            {errorUrl && (
+              <a
+                style={{
+                  textDecoration: "underline",
+                  alignSelf: "center",
+                  marginTop: "0.3rem",
+                }}
+                href={errorUrl}
+                target={"_blank"}
+                rel="noreferrer"
+              >
+                {errorUrl}
+              </a>
+            )}
+            <Button
+              style={{ alignSelf: "flex-end", marginTop: "0.3rem" }}
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Close
+            </Button>
+          </div>
+        ),
+        { duration: Number.POSITIVE_INFINITY }
+      );
+  }, [error]);
+
   useEffect(() => {
     setHasMorePosts(true);
   }, [queryVariables]);

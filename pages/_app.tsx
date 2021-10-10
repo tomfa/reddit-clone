@@ -83,7 +83,13 @@ const App = (props: AppProps) => {
           <props.Component {...props.pageProps} />
         </PageWrapper>
 
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            style: {
+              maxWidth: "800px",
+            },
+          }}
+        />
       </ApolloProvider>
     </NextAuthProvider>
   );
